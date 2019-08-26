@@ -15,7 +15,7 @@ using System.Web.UI.WebControls;
 
 namespace DataEntryApp.UserControls
 {
-    public partial class EditField : System.Web.UI.UserControl
+    public partial class AddTemplate : System.Web.UI.UserControl
     {
 
         #region Properties

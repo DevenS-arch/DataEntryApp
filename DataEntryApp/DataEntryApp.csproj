@@ -173,7 +173,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="UserControls\TemplateFieldControls\EditField.ascx" />
+    <Content Include="UserControls\TemplateFieldControls\AddTemplate.ascx" />
     <Content Include="UserControls\TemplateFieldControls\TemplateList.ascx" />
     <Content Include="Web\DivisionList.aspx" />
     <Content Include="Web\RequestList.aspx" />
@@ -259,12 +259,12 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TemplateFieldControls\EditField.ascx.cs">
-      <DependentUpon>EditField.ascx</DependentUpon>
+    <Compile Include="UserControls\TemplateFieldControls\AddTemplate.ascx.cs">
+      <DependentUpon>AddTemplate.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UserControls\TemplateFieldControls\EditField.ascx.designer.cs">
-      <DependentUpon>EditField.ascx</DependentUpon>
+    <Compile Include="UserControls\TemplateFieldControls\AddTemplate.ascx.designer.cs">
+      <DependentUpon>AddTemplate.ascx</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TemplateFieldControls\TemplateList.ascx.cs">
       <DependentUpon>TemplateList.ascx</DependentUpon>

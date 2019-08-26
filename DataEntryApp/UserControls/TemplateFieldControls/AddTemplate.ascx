@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditField.ascx.cs" Inherits="DataEntryApp.UserControls.EditField" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddTemplate.ascx.cs" Inherits="DataEntryApp.UserControls.EditField" %>
 
 <ext:XScript runat="server" ID="XScript">
     <script>
