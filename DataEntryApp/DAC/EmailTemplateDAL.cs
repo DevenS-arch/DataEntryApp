@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static AutoMapper.Mapper;
-using DataEntryApp.Common.Models;
-using DataEntryApp.Common.DAC.POCOEntities;
+using DataEntryApp.Entities;
+using DataEntryApp.DAC.POCOEntities;
 
-namespace DataEntryApp.Common.DAC
+namespace DataEntryApp.DAC
 {
     public static class EmailTemplateDAL
     {
-        public static EmailTemplateDTO GetEmailTemplate(int requestId)
+        public static EmailTemplateDTO GetEmailTemplate(string requestId)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
             {

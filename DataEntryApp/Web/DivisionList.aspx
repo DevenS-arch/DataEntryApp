@@ -1,15 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DivisionList.aspx.cs" Inherits="DataEntryApp.Web.DivisionList" %>
+<%@ Register TagName="Division" TagPrefix="DList" src="~/UserControls/DivisionControls/Division.ascx" %>
 
-<!DOCTYPE html>
+<ext:XScript runat="server" ID="XScript">
+</ext:XScript>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-        </div>
-    </form>
-</body>
-</html>
+<DList:Division ID="divisionData" runat="Server" ></DList:Division>
+

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntryApp.Common.Models
+namespace DataEntryApp.Entities
 {
     public class EmailTransctionLogDTO
     {
-        public int Id { get; set; }
-        public int EmailTemplateId { get; set; }
+        public string Id { get; set; }
+        public string EmailTemplateId { get; set; }
         public string From { get; set; }
         public List<string> To { get; set; }
         public List<string> CC { get; set; }

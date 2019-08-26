@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.Models;
-namespace DataEntryApp.Common.DAC.POCOEntities
+using DataEntryApp.Entities;
+namespace DataEntryApp.DAC.POCOEntities
 {
     public class Division : IAuditable
     {

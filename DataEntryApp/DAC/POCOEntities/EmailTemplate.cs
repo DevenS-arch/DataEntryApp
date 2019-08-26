@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.Models;
+using DataEntryApp.Entities;
 
-namespace DataEntryApp.Common.DAC.POCOEntities
+namespace DataEntryApp.DAC.POCOEntities
 {
     public class EmailTemplate : IAuditable
     {
-        public int Id { get; set; }
-        public int RequestId { get; set; }
+        public string Id { get; set; }
+        public string RequestId { get; set; }
         public List<string> To { get; set; }
         public List<string> CC { get; set; }
         public List<string> BCC { get; set; }
         public string TemplateName { get; set; }
         public string Description { get; set; }
         public string EmailTemplateBody { get; set; }
-        public List<int> TemplateFieldIds { get; set; }
+        public List<string> TemplateFieldIds { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ModifiedBy { get; set; }

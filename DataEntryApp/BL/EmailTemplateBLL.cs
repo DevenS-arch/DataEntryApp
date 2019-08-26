@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.DAC;
-using DataEntryApp.Common.Models;
+using DataEntryApp.DAC;
+using DataEntryApp.Entities;
 using static AutoMapper.Mapper;
 
-namespace DataEntryApp.Common.BL
+namespace DataEntryApp.BL
 {
     public class EmailTemplateBLL
     {
-        public EmailTemplateDTO GetEmailTemplate(int requestId)
+        public EmailTemplateDTO GetEmailTemplate(string requestId)
         {
             return EmailTemplateDAL.GetEmailTemplate(requestId);
         }

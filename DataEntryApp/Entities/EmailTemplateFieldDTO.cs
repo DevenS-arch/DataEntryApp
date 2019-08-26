@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntryApp.Common.Models
+namespace DataEntryApp.Entities
 {
     public class EmailTemplateFieldDTO : IAuditable
     {
-        public int Id { get; set; }
-        public int EmailTemplateId { get; set; }
+        public string Id { get; set; }
+        public string EmailTemplateId { get; set; }
         public string FieldName { get; set; }
         public string DisplayName { get; set; }
         public string DataType { get; set; }

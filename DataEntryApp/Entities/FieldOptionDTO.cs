@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DataEntryApp.Common.Models
+namespace DataEntryApp.Entities
 
 {
     public class FieldOptionDTO : IAuditable
     {
-        public int Id { get; set; }
-        public int TemplateFieldId { get; set; }
+        public string Id { get; set; }
+        public string TemplateFieldId { get; set; }
         public string DisplayName { get; set; }
         public string Value { get; set; }
         public string CreatedBy { get; set; }

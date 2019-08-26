@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.DAC.POCOEntities;
-using DataEntryApp.Common.Models;
+using DataEntryApp.DAC.POCOEntities;
+using DataEntryApp.Entities;
 
-namespace DataEntryApp.Common.DAC.Automapping
+namespace DataEntryApp.DAC.Automapping
 {
     public class EmailTemplateProfile : Profile
     {

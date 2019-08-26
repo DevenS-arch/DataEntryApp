@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.Models;
+using DataEntryApp.Entities;
 
-namespace DataEntryApp.Common.DAC.POCOEntities
+namespace DataEntryApp.DAC.POCOEntities
 {
     public class FieldOption : IAuditable
     {
-        public int Id { get; set; }
-        public int TemplateFieldId { get; set; }
+        public string Id { get; set; }
+        public string TemplateFieldId { get; set; }
         public string DisplayName { get; set; }
         public string Value { get; set; }
         public string CreatedBy { get; set; }

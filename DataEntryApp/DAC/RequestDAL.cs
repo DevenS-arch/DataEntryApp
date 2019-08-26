@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.DAC.POCOEntities;
+using DataEntryApp.DAC.POCOEntities;
 
-namespace DataEntryApp.Common.DAC
+namespace DataEntryApp.DAC
 {
     public static class RequestDAL
     {

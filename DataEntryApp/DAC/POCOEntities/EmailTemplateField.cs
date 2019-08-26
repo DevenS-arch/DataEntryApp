@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.Models;
+using DataEntryApp.Entities;
 
-namespace DataEntryApp.Common.DAC.POCOEntities
+namespace DataEntryApp.DAC.POCOEntities
 {
     public class EmailTemplateField : IAuditable
     {
-        public int Id { get; set; }
-        public int EmailTemplateId { get; set; }
+        public string Id { get; set; }
+        public string EmailTemplateId { get; set; }
         public string FieldName { get; set; }
         public string DisplayName { get; set; }
         public string DataType { get; set; }
@@ -18,7 +18,7 @@ namespace DataEntryApp.Common.DAC.POCOEntities
         public bool IsAllowBlank { get; set; }
         public int FieldOrder { get; set; }
         public string DefaultValue { get; set; }
-        public List<int> FieldOptionsIds { get; set; }
+        public List<string> FieldOptionsIds { get; set; }
         public short MaxLength { get; set; }
         public string MinValue { get; set; }
         public string MaxValue { get; set; }

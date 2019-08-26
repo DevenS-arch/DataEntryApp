@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntryApp.Common.Models
+namespace DataEntryApp.Entities
 
 {
     public interface IAuditable

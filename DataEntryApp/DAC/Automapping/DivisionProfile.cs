@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.Common.Models;
-using DataEntryApp.Common.DAC.POCOEntities;
+using DataEntryApp.Entities;
+using DataEntryApp.DAC.POCOEntities;
 
-namespace DataEntryApp.Common.DAC.Automapping
+namespace DataEntryApp.DAC.Automapping
 {
     public class DivisionProfile : Profile
     {
