@@ -137,14 +137,14 @@ namespace DataEntryApp.UserControls
             this.Window1.X = 200;
 
             //show the form panel
-            var panel = X.GetCmp<Ext.Net.Panel>("panel1");
+            var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
             panel.Hidden = false;
 
             //reset form
-            FormPanel1.Reset();
+            FormPanelFieldData.Reset();
 
             FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
-            this.FormPanel1.Title = FieldType + " Field";
+            this.FormPanelFieldData.Title = FieldType + " Field";
             Session["FieldType"] = FieldType;
         }
 
@@ -214,10 +214,10 @@ namespace DataEntryApp.UserControls
             Session["FieldList"] = FieldList;
 
             //form reset
-            FormPanel1.Reset();
+            FormPanelFieldData.Reset();
 
             //hide the form panel
-            X.GetCmp<Ext.Net.Panel>("panel1").Hidden = true;
+            X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
 
             //set window height as form panel is hidden
             this.Window1.Height = 240;
@@ -228,7 +228,7 @@ namespace DataEntryApp.UserControls
             //show template save button if >0 field are added
             if (FieldList.Count > 0)
             {
-                X.GetCmp<Ext.Net.Button>("Button2").Show();
+                X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
             }
         }
 

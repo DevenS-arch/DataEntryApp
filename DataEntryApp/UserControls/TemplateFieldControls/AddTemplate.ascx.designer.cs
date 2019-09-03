@@ -22,96 +22,6 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.XScript XScript;
         
         /// <summary>
-        /// fieldOptionWindow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Viewport fieldOptionWindow;
-        
-        /// <summary>
-        /// fieldForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.FormPanel fieldForm;
-        
-        /// <summary>
-        /// pnlFields control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Panel pnlFields;
-        
-        /// <summary>
-        /// pnlLeft control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Panel pnlLeft;
-        
-        /// <summary>
-        /// pnlRight control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Panel pnlRight;
-        
-        /// <summary>
-        /// pnlDown control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Panel pnlDown;
-        
-        /// <summary>
-        /// fuAttachments control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.FileUploadField fuAttachments;
-        
-        /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Button btnSave;
-        
-        /// <summary>
-        /// btnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Button btnCancel;
-        
-        /// <summary>
-        /// sbButtons control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.StatusBar sbButtons;
-        
-        /// <summary>
         /// Window1 control.
         /// </summary>
         /// <remarks>
@@ -121,13 +31,13 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.Window Window1;
         
         /// <summary>
-        /// FormPanel3 control.
+        /// FormPanelRadioGroup control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.FormPanel FormPanel3;
+        protected global::Ext.Net.FormPanel FormPanelRadioGroup;
         
         /// <summary>
         /// rdRadioGroup control.
@@ -139,31 +49,31 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.RadioGroup rdRadioGroup;
         
         /// <summary>
-        /// Button2 control.
+        /// btnSaveTemplate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Button Button2;
+        protected global::Ext.Net.Button btnSaveTemplate;
         
         /// <summary>
-        /// panel1 control.
+        /// panelFieldData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel panel1;
+        protected global::Ext.Net.Panel panelFieldData;
         
         /// <summary>
-        /// FormPanel1 control.
+        /// FormPanelFieldData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.FormPanel FormPanel1;
+        protected global::Ext.Net.FormPanel FormPanelFieldData;
         
         /// <summary>
         /// txFieldName control.
@@ -220,12 +130,12 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.TextField txDefaultValue;
         
         /// <summary>
-        /// Button1 control.
+        /// btnSaveField control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Button Button1;
+        protected global::Ext.Net.Button btnSaveField;
     }
 }

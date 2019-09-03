@@ -10,8 +10,8 @@
         function changePanel() {
             //alert(4545);
             //var value = #{ rdRadioGroup }.getValue().RadioGroup;
-            //console.log(#{ FormPanel1 }.title);
-            //#{ FormPanel1 }.title = value;
+            //console.log(#{ FormPanelFieldData }.title);
+            //#{ FormPanelFieldData }.title = value;
             //console.log(value)
             //alert(value);
 
@@ -44,7 +44,7 @@
     </Tools>
     <Items>
         <ext:FormPanel
-            ID="FormPanel3"
+            ID="FormPanelRadioGroup"
             runat="server"
             BodyPadding="5"
             ButtonAlign="Right">
@@ -78,7 +78,7 @@
             </Items>
             <Buttons>
                 <ext:Button
-                    ID="Button2"
+                    ID="btnSaveTemplate"
                     runat="server"
                     Text="Save Template"
                     Disabled="true"
@@ -93,7 +93,7 @@
         </ext:FormPanel>
 
         <ext:Panel
-            ID="panel1"
+            ID="panelFieldData"
             runat="server"
             Layout="FitLayout"
             Width="676"
@@ -101,7 +101,7 @@
             Hidden="true">
             <Items>
                 <ext:FormPanel
-                    ID="FormPanel1"
+                    ID="FormPanelFieldData"
                     runat="server"
                     Title="TextBox Field"
                     BodyPadding="5"
@@ -167,11 +167,11 @@
                                                      text : valid ? 'Form is valid' : 'Form is invalid',
                                                      iconCls: valid ? 'icon-accept' : 'icon-exclamation'
                                                  });
-                                                 #{Button1}.setDisabled(!valid);" />
+                                                 #{btnSaveField}.setDisabled(!valid);" />
                     </Listeners>
                     <Buttons>
                         <ext:Button
-                            ID="Button1"
+                            ID="btnSaveField"
                             runat="server"
                             Text="Save Field"
                             Disabled="true"
