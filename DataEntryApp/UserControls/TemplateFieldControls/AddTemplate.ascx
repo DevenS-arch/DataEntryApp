@@ -1,157 +1,112 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddTemplate.ascx.cs" Inherits="DataEntryApp.UserControls.EditField" %>
-
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddTemplate.ascx.cs" Inherits="DataEntryApp.UserControls.AddTemplate" %>
+<%@ Assembly Name="DataEntryApp" %>
+<%--<%@ Import %>--%>
 <ext:XScript runat="server" ID="XScript">
     <script>
         function validate() {
             var isValid = #{ fieldForm }.getForm().isValid();
             return isValid;
         }
+        function changePanel() {
+            //alert(4545);
+            //var value = #{ rdRadioGroup }.getValue().RadioGroup;
+            //console.log(#{ FormPanel1 }.title);
+            //#{ FormPanel1 }.title = value;
+            //console.log(value)
+            //alert(value);
+
+        }
     </script>
 </ext:XScript>
+<script>
 
-<ext:ResourceManager runat="server"></ext:ResourceManager>
 
-<ext:Viewport ID="fieldOptionWindow" runat="server" Layout="BorderLayout" Padding="10" BodyPadding="5">
-    <Items>
-        <ext:FormPanel
-            ID="fieldForm"
-            Flex="1"
-            runat="server"
-            AutoScroll="true"
-            BodyStyle="padding:10px 20px;"
-            DefaultAllowBlank="false"
-            Title="Technical request"
-            Region="Center" Layout="ColumnLayout"
-            BodyPadding="5">
-            <Items>
 
-                <ext:Panel ID="pnlFields" runat="server"
-                    IDMode="Static"
-                    Border="true"
-                    Header="false"
-                    Hidden="true"
-                    ColumnWidth="1"
-                    Layout="ColumnLayout"
-                    LabelAlign="Top">
-                    <Items>
-                        <ext:Panel ID="pnlLeft"
-                            runat="server"
-                            IDMode="Static"
-                            Border="false"
-                            Header="false"
-                            ColumnWidth=".5"
-                            Layout="Form"
-                            LabelAlign="Top">
-                        </ext:Panel>
-                        <ext:Panel ID="pnlRight"
-                            runat="server"
-                            IDMode="Static"
-                            Border="false"
-                            Header="false"
-                            ColumnWidth=".5"
-                            Layout="Form"
-                            LabelAlign="Top">
-                        </ext:Panel>
+    function callMe() {
+        <%--var valueCount = '<%=(List<DataEntryApp.Entities.EmailTemplateFieldDTO>)Session["FieldList"]%>';
+           alert(valueCount);
+        if (valueCount != null && valueCount.length>0) {
+            alert(valueCount[0].Id);
+        }--%>
+    }
 
-                        <ext:Panel ID="pnlDown"
-                            runat="server"
-                            IDMode="Static"
-                            Border="false"
-                            Header="false"
-                            ColumnWidth="0.5"
-                            Layout="Form"
-                            LabelAlign="Top">
-                            <Items>
-                                <%--  <ext:Button ID="btnSaveDiary" runat="server" UI="Primary" Icon="Disk" Text="Save "   >
-                 <Listeners>
-                    <Click Fn="addDiary"  ></Click>
-                </Listeners>
-            </ext:Button>--%>
-                                <ext:FileUploadField FieldLabel="Attachment" ID="fuAttachments" Name="Attachment" AllowBlank="true" runat="server" />
-                            </Items>
-                        </ext:Panel>
-
-                    </Items>
-                </ext:Panel>
-            </Items>
-            <Buttons>
-                <ext:Button ID="btnSave" runat="server" UI="Primary" Icon="Email" Text="Save">
-                    <DirectEvents>
-                        <Click OnEvent="OnSave" Before="return validate()"></Click>
-                    </DirectEvents>
-                </ext:Button>
-                <ext:Button ID="btnCancel" runat="server" UI="Primary" Icon="Email" Text="Cancel">
-                    <DirectEvents>
-                        <Click OnEvent="OnCancel" Before="return validate()"></Click>
-                    </DirectEvents>
-                </ext:Button>
-            </Buttons>
-        </ext:FormPanel>
-        <ext:StatusBar ID="sbButtons" Region="South" StatusAlign="Right" runat="server">
-            <Items>
-                <%--  <ext:Button ID="btnSaveDiary" runat="server" UI="Primary" Icon="Disk" Text="Save "   >
-                 <Listeners>
-                    <Click Fn="addDiary"  ></Click>
-                </Listeners>
-            </ext:Button>--%>
-                <%--<ext:Button ID="btnEmail" runat="server" UI="Primary" Icon="Email" Text="Email">
-                    <DirectEvents>
-                        <Click OnEvent="OnEmail"></Click>
-                    </DirectEvents>
-                </ext:Button>--%>
-            </Items>
-
-        </ext:StatusBar>
-    </Items>
-</ext:Viewport>
+</script>
 
 <ext:Window
     ID="Window1"
     runat="server"
     Title="Email Template"
     Width="700"
-    Height="470"
-    BodyPadding="10">
+    Height="200"
+    BodyPadding="10"
+    Y="100">
     <Tools>
     </Tools>
     <Items>
-        <ext:FieldSet
+        <ext:FormPanel
+            ID="FormPanel3"
             runat="server"
-            Title="Template Fields"
-            Layout="AnchorLayout"
-            Collapsible="false"
-            DefaultAnchor="100%">
+            BodyPadding="5"
+            ButtonAlign="Right">
             <Items>
-                <ext:RadioGroup
-                    ID="RadioGroup3"
+                <ext:FieldSet
                     runat="server"
-                    GroupName="RadioGroup3"
-                    ColumnsNumber="3"
-                    Cls="x-check-group-alt">
+                    Title="Template Fields"
+                    Layout="AnchorLayout"
+                    Collapsible="false"
+                    DefaultAnchor="100%">
                     <Items>
-                        <ext:Radio runat="server" BoxLabel="Textbox" InputValue="1" />
-                        <ext:Radio runat="server" BoxLabel="Checkbox" InputValue="2" Checked="true" />
-                        <ext:Radio runat="server" BoxLabel="RadioButton" InputValue="3" />
-                        <ext:Radio runat="server" BoxLabel="Label" InputValue="4" />
-                        <ext:Radio runat="server" BoxLabel="Dropdown" InputValue="5" />
+                        <ext:RadioGroup
+                            ID="rdRadioGroup"
+                            runat="server"
+                            GroupName="RadioGroup"
+                            ColumnsNumber="3"
+                            Cls="x-check-group-alt">
+                            <Items>
+                                <ext:Radio runat="server" BoxLabel="Textbox" InputValue="Textbox" />
+                                <%--<ext:Radio runat="server" BoxLabel="Checkbox" InputValue="Checkbox" />
+                                <ext:Radio runat="server" BoxLabel="RadioButton" InputValue="RadioButton" />--%>
+                                <ext:Radio runat="server" BoxLabel="Dropdown" InputValue="Dropdown" />
+                                <ext:Radio runat="server" BoxLabel="TextArea" InputValue="TextArea" />
+                            </Items>
+                            <DirectEvents>
+                                <Change OnEvent="Select_RadioButton"></Change>
+                            </DirectEvents>
+                        </ext:RadioGroup>
                     </Items>
-                </ext:RadioGroup>
+                </ext:FieldSet>
             </Items>
-        </ext:FieldSet>
+            <Buttons>
+                <ext:Button
+                    ID="Button2"
+                    runat="server"
+                    Text="Save Template"
+                    Disabled="true"
+                    FormBind="true"
+                    Hidden="true">
+                    <DirectEvents>
+                        <Click OnEvent="SaveTemplate">
+                        </Click>
+                    </DirectEvents>
+                </ext:Button>
+            </Buttons>
+        </ext:FormPanel>
+
         <ext:Panel
+            ID="panel1"
             runat="server"
             Layout="FitLayout"
             Width="676"
-            Height="240">
+            Height="260"
+            Hidden="true">
             <Items>
-
                 <ext:FormPanel
                     ID="FormPanel1"
                     runat="server"
                     Title="TextBox Field"
                     BodyPadding="5"
                     ButtonAlign="Right"
-                    Layout="Column">
+                    Layout="ColumnLayout">
                     <Items>
                         <ext:Panel
                             runat="server"
@@ -161,39 +116,45 @@
                             Layout="Form"
                             LabelAlign="Top">
                             <Items>
-                                <ext:TextField runat="server" FieldLabel="Field Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
-                                <ext:TextField runat="server" FieldLabel="Display Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
-                                <ext:TextField runat="server" FieldLabel="Is Allow Blank" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                <ext:TextField runat="server" ID="txFieldName" FieldLabel="Field Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                <ext:TextField runat="server" ID="txDisplayName" FieldLabel="Display Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                <ext:ComboBox
+                                    ID="cbxAllowBlank"
+                                    runat="server"
+                                    Editable="false"
+                                    QueryMode="Local"
+                                    TriggerAction="All"
+                                    EmptyText="Is Allow Blank"
+                                    FieldLabel="Is Allow Blank"
+                                    MsgTarget="Side"
+                                    AllowBlank="false">
+                                    <Items>
+                                        <ext:ListItem Text="True" Value="true" />
+                                        <ext:ListItem Text="False" Value="false" />
+                                    </Items>
+                                </ext:ComboBox>
                             </Items>
                         </ext:Panel>
                         <ext:Panel runat="server" Border="false" Layout="Form" ColumnWidth=".5" LabelAlign="Top">
                             <Items>
-                                <ext:SelectBox
-                                    ID="SelectBox1"
+                                <ext:ComboBox
+                                    ID="cbxDataType"
                                     runat="server"
-                                    DisplayField="DivisionName"
-                                    ValueField="Id"
+                                    Editable="false"
+                                    QueryMode="Local"
+                                    TriggerAction="All"
                                     EmptyText="Select data type"
                                     FieldLabel="Data Type"
-                                    AllowBlank="false"
                                     MsgTarget="Side"
-                                    Editable="false">
-                                    <Store>
-                                        <ext:Store ID="strDivsion" runat="server">
-                                            <Model>
-                                                <ext:Model runat="server">
-                                                    <Fields>
-                                                        <ext:ModelField Name="Id" />
-                                                        <ext:ModelField Name="DataType" />
-
-                                                    </Fields>
-                                                </ext:Model>
-                                            </Model>
-                                        </ext:Store>
-                                    </Store>
-                                </ext:SelectBox>
-                                <ext:TextField runat="server" FieldLabel="Field Order" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
-                                <ext:TextField runat="server" FieldLabel="Default Value" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                    AllowBlank="false">
+                                    <Items>
+                                        <ext:ListItem Text="Boolean" Value="Bool" />
+                                        <ext:ListItem Text="Integer" Value="Int" />
+                                        <ext:ListItem Text="String" Value="String" />
+                                    </Items>
+                                </ext:ComboBox>
+                                <ext:TextField runat="server" ID="txFieldOrder" Regex="^\d+$" FieldLabel="Field Order" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                <ext:TextField runat="server" ID="txDefaultValue" FieldLabel="Default Value" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
                             </Items>
                         </ext:Panel>
 
@@ -208,20 +169,26 @@
                                                  });
                                                  #{Button1}.setDisabled(!valid);" />
                     </Listeners>
+                    <Buttons>
+                        <ext:Button
+                            ID="Button1"
+                            runat="server"
+                            Text="Save Field"
+                            Disabled="true"
+                            FormBind="true">
+                            <DirectEvents>
+                                <Click OnEvent="SaveField">
+                                </Click>
+                            </DirectEvents>
+                        </ext:Button>
+                    </Buttons>
                 </ext:FormPanel>
             </Items>
-            <Buttons>
-                <ext:Button
-                    ID="Button1"
-                    runat="server"
-                    Text="Save"
-                    Disabled="true"
-                    FormBind="true">
-                    <%--<Listeners>
-                        <Click Handler="if (#{FormPanel1}.getForm().isValid()) {Ext.Msg.alert('Submit', 'Saved!');}else{Ext.Msg.show({icon: Ext.MessageBox.ERROR, msg: 'FormPanel is incorrect', buttons:Ext.Msg.OK});}" />
-                    </Listeners>--%>
-                </ext:Button>
-            </Buttons>
+
         </ext:Panel>
     </Items>
+    <DirectEvents>
+        <BeforeClose OnEvent="OnCloseWindow"></BeforeClose>
+    </DirectEvents>
 </ext:Window>
+

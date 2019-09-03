@@ -9,7 +9,6 @@
     </script>
 </ext:XScript>
 
-<ext:ResourceManager runat="server"></ext:ResourceManager>
 
 <ext:Viewport ID="emailTicketWindow" runat="server" Layout="BorderLayout" Padding="10" BodyPadding="5">
     <Items>

@@ -26,33 +26,34 @@ namespace DataEntryApp.DAC
                     if (emailTemplate == null)
                         return null;
 
-                    //var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
-                    //                              .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.Cast<ValueType>())
-                    //                              .OrderBy(tf => tf.FieldOrder)
-                    //                              .ToList();
+
+                    var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
+                                                 .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
+                    .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
+                    .ToList();
 
                     var emailTemplateDTO = Map<EmailTemplateDTO>(emailTemplate);
 
-                    //if (templateFields.Count > 0)
-                    //{
-                    //    emailTemplateDTO.Fields = new List<EmailTemplateFieldDTO>();
+                    if (templateFields.Count > 0)
+                    {
+                        emailTemplateDTO.Fields = new List<EmailTemplateFieldDTO>();
 
-                    //    templateFields.ForEach((tf) => 
-                    //    {
-                    //        var fieldDTO = Map<EmailTemplateFieldDTO>(tf);
+                        templateFields.ForEach((tf) =>
+                        {
+                            var fieldDTO = Map<EmailTemplateFieldDTO>(tf);
 
-                    //        if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
-                    //        {
-                    //            var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds.Cast<ValueType>())
-                    //                                             .ToList();
+                            if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
+                            {
+                                var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds).Select(s => s.Value)
+                                                                 .ToList();
 
-                    //            fieldDTO.FieldOptions = Map<List<FieldOptionDTO>>(fieldOptions);
-                    //        }
+                                fieldDTO.FieldOptions = Map<List<FieldOptionDTO>>(fieldOptions);
+                            }
 
-                    //        emailTemplateDTO.Fields.Add(fieldDTO);
-                    //    });
+                            emailTemplateDTO.Fields.Add(fieldDTO);
+                        });
 
-                    //}
+                    }
 
                     return emailTemplateDTO;
                 }
@@ -64,6 +65,49 @@ namespace DataEntryApp.DAC
 
             }
         }
-    }
 
+        public static void SaveEmailTemplate(EmailTemplateDTO emailTemplateDTO)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+                var emailTemplate = Map<EmailTemplate>(emailTemplateDTO);
+                dbSession.Store(emailTemplate);
+
+                if (emailTemplateDTO.Fields != null && emailTemplateDTO.Fields.Count > 0)
+                {
+                    var fieldList = Map<List<EmailTemplateField>>(emailTemplateDTO.Fields);
+                    for (int i = 0; i < fieldList.Count; i++)
+                    {
+                        fieldList[i].EmailTemplateId = emailTemplate.Id;
+                        dbSession.Store(fieldList[i]);
+                        emailTemplateDTO.Fields[i].Id = fieldList[i].Id;
+                    }
+
+                    fieldList.ForEach(fld =>
+                    {
+                        fld.EmailTemplateId = emailTemplate.Id;
+                        dbSession.Store(fld);
+                    });
+
+                    emailTemplate.TemplateFieldIds = fieldList.Select(f => f.Id).ToList();
+
+                    for (int i = 0; i < emailTemplateDTO.Fields.Count; i++)
+                    {
+                        var optionList = Map<List<FieldOption>>(emailTemplateDTO.Fields[i].FieldOptions);
+                        if (optionList != null && optionList.Count > 0)
+                        {
+                            optionList.ForEach(fo =>
+                            {
+                                fo.TemplateFieldId = emailTemplateDTO.Fields[i].Id;
+                                dbSession.Store(fo);
+                            });
+
+                            fieldList[i].FieldOptionsIds = optionList.Select(f => f.Id).ToList();
+                        }
+                    }
+                }
+                dbSession.SaveChanges();
+            }
+        }
+    }
 }

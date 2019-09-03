@@ -10,7 +10,7 @@
 namespace DataEntryApp.UserControls {
     
     
-    public partial class EditField {
+    public partial class AddTemplate {
         
         /// <summary>
         /// XScript control.
@@ -121,13 +121,40 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.Window Window1;
         
         /// <summary>
-        /// RadioGroup3 control.
+        /// FormPanel3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.RadioGroup RadioGroup3;
+        protected global::Ext.Net.FormPanel FormPanel3;
+        
+        /// <summary>
+        /// rdRadioGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.RadioGroup rdRadioGroup;
+        
+        /// <summary>
+        /// Button2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Button Button2;
+        
+        /// <summary>
+        /// panel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel panel1;
         
         /// <summary>
         /// FormPanel1 control.
@@ -139,22 +166,58 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.FormPanel FormPanel1;
         
         /// <summary>
-        /// SelectBox1 control.
+        /// txFieldName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.SelectBox SelectBox1;
+        protected global::Ext.Net.TextField txFieldName;
         
         /// <summary>
-        /// strDivsion control.
+        /// txDisplayName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Store strDivsion;
+        protected global::Ext.Net.TextField txDisplayName;
+        
+        /// <summary>
+        /// cbxAllowBlank control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.ComboBox cbxAllowBlank;
+        
+        /// <summary>
+        /// cbxDataType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.ComboBox cbxDataType;
+        
+        /// <summary>
+        /// txFieldOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.TextField txFieldOrder;
+        
+        /// <summary>
+        /// txDefaultValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.TextField txDefaultValue;
         
         /// <summary>
         /// Button1 control.

@@ -15,5 +15,10 @@ namespace DataEntryApp.BL
         {
             return EmailTemplateDAL.GetEmailTemplate(requestId);
         }
+
+        public void SaveEmailTemplate(EmailTemplateDTO emailTemplateDTO)
+        {
+            EmailTemplateDAL.SaveEmailTemplate(emailTemplateDTO);
+        }
     }
 }
