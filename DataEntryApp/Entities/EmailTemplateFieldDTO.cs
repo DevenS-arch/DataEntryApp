@@ -18,7 +18,7 @@ namespace DataEntryApp.Entities
         public int FieldOrder { get; set; }
         public string DefaultValue { get; set; }
         public List<FieldOptionDTO> FieldOptions { get; set; }
-        public short MaxLength { get; set; }
+        public short? MaxLength { get; set; }
         public string MinValue { get; set; }
         public string MaxValue { get; set; }
         public string FormatRegEx { get; set; }

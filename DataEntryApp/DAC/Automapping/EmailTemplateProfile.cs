@@ -15,7 +15,9 @@ namespace DataEntryApp.DAC.Automapping
         public EmailTemplateProfile()
         {
             CreateMap<EmailTemplate, EmailTemplateDTO>();
+            CreateMap<EmailTemplateDTO, EmailTemplate>();
             CreateMap<EmailTemplateField, EmailTemplateFieldDTO>();
+            CreateMap<EmailTemplateFieldDTO, EmailTemplateField>();
         }
     }
 }
