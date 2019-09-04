@@ -1,15 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RequestList.aspx.cs" Inherits="DataEntryApp.Web.RequestList" %>
 
-<!DOCTYPE html>
+<%@ Register TagName="Request" TagPrefix="RList" src="~/UserControls/RequestControls/Request.ascx" %>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-        </div>
-    </form>
-</body>
-</html>
+<ext:XScript runat="server" ID="XScript">
+</ext:XScript>
+
+<RList:Request ID="requestData" runat="Server" ></RList:Request>

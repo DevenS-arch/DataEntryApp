@@ -92,7 +92,7 @@ namespace DataEntryApp.UserControls
 
             if (DivisionId!=null)
             {
-                var requests = new RequestBLL().GetRequests(DivisionId);
+                var requests = new RequestBLL().GetRequests();
                 strRequests.DataSource = requests;
                 strRequests.DataBind();
             }

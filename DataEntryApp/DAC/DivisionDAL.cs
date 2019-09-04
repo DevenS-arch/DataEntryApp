@@ -28,5 +28,41 @@ namespace DataEntryApp.DAC
 
             }
         }
+
+        public static void AddDivisions(List<Division> divisions)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {               
+                divisions.ForEach(d => dbSession.Store(d));
+                dbSession.SaveChanges();
+            }
+        }
+
+
+        public static void UpdateDivisions(Division divisions)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+
+                var division = dbSession.Load<Division>(divisions.Id);
+
+                division.DivisionName = divisions.DivisionName;
+                dbSession.SaveChanges();
+
+            }
+        }
+        public static void DeleteDivisions(Division divisions)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+
+                var division = dbSession.Load<Division>(divisions.Id);
+
+                dbSession.Delete(division);
+                dbSession.SaveChanges();
+
+               
+            }
+        }
     }
 }
