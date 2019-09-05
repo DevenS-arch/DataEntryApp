@@ -121,22 +121,22 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.Column DivisionColumn;
         
         /// <summary>
-        /// ComboBox1 control.
+        /// DivisionComboBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.ComboBox ComboBox1;
+        protected global::Ext.Net.ComboBox DivisionComboBox;
         
         /// <summary>
-        /// Store1 control.
+        /// ReqDivisionStore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Store Store1;
+        protected global::Ext.Net.Store ReqDivisionStore;
         
         /// <summary>
         /// RequestNameColumn control.

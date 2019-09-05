@@ -15,11 +15,7 @@ namespace DataEntryApp.DAC
         // This ensures that it is created only once - when first accessing the public `Store` property.
         private static Lazy<IDocumentStore> store = new Lazy<IDocumentStore>(CreateStore);
 
-
-
         public static IDocumentStore Store => store.Value;
-
-
 
         private static IDocumentStore CreateStore()
         {

@@ -257,7 +257,7 @@
 
                                                     <ext:Column ID="DivisionColumn" runat="server" Text="Division Name" DataIndex="DivisionId" Flex="1">                                                      
                                                         <Editor>
-                                                            <ext:ComboBox ID="ComboBox1" runat="Server"
+                                                            <ext:ComboBox ID="DivisionComboBox" runat="Server"
                                                                 MaxWidth="250"
                                                                 Text="Select Division"
                                                                 ValueField="Id"
@@ -266,7 +266,7 @@
 
                                                                 AllowBlank="false">
                                                                 <Store>
-                                                                    <ext:Store ID="Store1" runat="server">
+                                                                    <ext:Store ID="ReqDivisionStore" runat="server">
                                                                         <Model>
                                                                             <ext:Model runat="server">
                                                                                 <Fields>

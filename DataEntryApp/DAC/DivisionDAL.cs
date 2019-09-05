@@ -9,6 +9,10 @@ namespace DataEntryApp.DAC
 {
     public static class DivisionDAL
     {
+        /// <summary>
+        /// Get Division
+        /// </summary>
+        /// <returns></returns>
         public static List<Division> GetDivisions()
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
@@ -29,6 +33,10 @@ namespace DataEntryApp.DAC
             }
         }
 
+        /// <summary>
+        /// Add Division
+        /// </summary>
+        /// <param name="divisions"></param>
         public static void AddDivisions(List<Division> divisions)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
@@ -38,7 +46,10 @@ namespace DataEntryApp.DAC
             }
         }
 
-
+        /// <summary>
+        /// Update Division
+        /// </summary>
+        /// <param name="divisions"></param>
         public static void UpdateDivisions(Division divisions)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
@@ -58,17 +69,49 @@ namespace DataEntryApp.DAC
 
             }
         }
+
+        /// <summary>
+        /// Delete Division
+        /// </summary>
+        /// <param name="divisions"></param>
         public static void DeleteDivisions(Division divisions)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
             {
 
                 var division = dbSession.Load<Division>(divisions.Id);
+                if (division != null)
+                {
+                    var requests = dbSession.Query<Request>().Where(r => r.DivisionId == divisions.Id).ToList();
 
-                dbSession.Delete(division);
-                dbSession.SaveChanges();
+                    if (requests.Count != 0)
+                    {
+                        foreach (var r in requests)
+                        {
+                            var emailTemplates = dbSession.Query<EmailTemplate>().Where(et => et.RequestId == r.Id).ToList();
+                            if (emailTemplates.Count != 0)
+                            {
+                                foreach (var e in emailTemplates)
+                                {
+                                    var emailTemplateFields = dbSession.Query<EmailTemplateField>().Where(etf => etf.EmailTemplateId == e.Id).ToList();
+
+                                    if (emailTemplateFields.Count != 0)
+                                    {
+                                        emailTemplateFields.ForEach(etf => dbSession.Delete(etf));
+                                    }
+                                }
+
+                                emailTemplates.ForEach(et => dbSession.Delete(et));
+                            }
+                        }
+                        requests.ForEach(r => dbSession.Delete(r));
+                    }
+
+                    dbSession.Delete(division);
 
 
+                    dbSession.SaveChanges();
+                }
             }
         }
     }

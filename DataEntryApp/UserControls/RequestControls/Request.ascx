@@ -114,7 +114,7 @@
 
                                         <ext:Button ID="btnEmail" runat="server" UI="Primary" Icon="Add" Text="Add">
                                             <DirectEvents>
-                                                <Click OnEvent="OnEmail"></Click>
+                                                <Click ></Click>
                                             </DirectEvents>
                                         </ext:Button>
 
