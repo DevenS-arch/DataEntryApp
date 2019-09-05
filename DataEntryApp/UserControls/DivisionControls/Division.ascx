@@ -45,55 +45,46 @@
         var edit = function (editor, e) {
             // Call DirectMethod
             //if (!(e.value === e.originalValue || (Ext.isDate(e.value) && Ext.Date.isEqual(e.value, e.originalValue)))) {
-                App.direct.UC.EditDivision(e.field, e.originalValue, e.value, e.record.data);
-           // }
+            App.direct.UC.EditDivision(e.field, e.originalValue, e.value, e.record.data);
+            // }
         };
 
-        var editRequest = function (editor, e) {           
+        var editRequest = function (editor, e) {
             // Call DirectMethod
             //if (!(e.value === e.originalValue || (Ext.isDate(e.value) && Ext.Date.isEqual(e.value, e.originalValue)))) {
-                App.direct.UC.EditRequest(e.field, e.originalValue, e.value,e.record.data);
+            App.direct.UC.EditRequest(e.field, e.originalValue, e.value, e.record.data);
             //}
         };
 
-         var OnAddDivision = function () {
-           var grid = #{DivisionPanel},
-                    record;
-                grid.editingPlugin.cancelEdit();
+        var OnAddDivision = function () {
+            var grid = #{ DivisionPanel },
+                record;
+            grid.editingPlugin.cancelEdit();
 
-                record = grid.store.insert(0, {
-                    DivisionName: '',                    
-                });
-             grid.editingPlugin.startEdit(record[0]);
+            record = grid.store.insert(0, {
+                DivisionName: '',
+            });
+            grid.editingPlugin.startEdit(record[0]);
 
-             App.direct.UC.OnAddDivision();
+
         };
 
         var OnAddRequest = function () {
-            var grid = App.RequestPanel,
-                store = grid.getStore();
-
+            var grid = #{ RequestPanel },
+                record;
             grid.editingPlugin.cancelEdit();
 
-            store.getSorters().removeAll(); // We have to remove sorting to avoid auto-sorting on insert
-            grid.getView().headerCt.setSortState(); // To update columns sort UI
-
-            store.insert(0, {
-                name: 'New Guy',
-                email: 'new@ext.net',
-                start: Ext.Date.clearTime(new Date()),
-                salary: 50000,
-                active: true
+            record = grid.store.insert(0, {
+                DivisionName: '',
+                RequestName: ''
             });
-
-            grid.editingPlugin.startEdit(0, 0);
+            grid.editingPlugin.startEdit(record[0]);
         };
 
+        
 </script>
 
 </ext:XScript>
-
-
 
 <ext:ResourceManager runat="server"></ext:ResourceManager>
 
@@ -124,39 +115,19 @@
                             Region="Center" Layout="FormLayout"
                             BodyPadding="5">
                             <Items>
-                                <%--<ext:Panel ID="Panel1"
-                                    runat="server"
-                                    IDMode="Static"
-                                    Border="false"
-                                    Header="false"
-                                    ColumnWidth="0.501"
-                                    Layout="Form"
-                                    LabelAlign="Top">
-                                    <Items>
-
-                                        <ext:Button ID="btnAdd" runat="server" UI="Primary" Icon="Add" Text="Add Division">
-                                            <DirectEvents>
-                                                <Click OnEvent="OnAddDivision"></Click>
-                                            </DirectEvents>
-                                        </ext:Button>
-
-                                    </Items>
-                                </ext:Panel>--%>
-
                                 <ext:Panel
                                     runat="server"
                                     Closable="false"
-                                    Width="400"
+                                    Width="500"
                                     Collapsible="true"
                                     Title="Divisions"
                                     Maximizable="true"
                                     Layout="Fit">
                                     <Items>
-                                        <ext:GridPanel ID="DivisionPanel" runat="server" Border="false" Width="400"
-                                            Height="400">
+                                        <ext:GridPanel ID="DivisionPanel" runat="server" Border="false"
+                                            Height="480">
                                             <Store>
                                                 <ext:Store ID="DivisionStore" runat="server" PageSize="10">
-
                                                     <Model>
                                                         <ext:Model runat="server" IDProperty="Id">
                                                             <Fields>
@@ -183,16 +154,13 @@
                                                 <Columns>
                                                     <ext:Column ID="DivisionIdColumn" runat="server" Text="Division Id" DataIndex="Id" Visible="false" Flex="1">
                                                     </ext:Column>
-
                                                     <ext:Column ID="DivisionNameColumn" runat="server" Text="Division Name" DataIndex="DivisionName" Flex="1">
                                                         <Editor>
                                                             <ext:TextField runat="server" AllowBlank="false" />
                                                         </Editor>
                                                     </ext:Column>
-
-                                                    <ext:CommandColumn runat="server">
+                                                    <ext:CommandColumn runat="server" Width="33px">
                                                         <Commands>
-                                                            
                                                             <ext:GridCommand Icon="Delete" CommandName="Delete">
                                                                 <ToolTip Text="Delete" />
                                                             </ext:GridCommand>
@@ -208,24 +176,13 @@
             }, this);" />
                                                         </Listeners>
                                                     </ext:CommandColumn>
-                                                    <%-- <ext:WidgetColumn ID="WidgetColumn1" runat="server" DataIndex="Actions" Text="Actions" Flex="1">
-                                                        <Widget>
-                                                            <ext:Button runat="server" Cls="actionBtn" Text="Delete" Icon="Delete">
-                                                                <Listeners>
-                                                                    <Click Fn="confirm" />
-                                                                </Listeners>
-                                                            </ext:Button>
-
-                                                        </Widget>
-                                                    </ext:WidgetColumn>--%>
                                                 </Columns>
                                             </ColumnModel>
                                             <SelectionModel>
                                                 <ext:RowSelectionModel runat="server" Mode="Single" />
                                             </SelectionModel>
-
                                             <Plugins>
-                                                <ext:RowEditing runat="server">
+                                                <ext:RowEditing runat="server" ClicksToEdit="1">
                                                     <Listeners>
                                                         <Edit Fn="edit" />
                                                     </Listeners>
@@ -237,10 +194,7 @@
                                         </ext:GridPanel>
                                     </Items>
                                 </ext:Panel>
-
-
                             </Items>
-
                         </ext:FormPanel>
                     </Items>
                 </ext:Panel>
@@ -261,80 +215,24 @@
                             Region="Center" Layout="FormLayout"
                             BodyPadding="5">
                             <Items>
-                                <%--<ext:Panel ID="pnlTop"
-                                    runat="server"
-                                    IDMode="Static"
-                                    Width="400"
-                                    Border="false"
-                                    Header="false"
-                                    ColumnWidth="0.501"
-                                    Layout="Form"
-                                    LabelAlign="Top">
-                                    <Items>
-                                        <ext:ComboBox ID="cboxDivision" runat="Server"
-                                            MaxWidth="250"
-                                            FieldLabel="Division"
-                                            Text="Select Division"
-                                            ValueField="Id"
-                                            DisplayField="DivisionName"
-                                            Editable="false">
-                                            <DirectEvents>
-                                                <Select OnEvent="OnDivisionSelected"></Select>
-                                            </DirectEvents>
-                                            <Store>
-                                                <ext:Store ID="strDivsion" runat="server">
-                                                    <Model>
-                                                        <ext:Model runat="server">
-                                                            <Fields>
-                                                                <ext:ModelField Name="Id" />
-                                                                <ext:ModelField Name="DivisionName" />
-                                                            </Fields>
-                                                        </ext:Model>
-                                                    </Model>
-                                                </ext:Store>
-                                            </Store>
-                                        </ext:ComboBox>
-                                    </Items>
-                                </ext:Panel>--%>
-
-                               <%-- <ext:Panel ID="Panel2"
-                                    runat="server"
-                                    IDMode="Static"
-                                    Border="false"
-                                    Header="false"
-                                    ColumnWidth="0.501"
-                                    Layout="Form"
-                                    LabelAlign="Top">
-                                    <Items>
-
-                                        <ext:Button ID="btnAddRequest" runat="server" UI="Primary" Icon="Add" Text="Add Request">
-                                            <DirectEvents>
-                                                <Click OnEvent="OnAddRequest"></Click>
-                                            </DirectEvents>
-                                        </ext:Button>
-
-                                    </Items>
-                                </ext:Panel>--%>
-
                                 <ext:Panel
                                     runat="server"
                                     Closable="false"
-                                    Width="400"
+                                    Width="500"
                                     Collapsible="true"
                                     Title="Requests"
                                     Maximizable="true"
                                     Layout="Fit">
                                     <Items>
-                                        <ext:GridPanel ID="RequestPanel" runat="server" Border="false" Width="400"
-                                            Height="400">
+                                        <ext:GridPanel ID="RequestPanel" runat="server" Border="false"
+                                            Height="480">
                                             <Store>
                                                 <ext:Store ID="RequestStore" runat="server" PageSize="10">
                                                     <Model>
                                                         <ext:Model runat="server" IDProperty="Id">
                                                             <Fields>
-                                                                <%--<ext:ModelField Name="DivisionId" ServerMapping="Division.DivisionId" Type="String" />--%>
                                                                 <ext:ModelField Name="DivisionId" ServerMapping="Division.DivisionName" Type="String" />
-                                                                <ext:ModelField Name="RequestName" Type="String" />                    
+                                                                <ext:ModelField Name="RequestName" Type="String" />
                                                                 <ext:ModelField Name="Actions" Type="Auto" />
                                                             </Fields>
                                                         </ext:Model>
@@ -357,15 +255,16 @@
                                                     <ext:Column ID="RequestIdColumn" runat="server" Text="Request Id" DataIndex="RequestId" Visible="false" Flex="1">
                                                     </ext:Column>
 
-                                                    <ext:Column ID="DivisionColumn" runat="server" Text="Division Name" DataIndex="DivisionId" Flex="1">
+                                                    <ext:Column ID="DivisionColumn" runat="server" Text="Division Name" DataIndex="DivisionId" Flex="1">                                                      
                                                         <Editor>
                                                             <ext:ComboBox ID="ComboBox1" runat="Server"
                                                                 MaxWidth="250"
                                                                 Text="Select Division"
                                                                 ValueField="Id"
                                                                 DisplayField="DivisionName"
-                                                                Editable="false">
+                                                                Editable="false"
 
+                                                                AllowBlank="false">
                                                                 <Store>
                                                                     <ext:Store ID="Store1" runat="server">
                                                                         <Model>
@@ -381,15 +280,13 @@
                                                             </ext:ComboBox>
                                                         </Editor>
                                                     </ext:Column>
-
                                                     <ext:Column ID="RequestNameColumn" runat="server" Text="Request Name" DataIndex="RequestName" Flex="1">
                                                         <Editor>
                                                             <ext:TextField runat="server" AllowBlank="false" />
                                                         </Editor>
                                                     </ext:Column>
-
-                                                    <ext:CommandColumn runat="server">
-                                                        <Commands>                                                           
+                                                    <ext:CommandColumn runat="server" Width="33px">
+                                                        <Commands>
                                                             <ext:GridCommand Icon="Delete" CommandName="Delete">
                                                                 <ToolTip Text="Delete" />
                                                             </ext:GridCommand>
@@ -405,17 +302,10 @@
             }, this);" />
                                                         </Listeners>
                                                     </ext:CommandColumn>
-
-                                                    <%--<ext:WidgetColumn ID="WidgetColumn2" runat="server" DataIndex="Actions" Text="Actions" Flex="1">
-                                                        <Widget>
-                                                            <ext:Button runat="server" Cls="actionBtn" Text="Delete" Icon="Delete" Handler="confirm();" />
-
-                                                        </Widget>
-                                                    </ext:WidgetColumn>--%>
                                                 </Columns>
                                             </ColumnModel>
                                             <Plugins>
-                                                <ext:RowEditing runat="server">
+                                                <ext:RowEditing runat="server" ClicksToEdit="1">
                                                     <Listeners>
                                                         <Edit Fn="editRequest" />
                                                     </Listeners>
@@ -423,15 +313,11 @@
                                             </Plugins>
                                             <BottomBar>
                                                 <ext:PagingToolbar runat="server" HideRefresh="True">
-                                                    <Items>
-                                                    </Items>
                                                 </ext:PagingToolbar>
                                             </BottomBar>
                                         </ext:GridPanel>
                                     </Items>
                                 </ext:Panel>
-
-
                             </Items>
 
                         </ext:FormPanel>
@@ -449,7 +335,7 @@
     </Items>
 </ext:Viewport>
 
-<form runat="server">
+<%--<form runat="server">
     <ext:Window
         ID="Window"
         runat="server"
@@ -517,4 +403,4 @@
 
         </Buttons>
     </ext:Window>
-</form>
+</form>--%>

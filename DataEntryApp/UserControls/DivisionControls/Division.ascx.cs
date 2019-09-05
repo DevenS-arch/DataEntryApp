@@ -103,11 +103,11 @@ namespace DataEntryApp.UserControls
 
         }
         [DirectMethod]
-        public void OnAddDivision()
+        public void OnAddDivision(object division)
         {
             try
             {
-                this.Window.Visible = true;
+                //this.Window.Visible = true;
                 //if (RequestId != null)
                 //{
                 //    this.Response.Redirect("~/EditExt.aspx");
@@ -125,7 +125,7 @@ namespace DataEntryApp.UserControls
         {
             try
             {
-                this.Window.Visible = true;
+               // this.Window.Visible = true;
                 //if (RequestId != null)
                 //{
                 //    this.Response.Redirect("~/EditExt.aspx");
@@ -143,22 +143,22 @@ namespace DataEntryApp.UserControls
             try
             {
 
-                var val = this.dvName.Text;
+                //var val = this.dvName.Text;
 
-                if (val != null)
-                {
-                    var divisions = new List<DivisionDTO>()
-                {
-                    new DivisionDTO { DivisionName = val }
-                };
+                //if (val != null)
+                //{
+                //    var divisions = new List<DivisionDTO>()
+                //{
+                //    new DivisionDTO { DivisionName = val }
+                //};
 
-                    var divisionBll = new DivisionBLL();
-                    divisionBll.AddDivisions(divisions);
+                //    var divisionBll = new DivisionBLL();
+                //    divisionBll.AddDivisions(divisions);
 
-                    this.dvName.Text = null;
+                //    //this.dvName.Text = null;
 
-                    LoadMasterData();
-                }
+                //    LoadMasterData();
+                //}
             }
             catch (Exception ex)
             {
@@ -275,6 +275,8 @@ namespace DataEntryApp.UserControls
 
                 var requestBLL = new RequestBLL();
                 requestBLL.UpdateRequests(req);
+
+                LoadMasterData();
             }
             catch (Exception ex)
             {

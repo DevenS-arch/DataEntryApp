@@ -53,9 +53,16 @@ namespace DataEntryApp.DAC
             {
 
                 var request = dbSession.Load<Request>(requests.Id);
-
-                request.RequestName = requests.RequestName;
-                request.DivisionId = requests.DivisionId;
+                if (request == null)
+                {
+                    requests.Id = null;
+                    dbSession.Store(requests);
+                }
+                else
+                {
+                    request.RequestName = requests.RequestName;
+                    request.DivisionId = requests.DivisionId;
+                }
                 dbSession.SaveChanges();
 
             }

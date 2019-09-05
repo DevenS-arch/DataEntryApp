@@ -32,7 +32,7 @@ namespace DataEntryApp.DAC
         public static void AddDivisions(List<Division> divisions)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
-            {               
+            {
                 divisions.ForEach(d => dbSession.Store(d));
                 dbSession.SaveChanges();
             }
@@ -45,8 +45,15 @@ namespace DataEntryApp.DAC
             {
 
                 var division = dbSession.Load<Division>(divisions.Id);
-
-                division.DivisionName = divisions.DivisionName;
+                if (division == null)
+                {
+                    divisions.Id = null;
+                    dbSession.Store(divisions);
+                }
+                else
+                {
+                    division.DivisionName = divisions.DivisionName;
+                }
                 dbSession.SaveChanges();
 
             }
@@ -61,7 +68,7 @@ namespace DataEntryApp.DAC
                 dbSession.Delete(division);
                 dbSession.SaveChanges();
 
-               
+
             }
         }
     }
