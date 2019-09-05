@@ -7,13 +7,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-//using TechTicketPOC.BLL;
-//using TechTicketPOC.Common.Extensions;
-//using TechTicketPOC.Entities;
-//using static TechTicketPOC.Entities.Constants.FieldDataType;
-//using static TechTicketPOC.AppCode.Constants.ControlTypes;
-//using static TechTicketPOC.Common.Constants.SessionKeys;
-//using static TechTicketPOC.Common.SessionWrapper;
 
 namespace DataEntryApp.UserControls
 {
@@ -62,6 +55,7 @@ namespace DataEntryApp.UserControls
         }
         public List<EmailTemplateFieldDTO> FieldList { get; set; } = new List<EmailTemplateFieldDTO>();
 
+        public List<FieldOptionDTO> FieldOptionList { get; set; } = new List<FieldOptionDTO>();
 
         public string FieldType { get; set; }
         #endregion
@@ -86,6 +80,20 @@ namespace DataEntryApp.UserControls
             {
                 LoadMasterData();
                 //GenerateEmailTemplate(33);
+
+                List<object> list = new List<object>
+            {
+                new {Text = "Text3", Value = 3},
+                new {Text = "Text4", Value = 4},
+                new {Text = "Text5", Value = 5}
+            };
+
+              //  strFieldOptions.DataSource = list;
+               // strFieldOptions.DataBind();
+
+              //  this.cbxFieldOptions.Items.Insert(0, new Ext.Net.ListItem("None", "-"));
+
+              //  this.cbxFieldOptions.SelectedItems.Add(new Ext.Net.ListItem("-"));
             }
 
         }
@@ -119,20 +127,33 @@ namespace DataEntryApp.UserControls
 
         protected void Select_RadioButton(object sender, DirectEventArgs e)
         {
+            int optionListOffset=0, saveTemplateOffset=0;
             if (Session["FieldList"] != null)
             {
                 FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
             }
 
-            //set the window height if/else count>0
+            //set field type
+            FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
+            this.FormPanelFieldData.Title = FieldType + " Field";
+            Session["FieldType"] = FieldType;
+
+            pnlFieldOptions.Hidden = true;
+
+            //set panel size
+            if (FieldType == "Dropdown")
+            {
+                optionListOffset = 110;                           
+                pnlFieldOptions.Hidden = false;
+            }
+            panelFieldData.Height = 265 + optionListOffset;
+
+            //set the window size if/else count>0
             if (FieldList.Count > 0)
             {
-                this.Window1.Height = 480;
+                saveTemplateOffset = 30;
             }
-            else
-            {
-                this.Window1.Height = 445;
-            }
+            this.Window1.Height = 455 + optionListOffset + saveTemplateOffset;
 
             this.Window1.X = 200;
 
@@ -141,11 +162,8 @@ namespace DataEntryApp.UserControls
             panel.Hidden = false;
 
             //reset form
-            FormPanelFieldData.Reset();
-
-            FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
-            this.FormPanelFieldData.Title = FieldType + " Field";
-            Session["FieldType"] = FieldType;
+            FormPanelFieldData.Reset();          
+            
         }
 
         protected void SaveField(object sender, DirectEventArgs e)
@@ -182,6 +200,13 @@ namespace DataEntryApp.UserControls
 
         protected void SaveFieldAfterValidation()
         {
+            //get fieldOptionList
+            List<FieldOptionDTO> foList = new List<FieldOptionDTO>();
+            if (Session["FieldOptions"] != null)
+            {
+                foList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
+
             //create a field obj on save field
             var DataType = X.GetCmp<ComboBox>(nameof(cbxDataType)).Value;
             var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
@@ -198,11 +223,12 @@ namespace DataEntryApp.UserControls
                 FieldName = FieldName,
                 FieldOrder = FieldOrder,
                 FieldType = FieldType,
-                IsAllowBlank = IsAllowBlank
-
+                IsAllowBlank = IsAllowBlank,
+                FieldOptions = foList
             };
 
-            //get fieldList from session if it there
+
+            //get fieldList from session if exists
             if (Session["FieldList"] != null)
             {
                 FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
@@ -214,7 +240,7 @@ namespace DataEntryApp.UserControls
             Session["FieldList"] = FieldList;
 
             //form reset
-            FormPanelFieldData.Reset();
+            //FormPanelFieldData.Reset();
 
             //hide the form panel
             X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
@@ -224,6 +250,9 @@ namespace DataEntryApp.UserControls
 
             //reset radio group to select again
             rdRadioGroup.Reset();
+
+            //reset fieldOption session value
+            Session["FieldOptions"] = null;
 
             //show template save button if >0 field are added
             if (FieldList.Count > 0)
@@ -257,6 +286,53 @@ namespace DataEntryApp.UserControls
             Session["FieldList"] = null;
             Session["FieldType"] = null;
         }
+
+        protected void AddFieldOption(object sender, DirectEventArgs e)
+        {
+            // update option field list
+            FieldOptionList = new List<FieldOptionDTO>();
+            if(Session["FieldOptions"]!=null)
+            {
+                FieldOptionList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
+
+            var fieldOptionText = X.GetCmp<TextField>("txtFieldOptionText").Text;
+            var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
+
+            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionValue };
+            FieldOptionList.Add(newOption);
+            Session["FieldOptions"] = FieldOptionList;
+
+            // Insert item in list UI
+            if (fieldOptionText != "" && fieldOptionValue != "")
+            {
+                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionValue);
+                X.GetCmp<TextField>("txtFieldOptionText").Text = "";
+                X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
+            }
+
+        }
+
+        protected void RemoveOption(object sender, DirectEventArgs e)
+        {
+            var valueToRemove = cbxFieldOptions.Value.ToString();
+
+            //remove item from list
+            if(Session["FieldOptions"]!=null)
+            {
+                FieldOptionList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
+
+            FieldOptionList = FieldOptionList.Where(fo => fo.Value != valueToRemove).ToList();
+
+            Session["FieldOptions"] = FieldOptionList;
+
+            //remove item from UI
+            cbxFieldOptions.RemoveByValue(valueToRemove);
+            cbxFieldOptions.Clear();
+
+        }
+        
 
         [DirectMethod]
         public object DirectCheckField(string value)
@@ -300,6 +376,24 @@ namespace DataEntryApp.UserControls
                 e.ErrorMessage = "Duplicate entry";
             }
 
+            System.Threading.Thread.Sleep(1000);
+        }
+
+        protected void CheckField2(object sender, ServerValidateEventArgs args)
+        {
+            try
+            {
+                this.txFieldName.IconCls = "validation-indicator";
+                // Test whether the value entered into the text box is even.
+               if (args.ToString()=="test")
+                    args.IsValid = true;
+               else
+                    args.IsValid = false;
+            }
+            catch (Exception ex)
+            {
+                args.IsValid = false;
+            }
             System.Threading.Thread.Sleep(1000);
         }
         #endregion
