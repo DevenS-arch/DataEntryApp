@@ -13,7 +13,10 @@ namespace DataEntryApp.DAC.POCOEntities
         public string RequestName { get; set; }
         public string DivisionId { get; set; }
         public string ParentRequestId { get; set; }
-        public List<string> ChildRequestIds { get; set; }
+
+        public Division Division { get; set; }
+
+        //public List<string> ChildRequestIds { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ModifiedBy { get; set; }

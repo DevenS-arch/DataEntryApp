@@ -14,7 +14,10 @@ namespace DataEntryApp.DAC.Automapping
 
         public RequestProfile()
         {
-            CreateMap<Request, RequestDTO>();
+            CreateMap<Request, RequestDTO>()
+                .ForMember(x => x.ChildRequests, opt => opt.Ignore())
+                .ForMember(x => x.ParentRequest, opt => opt.Ignore());
+                 
         }
     }
 }

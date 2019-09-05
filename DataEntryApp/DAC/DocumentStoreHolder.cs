@@ -36,7 +36,7 @@ namespace DataEntryApp.DAC
                 // Set conventions as necessary (optional)
                 Conventions =
             {
-                MaxNumberOfRequestsPerSession = 10,
+                MaxNumberOfRequestsPerSession = 50,
                 UseOptimisticConcurrency = true
             },
 
