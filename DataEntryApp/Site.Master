@@ -44,12 +44,12 @@
                 <Items>
                     <ext:TabPanel ID="tabPanel" runat="server" Region="Center">
                         <Items>
-                            <ext:Panel runat="server" Title="Division" ID="panelHome">
+                            <ext:Panel runat="server" Title="Division" ID="panelDivision">
                                 <Content>
                                     <asp:ContentPlaceHolder ID="divisionCPH" runat="server" />
                                 </Content>
                             </ext:Panel>
-                            <ext:Panel runat="server" Title="Requests" ID="panel1">
+                            <ext:Panel runat="server" Title="Requests" ID="panelRequest">
 
                                 <Content>
                                     <asp:ContentPlaceHolder ID="requestCPH" runat="server" />
@@ -57,7 +57,7 @@
 
                             </ext:Panel>
 
-                            <ext:Panel runat="server" Title="EmailTemplates" ID="panel2">
+                            <ext:Panel runat="server" Title="EmailTemplates" ID="panelTemplates">
                                <Content>
                                     <asp:ContentPlaceHolder ID="emailTemplateCPH" runat="server" />
                                 </Content>

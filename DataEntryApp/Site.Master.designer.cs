@@ -58,13 +58,13 @@ namespace DataEntryApp {
         protected global::Ext.Net.TabPanel tabPanel;
         
         /// <summary>
-        /// panelHome control.
+        /// panelDivision control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel panelHome;
+        protected global::Ext.Net.Panel panelDivision;
         
         /// <summary>
         /// divisionCPH control.
@@ -76,13 +76,13 @@ namespace DataEntryApp {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder divisionCPH;
         
         /// <summary>
-        /// panel1 control.
+        /// panelRequest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel panel1;
+        protected global::Ext.Net.Panel panelRequest;
         
         /// <summary>
         /// requestCPH control.
@@ -94,13 +94,13 @@ namespace DataEntryApp {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder requestCPH;
         
         /// <summary>
-        /// panel2 control.
+        /// panelTemplates control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel panel2;
+        protected global::Ext.Net.Panel panelTemplates;
         
         /// <summary>
         /// emailTemplateCPH control.

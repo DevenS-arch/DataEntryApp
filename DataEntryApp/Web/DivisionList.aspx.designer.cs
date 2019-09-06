@@ -13,6 +13,15 @@ namespace DataEntryApp.Web {
     public partial class DivisionList {
         
         /// <summary>
+        /// requestData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DataEntryApp.UserControls.Request requestData;
+        
+        /// <summary>
         /// divisionData control.
         /// </summary>
         /// <remarks>

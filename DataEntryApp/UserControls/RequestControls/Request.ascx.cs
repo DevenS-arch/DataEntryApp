@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace DataEntryApp.UserControls
 {
+    [DirectMethodProxyID(IDMode = DirectMethodProxyIDMode.Alias, Alias = "UC")]
     public partial class Request : System.Web.UI.UserControl
     {
         #region Event handlers
