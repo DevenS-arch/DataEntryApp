@@ -99,7 +99,8 @@ namespace DataEntryApp.UserControls
             if (DivisionId!=null)
             {
                 Session["DivisionId"] = DivisionId;
-                var requests = new RequestBLL().GetRequests();
+                Session["DivisionName"] = cboxDivision.SelectedItem.Text;
+                var requests = new RequestBLL().GetRequestsForDivision(DivisionId);
                 strRequests.DataSource = requests;
                 strRequests.DataBind();
             }
@@ -111,6 +112,7 @@ namespace DataEntryApp.UserControls
             if (RequestId!=null)
             {
                 Session["RequestId"] = RequestId;
+                Session["RequestName"] = cboxRequest.SelectedItem.Text;
                 GenerateEmailTemplate(RequestId);
             }
 
@@ -213,6 +215,11 @@ namespace DataEntryApp.UserControls
             //show the form panel
             var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
             panel.Hidden = false;
+
+          //  cbxDataType.SelectedItem.Text = "String";
+          //  cbxDataType.Disable();
+
+          //  var v=cbxDataType.Value;
 
             //reset form
             FormPanelFieldData.Reset();
@@ -318,17 +325,21 @@ namespace DataEntryApp.UserControls
         protected void SaveTemplate(object sender, DirectEventArgs e)
         {
             var fList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
-            string divisionId=null, requestId = null;
+            string divisionId=null, divisionName=null, requestId = null, requestName=null;
             if (Session["DivisionId"] != null && Session["RequestId"] != null)
             {
                 divisionId = Session["DivisionId"].ToString();
                 requestId = Session["RequestId"].ToString();
+                divisionName = Session["DivisionName"].ToString();
+                requestName = Session["RequestName"].ToString();
             }
+           
             EmailTemplateDTO dtoTemplate = new EmailTemplateDTO()
             {
                 RequestId = requestId,
                 Fields = fList,
-                TemplateName = divisionId +"-" + requestId
+                TemplateName = divisionName + "-" + requestName,
+                To=new List<string>() { "invoices@jamesriverins.com" }
             };
             this.Window1.Hide();
             Session["FieldList"] = null;

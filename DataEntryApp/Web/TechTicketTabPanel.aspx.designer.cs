@@ -22,6 +22,24 @@ namespace DataEntryApp.Web {
         protected global::Ext.Net.XScript XScript;
         
         /// <summary>
+        /// DivisionData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DataEntryApp.UserControls.Division DivisionData;
+        
+        /// <summary>
+        /// RequestData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DataEntryApp.UserControls.Request RequestData;
+        
+        /// <summary>
         /// fieldTemplateData control.
         /// </summary>
         /// <remarks>

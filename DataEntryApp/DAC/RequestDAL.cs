@@ -41,6 +41,32 @@ namespace DataEntryApp.DAC
         }
 
         /// <summary>
+        ///  Get Requests
+        /// </summary>
+        /// <returns></returns>
+        public static List<Request> GetRequestsForDivision(string divisionId)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+
+                try
+                {
+                    var requests = dbSession.Query<Request>().Where(r => r.DivisionId == divisionId).ToList();
+
+                    return requests;
+
+                }
+                catch
+                {
+                    dbSession.Advanced.Clear();
+                    throw;
+                }
+
+            }
+        }
+
+
+        /// <summary>
         /// Add Requests
         /// </summary>
         /// <param name="requests"></param>

@@ -179,7 +179,7 @@
     <Content Include="UserControls\TemplateFieldControls\TemplateList.ascx" />
     <Content Include="Web\DivisionList.aspx" />
     <Content Include="Web\RequestList.aspx" />
-    <Content Include="Web\EmailTemplateList.aspx" />
+    <Content Include="Web\TechTicketTabPanel.aspx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -312,12 +312,12 @@
     <Compile Include="Web\RequestList.aspx.designer.cs">
       <DependentUpon>RequestList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Web\EmailTemplateList.aspx.cs">
-      <DependentUpon>EmailTemplateList.aspx</DependentUpon>
+    <Compile Include="Web\TechTicketTabPanel.aspx.cs">
+      <DependentUpon>TechTicketTabPanel.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Web\EmailTemplateList.aspx.designer.cs">
-      <DependentUpon>EmailTemplateList.aspx</DependentUpon>
+    <Compile Include="Web\TechTicketTabPanel.aspx.designer.cs">
+      <DependentUpon>TechTicketTabPanel.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
