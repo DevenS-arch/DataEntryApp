@@ -1,6 +1,7 @@
 ﻿using DataEntryApp.BL;
 using DataEntryApp.Entities;
 using Ext.Net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,14 @@ using System.Web.UI.WebControls;
 
 namespace DataEntryApp.UserControls
 {
+    [DirectMethodProxyID(IDMode = DirectMethodProxyIDMode.Alias, Alias = "UC")]
     public partial class Request : System.Web.UI.UserControl
     {
-
-        #region Properties
-
-        public string DivisionId
-        {
-            get
-            {
-                string selectedDivision = X.GetCmp<ComboBox>(nameof(cboxDivision)).Value.ToString();
-
-               // var selectedDivisionss = selectedDivision.ToString().Replace("divisions/","");
-
-
-
-                if (selectedDivision != null )
-                    return selectedDivision;
-                else
-                    return null;
-
-            }
-        }
-        
-        #endregion
-
         #region Event handlers
 
         protected override void OnInit(EventArgs e)
         {
-            //if (!IsPostBack && !X.IsAjaxRequest)
-            //    GenerateEmailTemplate(33);
+
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -49,22 +27,57 @@ namespace DataEntryApp.UserControls
             if (!IsPostBack && !X.IsAjaxRequest)
             {
                 LoadMasterData();
-               
-                //GenerateEmailTemplate(33);
+
+
             }
+
 
         }
 
-        protected void OnDivisionSelected(object sender, DirectEventArgs e)
+        [DirectMethod]
+        public void EditRequest(string field, string oldValue, string newValue, object request)
         {
 
-            if (DivisionId != null)
-            {
-                var requests = new RequestBLL().GetRequests();
-                this.Store1.DataSource = requests;
-                this.Store1.DataBind();
-            }
+            var req = JsonConvert.DeserializeObject<RequestDTO>(request.ToString());
 
+            try
+            {
+                //string message = "<b>Property:</b> {0}<br /><b>Field:</b> {1}<br /><b>Old Value:</b> {2}<br /><b>New Value:</b> {3}";
+
+                //// Send Message...
+                //X.Msg.Notify(new NotificationConfig()
+                //{
+                //    Title = "Edit Record #" + req.Id.ToString(),
+                //    Html = string.Format(message, req.Id, field, oldValue, newValue),
+                //    HideDelay = 1500,
+                //    Width = 250,
+                //    Height = 150
+                //}).Show();
+
+
+
+                //this.RequestPanel.GetStore().GetById(req.Id).Commit();
+
+                var requestBLL = new RequestBLL();
+                requestBLL.UpdateRequests(req);
+
+                LoadMasterData();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        [DirectMethod]
+        public void OnDeleteRequest(object request)
+        {
+            var requestBLL = new RequestBLL();
+
+            var req = JsonConvert.DeserializeObject<RequestDTO>(request.ToString());
+
+            requestBLL.DeleteRequests(req);
+
+            LoadMasterData();
         }
         #endregion
 
@@ -72,12 +85,21 @@ namespace DataEntryApp.UserControls
 
         private void LoadMasterData()
         {
-            strDivsion.DataSource = new DivisionBLL().GetDivisions();
-            strDivsion.DataBind();
+            var division = new DivisionBLL().GetDivisions();
+
+            this.ReqDivisionStore.DataSource = division;
+            this.ReqDivisionStore.DataBind();
+
+            var requests = new RequestBLL().GetRequests();
+
+            this.RequestStore.DataSource = requests;
+            this.RequestStore.DataBind();
+
         }
 
 
         #endregion
+
     }
 
 }

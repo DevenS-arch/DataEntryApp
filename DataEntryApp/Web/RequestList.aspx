@@ -2,7 +2,7 @@
 
 <%@ Register TagName="Request" TagPrefix="RList" src="~/UserControls/RequestControls/Request.ascx" %>
 
-<ext:XScript runat="server" ID="XScript">
-</ext:XScript>
 
-<RList:Request ID="requestData" runat="Server" ></RList:Request>
+<asp:Content ID="requestContent" ContentPlaceHolderID="requestCPH" runat="server">
+    <RList:Request ID="requestData" runat="Server" ></RList:Request>
+</asp:Content>

@@ -22,15 +22,6 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.XScript XScript;
         
         /// <summary>
-        /// requestWindow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Viewport requestWindow;
-        
-        /// <summary>
         /// requestForm control.
         /// </summary>
         /// <remarks>
@@ -40,129 +31,66 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.FormPanel requestForm;
         
         /// <summary>
-        /// pnlTop control.
+        /// RequestPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel pnlTop;
+        protected global::Ext.Net.GridPanel RequestPanel;
         
         /// <summary>
-        /// cboxDivision control.
+        /// RequestStore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.ComboBox cboxDivision;
+        protected global::Ext.Net.Store RequestStore;
         
         /// <summary>
-        /// strDivsion control.
+        /// RequestIdColumn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Store strDivsion;
+        protected global::Ext.Net.Column RequestIdColumn;
         
         /// <summary>
-        /// Panel1 control.
+        /// DivisionColumn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Panel Panel1;
+        protected global::Ext.Net.Column DivisionColumn;
         
         /// <summary>
-        /// btnEmail control.
+        /// DivisionComboBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Button btnEmail;
+        protected global::Ext.Net.ComboBox DivisionComboBox;
         
         /// <summary>
-        /// GridPanel1 control.
+        /// ReqDivisionStore control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.GridPanel GridPanel1;
+        protected global::Ext.Net.Store ReqDivisionStore;
         
         /// <summary>
-        /// Store1 control.
+        /// RequestNameColumn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.Store Store1;
-        
-        /// <summary>
-        /// DisplayNameColumn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Column DisplayNameColumn;
-        
-        /// <summary>
-        /// FieldNameColumn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Column FieldNameColumn;
-        
-        /// <summary>
-        /// FieldTypeColumn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Column FieldTypeColumn;
-        
-        /// <summary>
-        /// DataTypeColumn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.Column DataTypeColumn;
-        
-        /// <summary>
-        /// ActionsColumn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.WidgetColumn ActionsColumn;
-        
-        /// <summary>
-        /// WidgetColumn1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.WidgetColumn WidgetColumn1;
-        
-        /// <summary>
-        /// sbButtons control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.StatusBar sbButtons;
+        protected global::Ext.Net.Column RequestNameColumn;
     }
 }

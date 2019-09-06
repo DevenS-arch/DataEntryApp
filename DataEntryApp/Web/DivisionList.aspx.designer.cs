@@ -13,13 +13,13 @@ namespace DataEntryApp.Web {
     public partial class DivisionList {
         
         /// <summary>
-        /// XScript control.
+        /// requestData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.XScript XScript;
+        protected global::DataEntryApp.UserControls.Request requestData;
         
         /// <summary>
         /// divisionData control.

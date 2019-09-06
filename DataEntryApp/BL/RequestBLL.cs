@@ -31,9 +31,9 @@ namespace DataEntryApp.BL
             RequestDAL.UpdateRequests(Map<Request>(requests));
         }
 
-        public void DeleteRequests(List<RequestDTO> requests)
+        public void DeleteRequests(RequestDTO request)
         {
-            RequestDAL.DeleteRequests(Map<List<Request>>(requests));
+            RequestDAL.DeleteRequests(Map<Request>(request));
         }
     }
 }
