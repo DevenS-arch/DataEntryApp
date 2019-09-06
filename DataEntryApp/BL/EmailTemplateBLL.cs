@@ -20,5 +20,10 @@ namespace DataEntryApp.BL
         {
             EmailTemplateDAL.SaveEmailTemplate(emailTemplateDTO);
         }
+
+        public void DeleteEmailTemplate(string templateId)
+        {
+            EmailTemplateDAL.DeleteEmailTemplate(templateId);
+        }
     }
 }

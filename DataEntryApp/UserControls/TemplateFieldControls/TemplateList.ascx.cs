@@ -1,4 +1,5 @@
 ﻿using DataEntryApp.BL;
+using DataEntryApp.Entities;
 using Ext.Net;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,11 @@ namespace DataEntryApp.UserControls
 
         }
 
+        public List<EmailTemplateFieldDTO> FieldList { get; set; } = new List<EmailTemplateFieldDTO>();
+
+        public List<FieldOptionDTO> FieldOptionList { get; set; } = new List<FieldOptionDTO>();
+
+        public string FieldType { get; set; }
         #endregion
 
         #region Event handlers
@@ -92,6 +98,7 @@ namespace DataEntryApp.UserControls
 
             if (DivisionId!=null)
             {
+                Session["DivisionId"] = DivisionId;
                 var requests = new RequestBLL().GetRequests();
                 strRequests.DataSource = requests;
                 strRequests.DataBind();
@@ -103,9 +110,47 @@ namespace DataEntryApp.UserControls
         {
             if (RequestId!=null)
             {
-                //GenerateEmailTemplate(RequestId.Value);
+                Session["RequestId"] = RequestId;
+                GenerateEmailTemplate(RequestId);
             }
 
+        }
+
+        private void GenerateEmailTemplate(string requestId)
+        {
+
+            var emailTemplate = new EmailTemplateBLL().GetEmailTemplate(requestId);
+            Session["EmailTemplate"] = emailTemplate;
+            if (emailTemplate != null)
+            {
+
+
+
+                pnlTemplateGrid.Hidden = false;
+                cntLabel.Hidden = true;
+                pnlAddTemplateButton.Hidden = true;
+
+                this.Store1.DataSource = new object[]
+                    {
+                    emailTemplate
+                    };
+                this.Store1.DataBind();
+            }
+            else
+            {
+                pnlTemplateGrid.Hidden = true;
+                cntLabel.Hidden = false;
+                pnlAddTemplateButton.Hidden = false;
+            }
+            
+        }
+
+
+        [DirectMethod]
+        private void ShowWindow()
+        {
+            this.Window1.Visible = true;
+            this.btnAddTemplate.Disabled = true;
         }
 
         #endregion
@@ -117,214 +162,242 @@ namespace DataEntryApp.UserControls
             strDivsion.DataSource = new DivisionBLL().GetDivisions();
             strDivsion.DataBind();
         }
+        
 
-        //private void DisplayEmailPreview(List<Tuple<string, string>> emailData, EmailTemplateDTO emailTemplate)
-        //{
-        //    if (emailData.IsCollectionValid())
-        //    {
-        //        var message = $"<b>To:</b> {emailTemplate.To.Aggregate((first, sec) => string.Format("{0}; {1}", first, sec))}<br>";
-        //        message += $"<b>CC:</b> <br>";
-        //        message += $"<b>BCC:</b> <br><br>";
-        //        message += $"<b>Subject:</b> {GetEmailSubject(emailTemplate)}<br><br>";
-        //        message += $"<b>Body:</b> <br>";
-        //        message += string.Join("<br>", emailData.Select(d => $"{d.Item1}:    {d.Item2}"));
-        //        message = $"<br>{message}<br><br>";
-        //        X.Msg.Alert("Email preview", message).Show();
-        //    }
-        //}
+        #endregion
+        [DirectMethod]
+        public void DeleteTemplate()
+        {
+            string templateId;
+            if (Session["TemplateId"] !=null)
+            {
+                templateId = Session["TemplateId"].ToString();
+                new EmailTemplateBLL().DeleteEmailTemplate(templateId);
+            }
+         
+        }
 
-        //private void GenerateEmailTemplate(int requestId)
-        //{
-        //    var emailTemplate = new EmailTemplateBLL().GetEmailTemplate(requestId);
+        #region Window methods
+        protected void Select_RadioButton(object sender, DirectEventArgs e)
+        {
+            int optionListOffset = 0, saveTemplateOffset = 0;
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
 
-        //    if (emailTemplate != null)
-        //        Set(string.Format(EMAIL_TEMPLATE_BY_REQUEST, requestId), emailTemplate);
+            //set field type
+            FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
+            this.FormPanelFieldData.Title = FieldType + " Field";
+            Session["FieldType"] = FieldType;
 
-        //    GenerateFormControls(requestId);
-        //    AssignEventHandlers();
-        //}
+            pnlFieldOptions.Hidden = true;
 
-        //private void AssignEventHandlers()
-        //{
-        //}
+            //set panel size
+            if (FieldType == "Dropdown")
+            {
+                optionListOffset = 110;
+                pnlFieldOptions.Hidden = false;
+            }
+            panelFieldData.Height = 265 + optionListOffset;
 
-        //private void GenerateFormControls(int requestId)
-        //{
-        //    ClearControls();
+            //set the window size if/else count>0
+            if (FieldList.Count > 0)
+            {
+                saveTemplateOffset = 30;
+            }
+            this.Window1.Height = 455 + optionListOffset + saveTemplateOffset;
 
-        //    var emailTemplate = Get<EmailTemplateDTO>(string.Format(EMAIL_TEMPLATE_BY_REQUEST, RequestId));
+            this.Window1.X = 200;
 
-        //    if (!(emailTemplate != null && emailTemplate.Fields != null && emailTemplate.Fields.Count > 0))
-        //        return;
+            //show the form panel
+            var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
+            panel.Hidden = false;
 
-        //    var leftCtrls = emailTemplate.Fields
-        //                                 .Where((field, index) => index % 2 == 0)
-        //                                 .ToList();
+            //reset form
+            FormPanelFieldData.Reset();
 
-        //    var rightCtrls = emailTemplate.Fields
-        //                                 .Where((field, index) => index % 2 != 0)
-        //                                 .ToList();
+        }
 
-        //    AddControlsToPanel(pnlLeft, leftCtrls);
-        //    AddControlsToPanel(pnlRight, rightCtrls);
-        //    pnlFields.Show();
-        //}
-
-        //private void ClearControls()
-        //{
-        //    pnlLeft.ContentControls.Clear();
-        //    pnlRight.ContentControls.Clear();
-        //    pnlFields.Hide();
-        //    pnlLeft.UpdateContent();
-        //    pnlRight.UpdateContent();
-        //}
-
-        //private void AddControlsToPanel(Ext.Net.Panel panel, List<EmailTemplateFieldDTO> fields)
-        //{
-
-        //    foreach (var field in fields)
-        //    {
-        //        var control = GetControl(field);
-
-        //        if (control != null)
-        //            panel.ContentControls.Add(control);
-
-        //    }
-
-        //    panel.UpdateContent();
-        //}
-
-        //private Control GetControl(EmailTemplateFieldDTO field)
-        //{
-
-        //    switch (field.FieldType)
-        //    {
-        //        case TEXT_BOX:
-        //            if (field.DataType.Equals(INT, StringComparison.InvariantCultureIgnoreCase))
-        //            {
-        //                var textField = new NumberField()
-        //                {
-        //                    ID = field.FieldName,
-        //                    FieldLabel = field.DisplayName,
-        //                    TabIndex = (short)field.FieldOrder,
-        //                    AllowBlank = field.IsAllowBlank,
-        //                    Text = field.DefaultValue
-        //                };
-
-        //                if (!string.IsNullOrEmpty(field.FormatRegEx))
-        //                    textField.Regex = textField.MaskRe = field.FormatRegEx;
-
-        //                return textField;
-        //            }
-        //            else
-        //            {
-        //                var textField = new TextField()
-        //                {
-        //                    ID = field.FieldName,
-        //                    FieldLabel = field.DisplayName,
-        //                    TabIndex = (short)field.FieldOrder,
-        //                    AllowBlank = field.IsAllowBlank,
-        //                    Text = field.DefaultValue
-        //                };
-
-        //                if (!string.IsNullOrEmpty(field.FormatRegEx))
-        //                    textField.Regex = textField.MaskRe = field.FormatRegEx;
-
-        //                return textField;
-        //            }
-
-        //        case DROP_DOWN:
-        //            var comboBox = new ComboBox()
-        //            {
-        //                ID = field.FieldName,
-        //                FieldLabel = field.DisplayName,
-        //                Text = $"Select {field.DisplayName}",
-        //                Editable = false,
-        //                TabIndex = (short)field.FieldOrder,
-        //                AllowBlank = field.IsAllowBlank
-        //            };
-
-        //            if (field.FieldOptions != null && field.FieldOptions.Count > 0)
-        //            {
-        //                field.FieldOptions.ForEach((fo) => comboBox.Items.Add(new Ext.Net.ListItem() { Text = fo.DisplayName, Value = fo.Value }));
-        //            }
-
-        //            return comboBox;
-
-        //        case CHECK_BOX:
-        //            var checkbox = new Checkbox()
-        //            {
-        //                ID = field.FieldName,
-        //                FieldLabel = field.DisplayName,
-        //                TabIndex = (short)field.FieldOrder,
-        //            };
-
-        //            return checkbox;
-
-        //        default:
-        //            return null;
-
-        //    }
-
-        //}
-
-        //private List<Tuple<string, string>> GetData(int requestId, EmailTemplateDTO emailTemplate)
-        //{
-        //    //var controls = new List<Control>();
-        //    //var leftPanelCtrls = pnlLeft.ContentControls.Cast<Control>();
-
-        //    //if (leftPanelCtrls.Any())
-        //    //    controls.AddRange(leftPanelCtrls);
-
-        //    //var rightPanelCtrls = pnlRight.ContentControls.Cast<Control>();
-
-        //    //if (rightPanelCtrls.Any())
-        //    //    controls.AddRange(rightPanelCtrls);
+        protected void SaveField(object sender, DirectEventArgs e)
+        {
+            var isValid = CheckValidity();
+            if (isValid)
+            {
+                SaveFieldAfterValidation();
+            }
+        }
 
 
+        protected bool CheckValidity()
+        {
+            string fieldValue = txFieldName.Text;
+            var fieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            var isDuplicate = false;
 
-        //    if (emailTemplate.IsNull() || !emailTemplate.Fields.IsCollectionValid())
-        //        return new List<Tuple<string, string>>();
+            if (fieldList != null && fieldList.Count > 0)
+            {
+                //switch (fieldValue)
+                //{
+                //    case "txFieldName":
+                //        isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
+                //        break;
+                //    case "txDisplayName":
+                //        isDuplicate = fieldList.Select(f => f.DisplayName).Contains(fieldValue);
+                //        break;
+                //}
+                isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
+                txFieldName.IconCls = "icon - exclamation";
+            }
+            return !isDuplicate;
+        }
 
-        //    var data = new List<Tuple<string, string>>();
+        protected void SaveFieldAfterValidation()
+        {
+            //get fieldOptionList
+            List<FieldOptionDTO> foList = new List<FieldOptionDTO>();
+            if (Session["FieldOptions"] != null)
+            {
+                foList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
 
-        //    data.AddRange(emailTemplate.Fields.Select((field) =>
-        //    {
+            //create a field obj on save field
+            var DataType = X.GetCmp<ComboBox>(nameof(cbxDataType)).Value;
+            var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
+            var DisplayName = X.GetCmp<TextField>("txDisplayName").Text;
+            var FieldName = X.GetCmp<TextField>("txFieldName").Text;
+            var FieldOrder = Convert.ToInt32(X.GetCmp<TextField>("txFieldOrder").Text);
+            var FieldType = Session["FieldType"].ToString();
+            var IsAllowBlank = Convert.ToBoolean(cbxAllowBlank.Value);
+            var v = new EmailTemplateFieldDTO()
+            {
+                DataType = Convert.ToString(DataType),
+                DefaultValue = DefaultValue,
+                DisplayName = DisplayName,
+                FieldName = FieldName,
+                FieldOrder = FieldOrder,
+                FieldType = FieldType,
+                IsAllowBlank = IsAllowBlank,
+                FieldOptions = foList
+            };
 
-        //        if (field.FieldType == TEXT_BOX)
-        //            return Tuple.Create(field.DisplayName, X.GetCmp<TextField>(field.FieldName).Text);
-        //        else if (field.FieldType == DROP_DOWN)
-        //        {
-        //            var selectedValue = X.GetCmp<ComboBox>(field.FieldName).SelectedItem.Value;
 
-        //            if (!string.IsNullOrEmpty(selectedValue) && !selectedValue.StartsWith("Select ", StringComparison.InvariantCultureIgnoreCase))
-        //                return Tuple.Create(field.DisplayName, selectedValue);
-        //        }
-        //        else if (field.FieldType == CHECK_BOX)
-        //        {
-        //            return Tuple.Create(field.DisplayName, X.GetCmp<Checkbox>(field.FieldName).Checked ? "Yes" : "No");
-        //        }
+            //get fieldList from session if exists
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
 
-        //        return Tuple.Create(field.DisplayName, string.Empty);
-        //    })
-        //    .ToList());
+            FieldList.Add(v);
 
-        //    data.Add(Tuple.Create("Attachment", fuAttachments.HasFile ? fuAttachments.FileName : string.Empty));
-        //    return data;
-        //}
+            //update session
+            Session["FieldList"] = FieldList;
 
-        //private string GetEmailSubject(EmailTemplateDTO emailTemplate)
-        //{
-        //    var userId = "PTM";
+            //form reset
+            //FormPanelFieldData.Reset();
 
-        //    if (emailTemplate.Fields.IsCollectionValid() &&
-        //        emailTemplate.Fields.Exists(ef => ef.FieldName.Equals("ClaimNumber", StringComparison.InvariantCultureIgnoreCase)))
-        //        return $"{RequestName} {X.GetCmp<TextField>("ClaimNumber").Text} {userId}";
-        //    else
-        //        return $"{RequestName} {userId}";
+            //hide the form panel
+            X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
 
-        //}
+            //set window height as form panel is hidden
+            this.Window1.Height = 240;
 
+            //reset radio group to select again
+            rdRadioGroup.Reset();
+
+            //reset fieldOption session value
+            Session["FieldOptions"] = null;
+
+            //show template save button if >0 field are added
+            if (FieldList.Count > 0)
+            {
+                X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
+            }
+        }
+
+        protected void SaveTemplate(object sender, DirectEventArgs e)
+        {
+            var fList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            string divisionId=null, requestId = null;
+            if (Session["DivisionId"] != null && Session["RequestId"] != null)
+            {
+                divisionId = Session["DivisionId"].ToString();
+                requestId = Session["RequestId"].ToString();
+            }
+            EmailTemplateDTO dtoTemplate = new EmailTemplateDTO()
+            {
+                RequestId = requestId,
+                Fields = fList,
+                TemplateName = divisionId +"-" + requestId
+            };
+            this.Window1.Hide();
+            Session["FieldList"] = null;
+            Session["FieldType"] = null;
+            this.btnAddTemplate.Disabled = false;
+            this.FieldList = new List<EmailTemplateFieldDTO>();
+            if (dtoTemplate != null)
+            {
+                new EmailTemplateBLL().SaveEmailTemplate(dtoTemplate);
+            }
+            if (requestId != null)
+            {
+                GenerateEmailTemplate(requestId);
+            }
+        }
+
+        protected void OnCloseWindow(object sender, DirectEventArgs e)
+        {
+            this.FieldList = new List<EmailTemplateFieldDTO>();
+            Session["FieldList"] = null;
+            Session["FieldType"] = null;
+            this.btnAddTemplate.Disabled = false;
+        }
+
+        protected void AddFieldOption(object sender, DirectEventArgs e)
+        {
+            // update option field list
+            FieldOptionList = new List<FieldOptionDTO>();
+            if (Session["FieldOptions"] != null)
+            {
+                FieldOptionList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
+
+            var fieldOptionText = X.GetCmp<TextField>("txtFieldOptionText").Text;
+            var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
+
+            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionValue };
+            FieldOptionList.Add(newOption);
+            Session["FieldOptions"] = FieldOptionList;
+
+            // Insert item in list UI
+            if (fieldOptionText != "" && fieldOptionValue != "")
+            {
+                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionValue);
+                X.GetCmp<TextField>("txtFieldOptionText").Text = "";
+                X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
+            }
+
+        }
+
+        protected void RemoveOption(object sender, DirectEventArgs e)
+        {
+            var valueToRemove = cbxFieldOptions.Value.ToString();
+
+            //remove item from list
+            if (Session["FieldOptions"] != null)
+            {
+                FieldOptionList = (List<FieldOptionDTO>)Session["FieldOptions"];
+            }
+
+            FieldOptionList = FieldOptionList.Where(fo => fo.Value != valueToRemove).ToList();
+
+            Session["FieldOptions"] = FieldOptionList;
+
+            //remove item from UI
+            cbxFieldOptions.RemoveByValue(valueToRemove);
+            cbxFieldOptions.Clear();
+
+        }
         #endregion
     }
 

@@ -109,5 +109,35 @@ namespace DataEntryApp.DAC
                 dbSession.SaveChanges();
             }
         }
+
+        public static void DeleteEmailTemplate(string templateId)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {              
+                var emailTemplate = dbSession.Query<EmailTemplate>()
+                                   .FirstOrDefault(et => et.Id == templateId);
+
+                var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
+                                                 .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
+                    .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
+                    .ToList();
+
+                if (templateFields.Count > 0)
+                {                   
+                    templateFields.ForEach((tf) =>
+                    {
+                        if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
+                        {
+                           var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds).Select(s => s.Value)
+                                                             .ToList();
+                            fieldOptions.ForEach(fo => dbSession.Delete(fo));
+                        }
+                        dbSession.Delete(tf);
+                    });
+                    dbSession.Delete(emailTemplate);
+                              }
+                dbSession.SaveChanges();
+            }
+        }
     }
 }

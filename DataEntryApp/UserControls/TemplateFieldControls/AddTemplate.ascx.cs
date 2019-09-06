@@ -267,7 +267,7 @@ namespace DataEntryApp.UserControls
             var fList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
             EmailTemplateDTO dtoTemplate = new EmailTemplateDTO()
             {
-                RequestId = "",
+                RequestId = "requests/40",
                 Fields = fList
             };
             this.Window1.Hide();
