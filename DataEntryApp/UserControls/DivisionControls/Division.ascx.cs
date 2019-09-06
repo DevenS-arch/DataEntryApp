@@ -19,7 +19,7 @@ namespace DataEntryApp.UserControls
 
         protected override void OnInit(EventArgs e)
         {
-            
+
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -29,26 +29,9 @@ namespace DataEntryApp.UserControls
             {
                 LoadMasterData();
 
-                
+
             }
 
-            
-        }
-
-        protected void OnDivisionSelected(object sender, DirectEventArgs e)
-        {
-
-                var requests = new RequestBLL().GetRequests();
-
-                if (requests.Count < 0)
-                {
-                    this.RequestPanel.Visible = false;
-
-                }
-
-                this.RequestStore.DataSource = requests;
-                this.RequestStore.DataBind();
-            
 
         }
 
@@ -77,38 +60,6 @@ namespace DataEntryApp.UserControls
 
                 var divisionBLL = new DivisionBLL();
                 divisionBLL.UpdateDivisions(div);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        [DirectMethod]
-        public void EditRequest(string field, string oldValue, string newValue, object request)
-        {
-
-            var req = JsonConvert.DeserializeObject<RequestDTO>(request.ToString());
-
-            try
-            {
-                //string message = "<b>Property:</b> {0}<br /><b>Field:</b> {1}<br /><b>Old Value:</b> {2}<br /><b>New Value:</b> {3}";
-
-                //// Send Message...
-                //X.Msg.Notify(new NotificationConfig()
-                //{
-                //    Title = "Edit Record #" + req.Id.ToString(),
-                //    Html = string.Format(message, req.Id, field, oldValue, newValue),
-                //    HideDelay = 1500,
-                //    Width = 250,
-                //    Height = 150
-                //}).Show();
-
-
-
-                //this.RequestPanel.GetStore().GetById(req.Id).Commit();
-
-                var requestBLL = new RequestBLL();
-                requestBLL.UpdateRequests(req);
 
                 LoadMasterData();
             }
@@ -116,7 +67,7 @@ namespace DataEntryApp.UserControls
             {
             }
         }
-
+       
         [DirectMethod]
         public void OnDeleteDivision(object division)
         {
@@ -129,17 +80,6 @@ namespace DataEntryApp.UserControls
             LoadMasterData();
         }
 
-        [DirectMethod]
-        public void OnDeleteRequest(object request)
-        {
-            var requestBLL = new RequestBLL();
-
-            var req = JsonConvert.DeserializeObject<RequestDTO>(request.ToString());
-
-            requestBLL.DeleteRequests(req);
-
-            LoadMasterData();
-        }
         #endregion
 
         #region Private helper methods
@@ -151,17 +91,9 @@ namespace DataEntryApp.UserControls
             this.DivisionStore.DataSource = division;
             this.DivisionStore.DataBind();
 
-            this.ReqDivisionStore.DataSource = division;
-            this.ReqDivisionStore.DataBind();
-
-            var requests = new RequestBLL().GetRequests();
-
-            this.RequestStore.DataSource = requests;
-            this.RequestStore.DataBind();
-
         }
 
-        
+
         #endregion
     }
 
