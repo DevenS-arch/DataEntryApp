@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.DAC;
-using DataEntryApp.Entities;
+using TechTicket.DataEntry.DAC;
+using TechTicket.DataEntry.Entities;
 using static AutoMapper.Mapper;
 
-namespace DataEntryApp.BL
+namespace TechTicket.DataEntry.BL
 {
     public class EmailTemplateBLL
     {
@@ -18,6 +18,22 @@ namespace DataEntryApp.BL
 
         public void SaveEmailTemplate(EmailTemplateDTO emailTemplateDTO)
         {
+
+            if (emailTemplateDTO.Fields != null && emailTemplateDTO.Fields.Count > 0)
+            {
+
+                emailTemplateDTO.Fields.ForEach(f =>
+                {
+
+                    if (f.FieldType.Equals("TextBox", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        f.FormatRegEx = @"/[\w\s]/";
+                    }
+
+                });
+
+            }
+
             EmailTemplateDAL.SaveEmailTemplate(emailTemplateDTO);
         }
 

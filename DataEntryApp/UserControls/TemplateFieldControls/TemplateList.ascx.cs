@@ -1,5 +1,5 @@
-﻿using DataEntryApp.BL;
-using DataEntryApp.Entities;
+﻿using TechTicket.DataEntry.BL;
+using TechTicket.DataEntry.Entities;
 using Ext.Net;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
-namespace DataEntryApp.UserControls
+namespace TechTicket.DataEntry.UserControls
 {
     public partial class TemplateList : System.Web.UI.UserControl
     {
@@ -83,33 +83,36 @@ namespace DataEntryApp.UserControls
         protected void OnAddClick(object sender, DirectEventArgs args)
         {
 
-        //    if (RequestId.HasValue)
-        //    {
-        //        var requestId = RequestId.Value;
-        //        var emailTemplate = Get<EmailTemplateDTO>(string.Format(EMAIL_TEMPLATE_BY_REQUEST, requestId));
-        //        List<Tuple<string, string>> emailData = GetData(requestId, emailTemplate);
-        //        DisplayEmailPreview(emailData, emailTemplate);
-        //    }
+            //    if (RequestId.HasValue)
+            //    {
+            //        var requestId = RequestId.Value;
+            //        var emailTemplate = Get<EmailTemplateDTO>(string.Format(EMAIL_TEMPLATE_BY_REQUEST, requestId));
+            //        List<Tuple<string, string>> emailData = GetData(requestId, emailTemplate);
+            //        DisplayEmailPreview(emailData, emailTemplate);
+            //    }
 
         }
 
         protected void OnDivisionSelected(object sender, DirectEventArgs e)
         {
-
-            if (DivisionId!=null)
+            if (DivisionId != null)
             {
                 Session["DivisionId"] = DivisionId;
                 Session["DivisionName"] = cboxDivision.SelectedItem.Text;
-                var requests = new RequestBLL().GetRequestsForDivision(DivisionId);
-                strRequests.DataSource = requests;
-                strRequests.DataBind();
+                GetAndBindRequests(DivisionId);
             }
+        }
 
+        public void GetAndBindRequests(string divisionId)
+        {
+            var requests = new RequestBLL().GetRequestsForDivision(divisionId);
+            strRequests.DataSource = requests;
+            strRequests.DataBind();
         }
 
         protected void OnRequestSelected(object sender, DirectEventArgs e)
         {
-            if (RequestId!=null)
+            if (RequestId != null)
             {
                 Session["RequestId"] = RequestId;
                 Session["RequestName"] = cboxRequest.SelectedItem.Text;
@@ -123,7 +126,7 @@ namespace DataEntryApp.UserControls
 
             var emailTemplate = new EmailTemplateBLL().GetEmailTemplate(requestId);
             //Session["EmailTemplate"] = emailTemplate;
-         
+
             if (emailTemplate != null)
             {
 
@@ -145,7 +148,7 @@ namespace DataEntryApp.UserControls
                 cntLabel.Hidden = false;
                 pnlAddTemplateButton.Hidden = false;
             }
-            
+
         }
 
 
@@ -160,37 +163,39 @@ namespace DataEntryApp.UserControls
 
         #region Private helper methods
 
-        private void LoadMasterData()
+        public void LoadMasterData()
         {
-
-            var data = (List<DivisionDTO>) new DivisionBLL().GetDivisions();
-
+            var data = (List<DivisionDTO>)new DivisionBLL().GetDivisions();
             strDivsion.DataSource = data;
             strDivsion.DataBind();
-            pnlTemplateGrid.Hidden = true;
-            cntLabel.Hidden = true;
-            pnlAddTemplateButton.Hidden = true;
+            //pnlTemplateGrid.Hidden = true;
+            //cntLabel.Hidden = true;
+            //pnlAddTemplateButton.Hidden = true;
         }
-        
+
 
         #endregion
         [DirectMethod]
         public void DeleteTemplate()
         {
             string templateId, requestId;
-            if (Session["TemplateId"] !=null)
+            if (Session["TemplateId"] != null)
             {
                 templateId = Session["TemplateId"].ToString();
                 new EmailTemplateBLL().DeleteEmailTemplate(templateId);
                 requestId = Session["RequestId"].ToString();
                 GenerateEmailTemplate(requestId);
             }
-         
+
         }
 
         #region Window methods
         protected void Select_RadioButton(object sender, DirectEventArgs e)
         {
+
+            if (rdHidden.Checked)
+                return;
+
             int optionListOffset = 0, saveTemplateOffset = 0;
             if (Session["FieldList"] != null)
             {
@@ -210,14 +215,14 @@ namespace DataEntryApp.UserControls
                 optionListOffset = 110;
                 pnlFieldOptions.Hidden = false;
             }
-            panelFieldData.Height = 265 + optionListOffset;
+            panelFieldData.Height = 280 + optionListOffset;
 
             //set the window size if/else count>0
             if (FieldList.Count > 0)
             {
                 saveTemplateOffset = 30;
             }
-            this.Window1.Height = 455 + optionListOffset + saveTemplateOffset;
+            this.Window1.Height = 470 + optionListOffset + saveTemplateOffset;
 
             this.Window1.X = 200;
 
@@ -225,14 +230,14 @@ namespace DataEntryApp.UserControls
             var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
             panel.Hidden = false;
 
-           // cbxDataType.Set(  "String","String");
+            // cbxDataType.Set(  "String","String");
             // cbxDataType.Disable();
 
-           // this.cbxDataType.SelectedItems.Add(new Ext.Net.ListItem { Text = "String", Value = "String" });
-           // this.cbxDataType.UpdateSelectedItems();
-           cbxDataType.SelectedItem.Value="String";
+            // this.cbxDataType.SelectedItems.Add(new Ext.Net.ListItem { Text = "String", Value = "String" });
+            // this.cbxDataType.UpdateSelectedItems();
+            cbxDataType.SelectedItem.Value = "String";
 
-            var v=cbxDataType.Items;
+            var v = cbxDataType.Items;
 
             //reset form
             FormPanelFieldData.Reset();
@@ -286,10 +291,11 @@ namespace DataEntryApp.UserControls
             var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
             var DisplayName = X.GetCmp<TextField>("txDisplayName").Text;
             var FieldName = X.GetCmp<TextField>("txFieldName").Text;
-            var FieldOrder = Convert.ToInt32(X.GetCmp<TextField>("txFieldOrder").Text);
+            var FieldOrder = Convert.ToInt32(X.GetCmp<NumberField>("txFieldOrder").Text);
             var FieldType = Session["FieldType"].ToString();
             var IsAllowBlank = Convert.ToBoolean(cbxAllowBlank.Value);
-            var v = new EmailTemplateFieldDTO()
+
+            var field = new EmailTemplateFieldDTO()
             {
                 DataType = Convert.ToString(DataType),
                 DefaultValue = DefaultValue,
@@ -301,6 +307,11 @@ namespace DataEntryApp.UserControls
                 FieldOptions = foList
             };
 
+            if (FieldType.Equals("DropDown", StringComparison.InvariantCultureIgnoreCase))
+                field.DataType = "string";
+
+            if (short.TryParse(txtMaxLength.Text, out short maxLength))
+                field.MaxLength = maxLength;
 
             //get fieldList from session if exists
             if (Session["FieldList"] != null)
@@ -308,7 +319,7 @@ namespace DataEntryApp.UserControls
                 FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
             }
 
-            FieldList.Add(v);
+            FieldList.Add(field);
 
             //update session
             Session["FieldList"] = FieldList;
@@ -323,7 +334,8 @@ namespace DataEntryApp.UserControls
             this.Window1.Height = 240;
 
             //reset radio group to select again
-            rdRadioGroup.Reset();
+            //rdRadioGroup.Reset();
+            rdHidden.Checked = true;
 
             //reset fieldOption session value
             Session["FieldOptions"] = null;
@@ -331,14 +343,22 @@ namespace DataEntryApp.UserControls
             //show template save button if >0 field are added
             if (FieldList.Count > 0)
             {
-                X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
+                //X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
+                btnSaveTemplate.Enable();
             }
         }
 
         protected void SaveTemplate(object sender, DirectEventArgs e)
         {
             var fList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
-            string divisionId=null, divisionName=null, requestId = null, requestName=null;
+
+            if (fList == null || fList.Count == 0)
+            {
+                X.Msg.Alert("Save Email Template", "Please add atleast on template field.").Show();
+                return;
+            }
+
+            string divisionId = null, divisionName = null, requestId = null, requestName = null;
             if (Session["DivisionId"] != null && Session["RequestId"] != null)
             {
                 divisionId = Session["DivisionId"].ToString();
@@ -346,13 +366,13 @@ namespace DataEntryApp.UserControls
                 divisionName = Session["DivisionName"].ToString();
                 requestName = Session["RequestName"].ToString();
             }
-           
+
             EmailTemplateDTO dtoTemplate = new EmailTemplateDTO()
             {
                 RequestId = requestId,
                 Fields = fList,
                 TemplateName = divisionName + "-" + requestName,
-                To=new List<string>() { "invoices@jamesriverins.com" }
+                To = new List<string>() { "invoices@jamesriverins.com" }
             };
             this.Window1.Hide();
             Session["FieldList"] = null;
@@ -384,7 +404,8 @@ namespace DataEntryApp.UserControls
             //set window height as form panel is hidden
             this.Window1.Height = 200;
             //reset radio group to select again
-            rdRadioGroup.Reset();
+            //rdRadioGroup.Reset();
+            rdHidden.Checked = true;
         }
 
         protected void AddFieldOption(object sender, DirectEventArgs e)

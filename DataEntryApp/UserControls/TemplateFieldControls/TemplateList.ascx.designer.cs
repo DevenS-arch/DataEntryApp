@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.UserControls {
+namespace TechTicket.DataEntry.UserControls {
     
     
     public partial class TemplateList {
@@ -166,6 +166,15 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.RadioGroup rdRadioGroup;
         
         /// <summary>
+        /// rdHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Radio rdHidden;
+        
+        /// <summary>
         /// btnSaveTemplate control.
         /// </summary>
         /// <remarks>
@@ -220,6 +229,15 @@ namespace DataEntryApp.UserControls {
         protected global::Ext.Net.ComboBox cbxAllowBlank;
         
         /// <summary>
+        /// txtMaxLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.NumberField txtMaxLength;
+        
+        /// <summary>
         /// cbxDataType control.
         /// </summary>
         /// <remarks>
@@ -235,7 +253,7 @@ namespace DataEntryApp.UserControls {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Ext.Net.TextField txFieldOrder;
+        protected global::Ext.Net.NumberField txFieldOrder;
         
         /// <summary>
         /// txDefaultValue control.

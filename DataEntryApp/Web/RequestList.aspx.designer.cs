@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.Web {
+namespace TechTicket.DataEntry.Web {
     
     
     public partial class RequestList {
@@ -19,6 +19,6 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Request requestData;
+        protected global::TechTicket.DataEntry.UserControls.Request requestData;
     }
 }

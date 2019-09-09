@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp {
+namespace TechTicket.DataEntry {
     
     
     public partial class Site_Mobile {

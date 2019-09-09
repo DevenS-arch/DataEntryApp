@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntryApp.Entities.Constants
+namespace TechTicket.DataEntry.Entities.Constants
 {
     public class FieldDataType
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.Web {
+namespace TechTicket.DataEntry.Web {
     
     
     public partial class EmailTemplateList {
@@ -37,7 +37,7 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Division DivisionData;
+        protected global::TechTicket.DataEntry.UserControls.Division DivisionData;
         
         /// <summary>
         /// RequestPanel control.
@@ -55,7 +55,7 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Request RequestData;
+        protected global::TechTicket.DataEntry.UserControls.Request RequestData;
         
         /// <summary>
         /// TemplatePanel control.
@@ -73,6 +73,6 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.TemplateList fieldTemplateData;
+        protected global::TechTicket.DataEntry.UserControls.TemplateList fieldTemplateData;
     }
 }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static AutoMapper.Mapper;
-using DataEntryApp.Entities;
-using DataEntryApp.DAC.POCOEntities;
+using TechTicket.DataEntry.Entities;
+using TechTicket.DataEntry.DAC.POCOEntities;
 
-namespace DataEntryApp.DAC
+namespace TechTicket.DataEntry.DAC
 {
     public static class EmailTemplateDAL
     {
@@ -21,8 +21,7 @@ namespace DataEntryApp.DAC
                 {
                     var emailTemplate = dbSession
                         .Query<EmailTemplate>()
-
-                                    .FirstOrDefault(et => et.RequestId == requestId);
+                        .FirstOrDefault(et => et.RequestId == requestId);
 
 
                     if (emailTemplate == null)
@@ -142,7 +141,7 @@ namespace DataEntryApp.DAC
 
                     }
                 }
-              
+
                 dbSession.Delete(emailTemplate);
                 dbSession.SaveChanges();
             }

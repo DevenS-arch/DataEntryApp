@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DataEntryApp.Entities
+namespace TechTicket.DataEntry.Entities
 
 {
     public class FieldOptionDTO : IAuditable

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.Web {
+namespace TechTicket.DataEntry.Web {
     
     
     public partial class DivisionList {
@@ -19,7 +19,7 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Request requestData;
+        protected global::TechTicket.DataEntry.UserControls.Request requestData;
         
         /// <summary>
         /// divisionData control.
@@ -28,6 +28,6 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Division divisionData;
+        protected global::TechTicket.DataEntry.UserControls.Division divisionData;
     }
 }

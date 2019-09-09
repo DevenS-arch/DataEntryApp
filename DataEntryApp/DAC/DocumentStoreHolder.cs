@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntryApp.DAC
+namespace TechTicket.DataEntry.DAC
 {
 
     public static class DocumentStoreHolder

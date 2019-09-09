@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Optimization;
 using System.Web.UI;
 
-namespace DataEntryApp
+namespace TechTicket.DataEntry
 {
     public class BundleConfig
     {

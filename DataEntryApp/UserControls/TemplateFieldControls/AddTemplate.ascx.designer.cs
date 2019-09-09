@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.UserControls {
+namespace TechTicket.DataEntry.UserControls {
     
     
     public partial class AddTemplate {

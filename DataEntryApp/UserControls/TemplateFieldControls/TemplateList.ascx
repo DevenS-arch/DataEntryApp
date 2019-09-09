@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TemplateList.ascx.cs" Inherits="DataEntryApp.UserControls.TemplateList" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TemplateList.ascx.cs" Inherits="TechTicket.DataEntry.UserControls.TemplateList" %>
 
 <ext:XScript runat="server" ID="XScript">
     <script>
@@ -257,11 +257,13 @@
                                             ColumnsNumber="3"
                                             Cls="x-check-group-alt">
                                             <Items>
-                                                <ext:Radio runat="server" BoxLabel="Textbox" InputValue="Textbox" />
+                                                <ext:Radio runat="server" BoxLabel="Textbox" InputValue="Textbox" >
+                                                </ext:Radio>
                                                 <%--<ext:Radio runat="server" BoxLabel="Checkbox" InputValue="Checkbox" />
                                 <ext:Radio runat="server" BoxLabel="RadioButton" InputValue="RadioButton" />--%>
                                                 <ext:Radio runat="server" BoxLabel="Dropdown" InputValue="Dropdown" />
                                                 <ext:Radio runat="server" BoxLabel="TextArea" InputValue="TextArea" />
+                                                <ext:Radio runat="server" ID="rdHidden" BoxLabel="Reset" InputValue="Reset" Hidden="true" />
                                             </Items>
                                             <DirectEvents>
                                                 <Change OnEvent="Select_RadioButton"></Change>
@@ -275,9 +277,8 @@
                                     ID="btnSaveTemplate"
                                     runat="server"
                                     Text="Save Template"
-                                    Disabled="true"
-                                    FormBind="true"
-                                    Hidden="true">
+                                    Disabled ="true"
+                                    >
                                     <DirectEvents>
                                         <Click OnEvent="SaveTemplate">
                                         </Click>
@@ -311,7 +312,7 @@
                                             LabelAlign="Top">
 
                                             <Items>
-                                                <ext:TextField runat="server" ID="txFieldName" FieldLabel="Field Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side">
+                                                <ext:TextField runat="server" ID="txFieldName" Regex="/[\w]/" MaskRe="/[\w]/" FieldLabel="Field Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side">
                                                     <Listeners>
                                                         <Change Handler="this.setIndicatorIconCls('validation-indicator');this.setIndicatorTip('Validating...');"></Change>
                                                     </Listeners>
@@ -334,6 +335,8 @@
                                                         <ext:ListItem Text="False" Value="false" />
                                                     </Items>
                                                 </ext:ComboBox>
+                                                <ext:NumberField runat="server" ID="txtMaxLength" FieldLabel="Max Length" AnchorHorizontal="92%" MsgTarget="Side" />
+
                                                 <%--<ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".5" LabelAlign="Top">
                                     <Items>
                                         <ext:TextField runat="server" ID="txFieldOptionValue" FieldLabel="Option Value" AnchorHorizontal="30%" AllowBlank="false" MsgTarget="Side"></ext:TextField>
@@ -356,13 +359,15 @@
                                                     MsgTarget="Side"
                                                     AllowBlank="false">
                                                     <Items>
-                                                        <ext:ListItem Text="Boolean" Value="Bool" />
-                                                        <ext:ListItem Text="Integer" Value="Int" />
-                                                        <ext:ListItem Text="String" Value="String" />
+                                                        <ext:ListItem Text="Currency" Value="currency" />
+                                                        <ext:ListItem Text="Decimal Number" Value="int" />
+                                                        <ext:ListItem Text="Number" Value="int" />
+                                                        <ext:ListItem Text="Text" Value="string" />
+                                                        <ext:ListItem Text="Yes/No" Value="Bool" />
                                                     </Items>
                                                 </ext:ComboBox>
-                                                <ext:TextField runat="server" ID="txFieldOrder" Regex="^\d+$" FieldLabel="Field Order" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
-                                                <ext:TextField runat="server" ID="txDefaultValue" FieldLabel="Default Value" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                                <ext:NumberField runat="server" ID="txFieldOrder" FieldLabel="Field Order" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                                <ext:TextField runat="server" ID="txDefaultValue" FieldLabel="Default Value" AnchorHorizontal="92%" MsgTarget="Side" />
 
 
                                             </Items>
