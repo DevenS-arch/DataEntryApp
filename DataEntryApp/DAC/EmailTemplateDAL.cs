@@ -19,13 +19,14 @@ namespace DataEntryApp.DAC
 
                 try
                 {
-                    var emailTemplate = dbSession.Query<EmailTemplate>()
+                    var emailTemplate = dbSession
+                        .Query<EmailTemplate>()
+
                                     .FirstOrDefault(et => et.RequestId == requestId);
 
 
                     if (emailTemplate == null)
                         return null;
-
 
                     var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
                                                  .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
@@ -105,37 +106,44 @@ namespace DataEntryApp.DAC
                             fieldList[i].FieldOptionsIds = optionList.Select(f => f.Id).ToList();
                         }
                     }
+
+                    dbSession.SaveChanges();
                 }
-                dbSession.SaveChanges();
+
             }
         }
 
         public static void DeleteEmailTemplate(string templateId)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
-            {              
+            {
                 var emailTemplate = dbSession.Query<EmailTemplate>()
                                    .FirstOrDefault(et => et.Id == templateId);
 
-                var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
-                                                 .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
-                    .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
-                    .ToList();
+                if (emailTemplate.TemplateFieldIds != null)
+                {
+                    var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
+                                                     .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
+                        .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
+                        .ToList();
 
-                if (templateFields.Count > 0)
-                {                   
-                    templateFields.ForEach((tf) =>
+                    if (templateFields.Count > 0)
                     {
-                        if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
+                        templateFields.ForEach((tf) =>
                         {
-                           var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds).Select(s => s.Value)
-                                                             .ToList();
-                            fieldOptions.ForEach(fo => dbSession.Delete(fo));
-                        }
-                        dbSession.Delete(tf);
-                    });
-                    dbSession.Delete(emailTemplate);
-                              }
+                            if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
+                            {
+                                var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds).Select(s => s.Value)
+                                                                  .ToList();
+                                fieldOptions.ForEach(fo => dbSession.Delete(fo));
+                            }
+                            dbSession.Delete(tf);
+                        });
+
+                    }
+                }
+              
+                dbSession.Delete(emailTemplate);
                 dbSession.SaveChanges();
             }
         }

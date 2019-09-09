@@ -22,6 +22,15 @@ namespace DataEntryApp.Web {
         protected global::Ext.Net.XScript XScript;
         
         /// <summary>
+        /// DivisionPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel DivisionPanel;
+        
+        /// <summary>
         /// DivisionData control.
         /// </summary>
         /// <remarks>
@@ -31,6 +40,15 @@ namespace DataEntryApp.Web {
         protected global::DataEntryApp.UserControls.Division DivisionData;
         
         /// <summary>
+        /// RequestPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel RequestPanel;
+        
+        /// <summary>
         /// RequestData control.
         /// </summary>
         /// <remarks>
@@ -38,6 +56,15 @@ namespace DataEntryApp.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DataEntryApp.UserControls.Request RequestData;
+        
+        /// <summary>
+        /// TemplatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel TemplatePanel;
         
         /// <summary>
         /// fieldTemplateData control.

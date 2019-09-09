@@ -72,7 +72,7 @@ namespace DataEntryApp.UserControls
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (!IsPostBack && !X.IsAjaxRequest)
+            if (!IsPostBack)
             {
                 LoadMasterData();
                 //GenerateEmailTemplate(33);
@@ -122,12 +122,13 @@ namespace DataEntryApp.UserControls
         {
 
             var emailTemplate = new EmailTemplateBLL().GetEmailTemplate(requestId);
-            Session["EmailTemplate"] = emailTemplate;
+            //Session["EmailTemplate"] = emailTemplate;
+         
             if (emailTemplate != null)
             {
 
 
-
+                Session["TemplateId"] = emailTemplate.Id;
                 pnlTemplateGrid.Hidden = false;
                 cntLabel.Hidden = true;
                 pnlAddTemplateButton.Hidden = true;
@@ -152,7 +153,7 @@ namespace DataEntryApp.UserControls
         private void ShowWindow()
         {
             this.Window1.Visible = true;
-            this.btnAddTemplate.Disabled = true;
+            this.btnAddTemplate.Disable();
         }
 
         #endregion
@@ -161,8 +162,14 @@ namespace DataEntryApp.UserControls
 
         private void LoadMasterData()
         {
-            strDivsion.DataSource = new DivisionBLL().GetDivisions();
+
+            var data = (List<DivisionDTO>) new DivisionBLL().GetDivisions();
+
+            strDivsion.DataSource = data;
             strDivsion.DataBind();
+            pnlTemplateGrid.Hidden = true;
+            cntLabel.Hidden = true;
+            pnlAddTemplateButton.Hidden = true;
         }
         
 
@@ -170,11 +177,13 @@ namespace DataEntryApp.UserControls
         [DirectMethod]
         public void DeleteTemplate()
         {
-            string templateId;
+            string templateId, requestId;
             if (Session["TemplateId"] !=null)
             {
                 templateId = Session["TemplateId"].ToString();
                 new EmailTemplateBLL().DeleteEmailTemplate(templateId);
+                requestId = Session["RequestId"].ToString();
+                GenerateEmailTemplate(requestId);
             }
          
         }
@@ -216,10 +225,14 @@ namespace DataEntryApp.UserControls
             var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
             panel.Hidden = false;
 
-          //  cbxDataType.SelectedItem.Text = "String";
-          //  cbxDataType.Disable();
+           // cbxDataType.Set(  "String","String");
+            // cbxDataType.Disable();
 
-          //  var v=cbxDataType.Value;
+           // this.cbxDataType.SelectedItems.Add(new Ext.Net.ListItem { Text = "String", Value = "String" });
+           // this.cbxDataType.UpdateSelectedItems();
+           cbxDataType.SelectedItem.Value="String";
+
+            var v=cbxDataType.Items;
 
             //reset form
             FormPanelFieldData.Reset();
@@ -301,7 +314,7 @@ namespace DataEntryApp.UserControls
             Session["FieldList"] = FieldList;
 
             //form reset
-            //FormPanelFieldData.Reset();
+            FormPanelFieldData.Reset();
 
             //hide the form panel
             X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
@@ -344,7 +357,7 @@ namespace DataEntryApp.UserControls
             this.Window1.Hide();
             Session["FieldList"] = null;
             Session["FieldType"] = null;
-            this.btnAddTemplate.Disabled = false;
+            this.btnAddTemplate.Enable();
             this.FieldList = new List<EmailTemplateFieldDTO>();
             if (dtoTemplate != null)
             {
@@ -361,7 +374,17 @@ namespace DataEntryApp.UserControls
             this.FieldList = new List<EmailTemplateFieldDTO>();
             Session["FieldList"] = null;
             Session["FieldType"] = null;
-            this.btnAddTemplate.Disabled = false;
+            //reset fieldOption session value
+            Session["FieldOptions"] = null;
+            this.btnAddTemplate.Enable();
+            //form reset
+            FormPanelFieldData.Reset();
+            //hide the form panel
+            X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
+            //set window height as form panel is hidden
+            this.Window1.Height = 200;
+            //reset radio group to select again
+            rdRadioGroup.Reset();
         }
 
         protected void AddFieldOption(object sender, DirectEventArgs e)
