@@ -23,16 +23,17 @@
         function deleteEmpty() {
             
             var gRequests = #{RequestPanel};
-            //gUsers.getSelectionModel().clearSelections(true);
+            gRequests.getSelectionModel().clearSelections(true);
             
-            //for (var i = 0; i < gUsers.store.totalLength; i++ ) 
-            //{
-            //    var name = gUsers.store.getAt(i).data["RequestName"];
-            //    if (name == "")
-            //    {
-            //        gUsers.getSelectionModel().selectRow(i ,true);
-            //    }
-            //}
+            for (var i = 0; i < gRequests.store.totalCount; i++ ) 
+            {
+                var name = gRequests.store.getAt(i).data["RequestName"];
+                if (name == "")
+                {
+                    gRequests.getSelectionModel().select(i);
+                    break;
+                }
+            }
 
             gRequests.deleteSelected();
          

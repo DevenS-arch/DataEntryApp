@@ -23,16 +23,17 @@
         function deleteEmptyRow() {
             
             var gDivisions = #{DivisionPanel};
-            //gUsers.getSelectionModel().clearSelections(true);
+            gDivisions.getSelectionModel().clearSelections(true);
             
-            //for (var i = 0; i < gUsers.store.totalCount ; i++ ) 
-            //{
-            //    var name = gUsers.store.getAt(i).data["DivisionName"];
-            //    if (name == "")
-            //    {
-            //        gUsers.getSelectionModel().selectRow(i ,true);
-            //    }
-            //}
+            for (var i = 0; i < gDivisions.store.totalCount ; i++ ) 
+            {
+                var name = gDivisions.store.getAt(i).data["DivisionName"];
+                if (name == "")
+                {
+                    gDivisions.getSelectionModel().select(i);
+                    break;
+                }
+            }
 
             gDivisions.deleteSelected();
          
