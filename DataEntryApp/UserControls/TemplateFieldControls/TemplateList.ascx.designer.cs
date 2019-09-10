@@ -175,6 +175,15 @@ namespace TechTicket.DataEntry.UserControls {
         protected global::Ext.Net.Radio rdHidden;
         
         /// <summary>
+        /// ComboBox1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.ComboBox ComboBox1;
+        
+        /// <summary>
         /// btnSaveTemplate control.
         /// </summary>
         /// <remarks>
@@ -281,15 +290,6 @@ namespace TechTicket.DataEntry.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Ext.Net.TextField txtFieldOptionText;
-        
-        /// <summary>
-        /// txtFieldOptionValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.TextField txtFieldOptionValue;
         
         /// <summary>
         /// cbxFieldOptions control.

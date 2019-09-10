@@ -261,7 +261,7 @@ namespace TechTicket.DataEntry.UserControls
 
         protected void SaveField(object sender, DirectEventArgs e)
         {
-            var isValid = CheckValidity();
+            var isValid = true;//CheckValidity();
             if (isValid)
             {
                 SaveFieldAfterValidation();
@@ -287,7 +287,6 @@ namespace TechTicket.DataEntry.UserControls
                 //        break;
                 //}
                 isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
-                txFieldName.IconCls = "icon - exclamation";
             }
             return !isDuplicate;
         }
@@ -434,18 +433,18 @@ namespace TechTicket.DataEntry.UserControls
             }
 
             var fieldOptionText = X.GetCmp<TextField>("txtFieldOptionText").Text;
-            var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
+            //var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
 
-            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionValue };
+            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionText };
             FieldOptionList.Add(newOption);
             Session["FieldOptions"] = FieldOptionList;
 
             // Insert item in list UI
-            if (fieldOptionText != "" && fieldOptionValue != "")
+            if (fieldOptionText != "")
             {
-                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionValue);
-                X.GetCmp<TextField>("txtFieldOptionText").Text = "";
-                X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
+                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionText);
+               // X.GetCmp<TextField>("txtFieldOptionText").Text = "";
+                //X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
             }
 
         }

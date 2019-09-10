@@ -24,7 +24,7 @@ namespace TechTicket.DataEntry.DAC
                         .FirstOrDefault(et => et.RequestId == requestId);
 
 
-                    if (emailTemplate == null)
+                    if (emailTemplate == null || emailTemplate.TemplateFieldIds == null)
                         return null;
 
                     var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
