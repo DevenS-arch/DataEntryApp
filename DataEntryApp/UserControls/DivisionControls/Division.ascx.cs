@@ -59,15 +59,31 @@ namespace DataEntryApp.UserControls
                 //this.DivisionPanel.GetStore().GetById(div.Id).Commit();
 
                 var divisionBLL = new DivisionBLL();
-                divisionBLL.UpdateDivisions(div);
 
+                var duplicateDivision = divisionBLL.GetDivision(div);
+                if (duplicateDivision == null || duplicateDivision.Id == div.Id)
+                {
+                    divisionBLL.UpdateDivisions(div);
+                }
+                else {
+                    Ext.Net.Notification.Show(new Ext.Net.NotificationConfig
+                    {
+                        Title = "Notification",
+                        Icon = Ext.Net.Icon.Information,                        
+                        AutoHide = true,
+                        HideDelay=2000,
+                        Html ="Division already exists!"
+                        
+                    });
+                }
                 LoadMasterData();
+
             }
             catch (Exception ex)
             {
             }
         }
-       
+
         [DirectMethod]
         public void OnDeleteDivision(object division)
         {

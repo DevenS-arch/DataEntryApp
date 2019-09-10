@@ -34,6 +34,31 @@ namespace DataEntryApp.DAC
         }
 
         /// <summary>
+        /// Get Division - By Name
+        /// </summary>
+        /// <param name="division"></param>
+        /// <returns></returns>
+        public static Division GetDivision(Division division)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+
+                try
+                {
+                    return dbSession.Query<Division>().Where(d => d.DivisionName == division.DivisionName).FirstOrDefault();
+                                    
+
+                }
+                catch (Exception ex)
+                {
+                    dbSession.Advanced.Clear();
+                    throw;
+                }
+
+            }
+        }
+
+        /// <summary>
         /// Add Division
         /// </summary>
         /// <param name="divisions"></param>
@@ -58,12 +83,17 @@ namespace DataEntryApp.DAC
                 var division = dbSession.Load<Division>(divisions.Id);
                 if (division == null)
                 {
+                   var time = DateTime.Now;
                     divisions.Id = null;
+                    divisions.CreatedDate = time;
+                    divisions.ModifiedDate = time;
                     dbSession.Store(divisions);
+
                 }
                 else
                 {
                     division.DivisionName = divisions.DivisionName;
+                    division.ModifiedDate = DateTime.Now;
                 }
                 dbSession.SaveChanges();
 

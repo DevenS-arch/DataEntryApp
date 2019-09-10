@@ -21,7 +21,15 @@ namespace DataEntryApp.BL
             return Map<List<DivisionDTO>>(divisions);
         }
 
-        public void AddDivisions(List<DivisionDTO> divisions)
+        public DivisionDTO GetDivision(DivisionDTO division)
+        {
+            var divisions = DivisionDAL.GetDivision(Map<Division>(division));
+
+            if (divisions == null) return null;
+
+            return Map<DivisionDTO>(divisions);
+        }
+            public void AddDivisions(List<DivisionDTO> divisions)
         {
             DivisionDAL.AddDivisions( Map<List<Division>>(divisions) );
 

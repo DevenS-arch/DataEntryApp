@@ -20,6 +20,16 @@ namespace DataEntryApp.BL
 
             return Map<List<RequestDTO>>(requests);
         }
+
+        public RequestDTO GetRequest(RequestDTO request)
+        {
+            var requests = RequestDAL.GetRequest(Map<Request>(request));
+
+            if (requests == null) return null;
+
+            return Map<RequestDTO>(requests);
+        }
+
         public List<RequestDTO> GetRequestsForDivision(string divisionId)
         {
             var requests = RequestDAL.GetRequestsForDivision(divisionId);

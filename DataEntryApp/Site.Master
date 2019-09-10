@@ -8,6 +8,10 @@
 <head runat="server">
     <title></title>
     <script type="text/javascript">
+
+        var tabChange = function (tab) {
+            tab.panelRequest.loader("RequestList.aspx");
+        }
         var addTab = function (tabPanel, id, url, menuItem, title) {
 
             var tab = tabPanel.getComponent(id);
@@ -42,31 +46,33 @@
             </ext:ResourceManager>
             <ext:Viewport ID="Viewport1" runat="server" Layout="BorderLayout" Namespace="App" RenderXType="True">
                 <Items>
-                    <ext:TabPanel ID="tabPanel" runat="server" Region="Center">
+                    <ext:TabPanel ID="tabPanel" runat="server" Region="Center" DeferredRender="false">
                         <Items>
                             <ext:Panel runat="server" Title="Division" ID="panelDivision">
                                 <Content>
                                     <asp:ContentPlaceHolder ID="divisionCPH" runat="server" />
                                 </Content>
                             </ext:Panel>
-                            <ext:Panel runat="server" Title="Requests" ID="panelRequest">
-
+                            <ext:Panel runat="server" Title="Requests" ID="panelRequest">    
+                                
                                 <Content>
                                     <asp:ContentPlaceHolder ID="requestCPH" runat="server" />
                                 </Content>
-
                             </ext:Panel>
 
                             <ext:Panel runat="server" Title="EmailTemplates" ID="panelTemplates">
-                               <Content>
+                                <Content>
                                     <asp:ContentPlaceHolder ID="emailTemplateCPH" runat="server" />
                                 </Content>
                             </ext:Panel>
                         </Items>
+                       <%-- <Listeners>
+                            <TabChange Handler="tabChange(this);" />
+                        </Listeners>--%>
                     </ext:TabPanel>
                 </Items>
             </ext:Viewport>
-           
+
         </div>
     </form>
 </body>

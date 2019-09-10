@@ -1,5 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RequestList.aspx.cs" Inherits="DataEntryApp.Web.RequestList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RequestList.aspx.cs" Inherits="DataEntryApp.Web.RequestList" MasterPageFile="~/Site.Master" %>
 
+
+<%@ Register TagName="Division" TagPrefix="DList" Src="~/UserControls/DivisionControls/Division.ascx" %>
 <%@ Register TagName="Request" TagPrefix="RList" src="~/UserControls/RequestControls/Request.ascx" %>
 
 
