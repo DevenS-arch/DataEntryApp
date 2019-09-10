@@ -97,10 +97,16 @@ namespace TechTicket.DataEntry.UserControls
         {
             if (DivisionId != null)
             {
+                if(Session["DivisionId"] != null && !DivisionId.Equals(Session["DivisionId"].ToString()))
+                {
+                    cboxRequest.Clear();
+                    cboxRequest.EmptyText = "Select Request";
+                    pnlTemplateGrid.Hidden = true;
+                    cntLabel.Hidden = true;
+                    pnlAddTemplateButton.Hidden = true;
+                }
                 Session["DivisionId"] = DivisionId;
-                Session["DivisionName"] = cboxDivision.SelectedItem.Text;
-                cboxRequest.Clear();
-                cboxRequest.EmptyText = "Select Request";
+                Session["DivisionName"] = cboxDivision.SelectedItem.Text;               
                 GetAndBindRequests(DivisionId);
             }
         }
