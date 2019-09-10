@@ -443,7 +443,7 @@ namespace TechTicket.DataEntry.UserControls
             if (fieldOptionText != "")
             {
                 cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionText);
-               // X.GetCmp<TextField>("txtFieldOptionText").Text = "";
+                X.GetCmp<TextField>("txtFieldOptionText").Text = "";
                 //X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
             }
 
