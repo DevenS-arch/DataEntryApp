@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Request.ascx.cs" Inherits="DataEntryApp.UserControls.Request" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Request.ascx.cs" Inherits="TechTicket.DataEntry.UserControls.Request" %>
 
 <style>
     .actionBtn {

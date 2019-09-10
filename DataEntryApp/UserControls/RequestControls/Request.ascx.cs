@@ -1,5 +1,5 @@
-﻿using DataEntryApp.BL;
-using DataEntryApp.Entities;
+﻿using TechTicket.DataEntry.BL;
+using TechTicket.DataEntry.Entities;
 using Ext.Net;
 using Newtonsoft.Json;
 using System;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace DataEntryApp.UserControls
+namespace TechTicket.DataEntry.UserControls
 {
     [DirectMethodProxyID(IDMode = DirectMethodProxyIDMode.Alias, Alias = "UC")]
     public partial class Request : System.Web.UI.UserControl
@@ -24,9 +24,8 @@ namespace DataEntryApp.UserControls
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack && !X.IsAjaxRequest)
-            {
                 LoadMasterData();
-            }
+
         }
 
         [DirectMethod]
@@ -96,7 +95,7 @@ namespace DataEntryApp.UserControls
 
         #region Private helper methods
 
-        private void LoadMasterData()
+        public void LoadMasterData()
         {
             var division = new DivisionBLL().GetDivisions();
 

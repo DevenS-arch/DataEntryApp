@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DataEntryApp.Web {
+namespace TechTicket.DataEntry.Web {
     
     
     public partial class EmailTemplateList {
@@ -22,13 +22,31 @@ namespace DataEntryApp.Web {
         protected global::Ext.Net.XScript XScript;
         
         /// <summary>
+        /// DivisionPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel DivisionPanel;
+        
+        /// <summary>
         /// DivisionData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Division DivisionData;
+        protected global::TechTicket.DataEntry.UserControls.Division DivisionData;
+        
+        /// <summary>
+        /// RequestPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel RequestPanel;
         
         /// <summary>
         /// RequestData control.
@@ -37,7 +55,16 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.Request RequestData;
+        protected global::TechTicket.DataEntry.UserControls.Request RequestData;
+        
+        /// <summary>
+        /// TemplatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Panel TemplatePanel;
         
         /// <summary>
         /// fieldTemplateData control.
@@ -46,6 +73,6 @@ namespace DataEntryApp.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DataEntryApp.UserControls.TemplateList fieldTemplateData;
+        protected global::TechTicket.DataEntry.UserControls.TemplateList fieldTemplateData;
     }
 }

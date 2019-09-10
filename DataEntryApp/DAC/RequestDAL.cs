@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.DAC.POCOEntities;
+using TechTicket.DataEntry.DAC.POCOEntities;
 
-namespace DataEntryApp.DAC
+namespace TechTicket.DataEntry.DAC
 {
     public static class RequestDAL
     {
@@ -20,15 +20,42 @@ namespace DataEntryApp.DAC
 
                 try
                 {
-                    var requests = dbSession.Query<Request>().ToList();
+                    var requestIds = dbSession.Query<Request>()
+                                              .Select(r => r.Id)
+                                              .ToList();
 
+                    if (requestIds.Count == 0)
+                        return new List<Request>();
 
-                    foreach (var r in requests)
+                    var requests = dbSession.Include<Request>(r => r.DivisionId)
+                                            .Load<Request>(requestIds)
+                                            .Select(r => r.Value)
+                                            .OrderBy(r => r.RequestName)
+                                            .ToList();
+
+                    if (requests.Count > 0)
                     {
-                        var division = dbSession.Query<Division>().Where(d => d.Id == r.DivisionId).FirstOrDefault();
-                        r.Division = division;
+
+                        foreach (var r in requests)
+                        {
+                            var division = dbSession.Load<Division>(r.DivisionId);
+                            r.Division = division;
+                        }
                     }
+
                     return requests;
+
+                    //var requests = dbSession.Query<Request>().ToList();
+
+
+                    //foreach (var r in requests)
+                    //{
+                    //    var division = dbSession.Query<Division>()
+                    //                            .Where(d => d.Id == r.DivisionId)
+                    //                            .FirstOrDefault();
+                    //    r.Division = division;
+                    //}
+                    //return requests;
 
                 }
                 catch

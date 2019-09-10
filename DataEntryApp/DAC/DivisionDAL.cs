@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataEntryApp.DAC.POCOEntities;
+using TechTicket.DataEntry.DAC.POCOEntities;
 
-namespace DataEntryApp.DAC
+namespace TechTicket.DataEntry.DAC
 {
     public static class DivisionDAL
     {
@@ -21,6 +21,7 @@ namespace DataEntryApp.DAC
                 try
                 {
                     return dbSession.Query<Division>()
+                                    .OrderBy(d => d.DivisionName)
                                     .ToList();
 
                 }

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddTemplate.ascx.cs" Inherits="DataEntryApp.UserControls.AddTemplate" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="AddTemplate.ascx.cs" Inherits="TechTicket.DataEntry.UserControls.AddTemplate" %>
 
 <ext:XScript runat="server" ID="XScript">
     <script>

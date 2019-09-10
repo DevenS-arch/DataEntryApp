@@ -1,4 +1,4 @@
-﻿using DatAEntryApp.AppCode;
+﻿using TechTicket.DataEntry.AppCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 
-namespace DataEntryApp
+namespace TechTicket.DataEntry
 {
     public class Global : HttpApplication
     {

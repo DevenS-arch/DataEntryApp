@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
-using DataEntryApp.DAC.POCOEntities;
+using TechTicket.DataEntry.DAC.POCOEntities;
 using static AutoMapper.Mapper;
 
-namespace DataEntryApp.DAC
+namespace TechTicket.DataEntry.DAC
 {
     public class EmailTemplateFieldsDAL
     {

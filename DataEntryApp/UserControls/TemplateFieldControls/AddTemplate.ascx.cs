@@ -1,5 +1,5 @@
-﻿using DataEntryApp.BL;
-using DataEntryApp.Entities;
+﻿using TechTicket.DataEntry.BL;
+using TechTicket.DataEntry.Entities;
 using Ext.Net;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace DataEntryApp.UserControls
+namespace TechTicket.DataEntry.UserControls
 {
     public partial class AddTemplate : System.Web.UI.UserControl
     {
