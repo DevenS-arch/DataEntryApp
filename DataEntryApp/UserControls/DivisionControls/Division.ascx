@@ -20,6 +20,26 @@
 <ext:XScript runat="server" ID="XScript">
     <script>
 
+        function deleteEmptyRow() {
+            
+            var gDivisions = #{DivisionPanel};
+            gDivisions.getSelectionModel().clearSelections(true);
+            
+            for (var i = 0; i < gDivisions.store.totalCount ; i++ ) 
+            {
+                var name = gDivisions.store.getAt(i).data["DivisionName"];
+                if (name == "")
+                {
+                    gDivisions.getSelectionModel().select(i);
+                    break;
+                }
+            }
+
+            gDivisions.deleteSelected();
+         
+        }
+
+
         function confirm(command, e) {
 
             Ext.Msg.confirm('Confirm', 'Are you sure?', function (btnText) {
@@ -62,7 +82,6 @@
 
 </ext:XScript>
 
-
 <ext:Panel
     runat="server"
     AutoDataBind="true">
@@ -85,7 +104,8 @@
                     Collapsible="true"
                     Title="Divisions"
                     Maximizable="true"
-                    Layout="FormLayout">
+                    Layout="FormLayout"
+                    AutoDataBind="true">
                     <Items>
                         <ext:GridPanel ID="DivisionPanel" runat="server" Border="false"
                             Height="480">
@@ -96,10 +116,14 @@
                                             <Fields>
                                                 <ext:ModelField Name="Id" Type="String" />
                                                 <ext:ModelField Name="DivisionName" Type="String" />
+                                                <ext:ModelField Name="ModifiedDate" Type="String" />
                                                 <ext:ModelField Name="Actions" Type="Auto" />
                                             </Fields>
                                         </ext:Model>
                                     </Model>
+                                    <Sorters>
+                                        <ext:DataSorter Property="ModifiedDate" Direction="DESC" />
+                                    </Sorters>
                                 </ext:Store>
                             </Store>
                             <TopBar>
@@ -119,7 +143,9 @@
                                     </ext:Column>
                                     <ext:Column ID="DivisionNameColumn" runat="server" Text="Division Name" DataIndex="DivisionName" Flex="1">
                                         <Editor>
-                                            <ext:TextField runat="server" AllowBlank="false" />
+                                            <ext:TextField runat="server" AllowBlank="false" MaxLength="50" MaskRe="/[A-Za-z0-9]/">
+                                                
+                                            </ext:TextField>
                                         </Editor>
                                     </ext:Column>
                                     <ext:CommandColumn runat="server" Width="33px">
@@ -141,12 +167,14 @@
                                     </ext:CommandColumn>
                                 </Columns>
                             </ColumnModel>
+
                             <SelectionModel>
                                 <ext:RowSelectionModel runat="server" Mode="Single" />
                             </SelectionModel>
                             <Plugins>
                                 <ext:RowEditing runat="server" ClicksToEdit="1">
                                     <Listeners>
+                                        <CancelEdit Handler="deleteEmptyRow()" />
                                         <Edit Fn="edit" />
                                     </Listeners>
                                 </ext:RowEditing>

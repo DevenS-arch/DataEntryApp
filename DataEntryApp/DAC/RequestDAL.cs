@@ -67,6 +67,33 @@ namespace TechTicket.DataEntry.DAC
             }
         }
 
+
+        /// <summary>
+        /// Get request - By Name
+        /// </summary>
+        /// <param name="division"></param>
+        /// <returns></returns>
+        public static Request GetRequest(Request request)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+
+                try
+                {
+                    var requests = dbSession.Query<Request>().Where(d => d.RequestName == request.RequestName && d.DivisionId == request.DivisionId).FirstOrDefault();
+                    return requests;
+
+
+                }
+                catch (Exception ex)
+                {
+                    dbSession.Advanced.Clear();
+                    throw;
+                }
+
+            }
+        }
+
         /// <summary>
         ///  Get Requests
         /// </summary>
@@ -119,12 +146,15 @@ namespace TechTicket.DataEntry.DAC
                 if (request == null)
                 {
                     requests.Id = null;
+                    requests.CreatedDate = DateTime.Now;
+                    requests.ModifiedDate = DateTime.Now;
                     dbSession.Store(requests);
                 }
                 else
                 {
                     request.RequestName = requests.RequestName;
                     request.DivisionId = requests.DivisionId;
+                    request.ModifiedDate = DateTime.Now;
                 }
                 dbSession.SaveChanges();
 

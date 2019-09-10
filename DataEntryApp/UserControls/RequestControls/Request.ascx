@@ -19,7 +19,39 @@
 
 <ext:XScript runat="server" ID="XScript">
     <script>
-        
+
+        function deleteEmpty() {
+            
+            var gRequests = #{RequestPanel};
+            gRequests.getSelectionModel().clearSelections(true);
+            
+            for (var i = 0; i < gRequests.store.totalCount; i++ ) 
+            {
+                var name = gRequests.store.getAt(i).data["RequestName"];
+                if (name == "")
+                {
+                    gRequests.getSelectionModel().select(i);
+                    break;
+                }
+            }
+
+            gRequests.deleteSelected();
+         
+        }
+
+        var reloadKeepingPage = function (pagingToolbar) {
+            var retainPage = pagingToolbar.getStore().currentPage,
+                store = pagingToolbar.getStore();
+
+            store.reload();
+
+            if (Math.ceil(store.getTotalCount() / store.getPageSize()) >= retainPage) {
+                if (store.currentPage != retainPage) {
+                    store.loadPage(retainPage);
+                }
+            }
+        }
+
         function confirm(command, e) {
 
             Ext.Msg.confirm('Confirm', 'Are you sure?', function (btnText) {
@@ -61,10 +93,10 @@
 
 </ext:XScript>
 
-
 <ext:Panel
     runat="server"
-    AutoDataBind="true">
+    AutoDataBind="true">  
+   
     <Items>
         <ext:FormPanel
             ID="requestForm"
@@ -83,21 +115,27 @@
                     Collapsible="true"
                     Title="Requests"
                     Maximizable="true"
-                    Layout="Fit">
+                    Layout="Fit"
+                    AutoDataBind="true">
+                    
                     <Items>
                         <ext:GridPanel ID="RequestPanel" runat="server" Border="false"
                             Height="480">
                             <Store>
-                                <ext:Store ID="RequestStore" runat="server" PageSize="10">
+                                <ext:Store ID="RequestStore" runat="server" PageSize="10" AutoLoad="true">
                                     <Model>
                                         <ext:Model runat="server" IDProperty="Id">
                                             <Fields>
                                                 <ext:ModelField Name="DivisionId" ServerMapping="Division.DivisionName" Type="String" />
                                                 <ext:ModelField Name="RequestName" Type="String" />
+                                                <ext:ModelField Name="ModifiedDate" Type="String" />
                                                 <ext:ModelField Name="Actions" Type="Auto" />
                                             </Fields>
                                         </ext:Model>
                                     </Model>
+                                    <Sorters>
+                                        <ext:DataSorter Property="ModifiedDate" Direction="DESC" />
+                                    </Sorters>
                                 </ext:Store>
                             </Store>
                             <TopBar>
@@ -142,7 +180,7 @@
                                     </ext:Column>
                                     <ext:Column ID="RequestNameColumn" runat="server" Text="Request Name" DataIndex="RequestName" Flex="1">
                                         <Editor>
-                                            <ext:TextField runat="server" AllowBlank="false" />
+                                            <ext:TextField runat="server" AllowBlank="false" MaxLength="50" MaskRe="/[A-Za-z0-9]/" />
                                         </Editor>
                                     </ext:Column>
                                     <ext:CommandColumn runat="server" Width="33px">
@@ -165,14 +203,15 @@
                                 </Columns>
                             </ColumnModel>
                             <Plugins>
-                                <ext:RowEditing runat="server" ClicksToEdit="1">
+                                <ext:RowEditing runat="server" ClicksToMoveEditor="1" AutoCancel="false">
                                     <Listeners>
+                                        <CancelEdit Handler="deleteEmpty()" />
                                         <Edit Fn="editRequest" />
                                     </Listeners>
                                 </ext:RowEditing>
                             </Plugins>
                             <BottomBar>
-                                <ext:PagingToolbar runat="server" HideRefresh="True">
+                                <ext:PagingToolbar runat="server" RefreshHandler="reloadKeepingPage(this);">
                                 </ext:PagingToolbar>
                             </BottomBar>
                         </ext:GridPanel>

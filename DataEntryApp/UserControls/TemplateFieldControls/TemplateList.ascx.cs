@@ -134,8 +134,16 @@ namespace TechTicket.DataEntry.UserControls
         {
             if (DivisionId != null)
             {
+                if(Session["DivisionId"] != null && !DivisionId.Equals(Session["DivisionId"].ToString()))
+                {
+                    cboxRequest.Clear();
+                    cboxRequest.EmptyText = "Select Request";
+                    pnlTemplateGrid.Hidden = true;
+                    cntLabel.Hidden = true;
+                    pnlAddTemplateButton.Hidden = true;
+                }
                 Session["DivisionId"] = DivisionId;
-                Session["DivisionName"] = cboxDivision.SelectedItem.Text;
+                Session["DivisionName"] = cboxDivision.SelectedItem.Text;               
                 GetAndBindRequests(DivisionId);
             }
         }
@@ -230,9 +238,14 @@ namespace TechTicket.DataEntry.UserControls
         protected void Select_RadioButton(object sender, DirectEventArgs e)
         {
 
+
             if (rdHidden.Checked)
                 return;
 
+            Session["FieldOptions"] = null;
+            cbxFieldOptions.Reset();
+            //cbxFieldOptions.remove;
+            strFieldOptions.RemoveAll();
             int optionListOffset = 0, saveTemplateOffset = 0;
             if (Session["FieldList"] != null)
             {
@@ -272,12 +285,14 @@ namespace TechTicket.DataEntry.UserControls
 
             // this.cbxDataType.SelectedItems.Add(new Ext.Net.ListItem { Text = "String", Value = "String" });
             // this.cbxDataType.UpdateSelectedItems();
-            cbxDataType.SelectedItem.Value = "String";
 
-            var v = cbxDataType.Items;
 
             //reset form
             FormPanelFieldData.Reset();
+            cbxDataType.SelectedItem.Value = "string";
+
+            var v = cbxDataType.Items;
+
 
         }
 
@@ -384,6 +399,7 @@ namespace TechTicket.DataEntry.UserControls
             if (FieldList.Count > 0)
             {
                 //X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
+                btnSaveTemplate.Hidden = false;
                 btnSaveTemplate.Enable();
             }
         }

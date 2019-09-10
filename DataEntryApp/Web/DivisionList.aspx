@@ -13,10 +13,4 @@
     <DList:Division ID="divisionData" runat="Server" ></DList:Division>
 </asp:Content>
 
-<%--<asp:content id="Content1" contentplaceholderid="MainContent" runat="server"> 
-    <ext:XScript runat="server" ID="XScript">
-</ext:XScript>
-
-    <DList:Division ID="divisionData" runat="Server" ></DList:Division>
-</asp:content>--%>
 

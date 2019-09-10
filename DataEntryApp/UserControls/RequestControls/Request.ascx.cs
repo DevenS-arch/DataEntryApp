@@ -23,7 +23,6 @@ namespace TechTicket.DataEntry.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack && !X.IsAjaxRequest)
                 LoadMasterData();
 
@@ -54,7 +53,25 @@ namespace TechTicket.DataEntry.UserControls
                 //this.RequestPanel.GetStore().GetById(req.Id).Commit();
 
                 var requestBLL = new RequestBLL();
-                requestBLL.UpdateRequests(req);
+               
+
+                var duplicateRequest = requestBLL.GetRequest(req);
+                if (duplicateRequest == null || duplicateRequest.Id == req.Id)
+                {
+                    requestBLL.UpdateRequests(req);
+                }
+                else
+                {
+                    Ext.Net.Notification.Show(new Ext.Net.NotificationConfig
+                    {
+                        Title = "Notification",
+                        Icon = Ext.Net.Icon.Information,
+                        AutoHide = true,
+                        HideDelay = 2000,
+                        Html = "Request already exists!"
+
+                    });
+                }
 
                 LoadMasterData();
             }
@@ -89,12 +106,11 @@ namespace TechTicket.DataEntry.UserControls
 
             this.RequestStore.DataSource = requests;
             this.RequestStore.DataBind();
-
+            //this.RequestStore.Reload();
         }
 
+    #endregion
 
-        #endregion
-
-    }
+}
 
 }
