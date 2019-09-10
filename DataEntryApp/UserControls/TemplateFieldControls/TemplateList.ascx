@@ -268,8 +268,10 @@
                                                 <Change OnEvent="Select_RadioButton"></Change>
                                             </DirectEvents>
                                         </ext:RadioGroup>
-                                         <ext:ComboBox
-                                                    ID="ComboBox1"
+                                        <ext:Panel runat="server" Layout="ColumnLayout">
+                                            <Items>
+                                                <ext:ComboBox
+                                                    ID="cbxFieldList"
                                                     runat="server"
                                                     Editable="false"
                                                     QueryMode="Local"
@@ -277,15 +279,29 @@
                                                     EmptyText="Field List"
                                                     FieldLabel="Added Fields"
                                                     MsgTarget="Side"
-                                                    AllowBlank="false"
-                                             Hidden="true"
-                                             DefaultAnchor="92%"
-                                             ColumnWidth=".5">
+                                                    Hidden="true"
+                                                    DefaultAnchor="92%"
+                                                    ColumnWidth=".5"
+                                                    ValueField="FieldNameTest"
+                                                    DisplayField="FieldNameTest">
                                                     <Items>
-                                                        <ext:ListItem Text="True" Value="true" />
-                                                        <ext:ListItem Text="False" Value="false" />
                                                     </Items>
+                                                    <Store>
+                                                        <ext:Store ID="strFieldList" runat="server">
+                                                            <Model>
+                                                                <ext:Model runat="server" IDProperty="Value">
+                                                                    <Fields>
+                                                                        <ext:ModelField Name="FieldNameTest" />
+                                                                        <ext:ModelField Name="FieldNameTest" />
+                                                                    </Fields>
+                                                                </ext:Model>
+                                                            </Model>
+                                                        </ext:Store>
+                                                    </Store>
                                                 </ext:ComboBox>
+                                            </Items>
+                                        </ext:Panel>
+
                                     </Items>
                                 </ext:FieldSet>
                             </Items>
@@ -294,9 +310,8 @@
                                     ID="btnSaveTemplate"
                                     runat="server"
                                     Text="Save Template"
-                                    Disabled ="true"
-                                    Hidden="true"
-                                    >
+                                    Disabled="true"
+                                    Hidden="true">
                                     <DirectEvents>
                                         <Click OnEvent="SaveTemplate">
                                         </Click>
@@ -436,8 +451,7 @@
                                                             QueryMode="Local"
                                                             EmptyText="Field Options"
                                                             FieldLabel="Field Options"
-                                                            Editable="false" ColumnWidth=".5"
-                                                            >
+                                                            Editable="false" ColumnWidth=".5">
                                                             <Store>
                                                                 <ext:Store ID="strFieldOptions" runat="server">
                                                                     <Model>
@@ -465,7 +479,7 @@
 
                                         </ext:Panel>
                                     </Items>
-                                   <%-- <BottomBar>
+                                    <%-- <BottomBar>
                                         <ext:StatusBar runat="server" />
                                     </BottomBar>--%>
                                     <Listeners>

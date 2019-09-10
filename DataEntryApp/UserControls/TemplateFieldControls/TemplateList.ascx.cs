@@ -262,7 +262,7 @@ namespace TechTicket.DataEntry.UserControls
             //set panel size
             if (FieldType == "Dropdown")
             {
-                optionListOffset = 110;
+                optionListOffset = 65;
                 pnlFieldOptions.Hidden = false;
             }
             panelFieldData.Height = 280 + optionListOffset;
@@ -272,7 +272,7 @@ namespace TechTicket.DataEntry.UserControls
             {
                 saveTemplateOffset = 30;
             }
-            this.Window1.Height = 470 + optionListOffset + saveTemplateOffset;
+            this.Window1.Height = 510 + optionListOffset + saveTemplateOffset;
 
             this.Window1.X = 200;
 
@@ -337,6 +337,7 @@ namespace TechTicket.DataEntry.UserControls
                 foList = (List<FieldOptionDTO>)Session["FieldOptions"];
             }
 
+            var fieldListOffset = 0;
             //create a field obj on save field
             var DataType = cbxDataType.Value;
             var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
@@ -384,8 +385,7 @@ namespace TechTicket.DataEntry.UserControls
             //hide the form panel
             X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
 
-            //set window height as form panel is hidden
-            this.Window1.Height = 240;
+            
 
             //reset radio group to select again
             //rdRadioGroup.Reset();
@@ -400,7 +400,14 @@ namespace TechTicket.DataEntry.UserControls
                 //X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
                 btnSaveTemplate.Hidden = false;
                 btnSaveTemplate.Enable();
+                cbxFieldList.Hidden = false;
+                var FieldNameTest = field.FieldName;
+                cbxFieldList.InsertItem(0, FieldNameTest, FieldNameTest);
+                fieldListOffset = 15;
             }
+
+            //set window height as form panel is hidden
+            this.Window1.Height = 240 + fieldListOffset;
         }
 
         protected void SaveTemplate(object sender, DirectEventArgs e)
@@ -449,6 +456,10 @@ namespace TechTicket.DataEntry.UserControls
             {
                 GenerateEmailTemplate(requestId);
             }
+            //hide the field list
+            cbxFieldList.Hidden = true;
+            cbxFieldList.Reset();
+            strFieldList.RemoveAll();
         }
 
         protected void OnCloseWindow(object sender, DirectEventArgs e)
@@ -468,6 +479,9 @@ namespace TechTicket.DataEntry.UserControls
             //reset radio group to select again
             //rdRadioGroup.Reset();
             rdHidden.Checked = true;
+            cbxFieldList.Hidden = true;
+            cbxFieldList.Reset();
+            strFieldList.RemoveAll();
         }
 
         protected void AddFieldOption(object sender, DirectEventArgs e)
