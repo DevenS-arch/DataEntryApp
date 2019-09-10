@@ -45,7 +45,7 @@
                             DisplayField="DivisionName"
                             Editable="false">
                             <DirectEvents>
-                                <Select OnEvent="OnDivisionSelected"></Select>
+                                <Select Before="#{cboxRequest}.clearValue()" OnEvent="OnDivisionSelected"></Select>
                             </DirectEvents>
                             <Store>
                                 <ext:Store ID="strDivsion" runat="server">
@@ -223,8 +223,7 @@
                     </Items>
                 </ext:Panel>
 
-               
-                    <ext:Window
+                <ext:Window
                     ID="Window1"
                     runat="server"
                     Title="Add Email Template"
@@ -232,8 +231,8 @@
                     Height="200"
                     BodyPadding="10"
                     Y="-55"
-                        X="150"
-                        Hidden="true">
+                    X="150"
+                    Hidden="true">
                     <Tools>
                     </Tools>
                     <Items>
@@ -257,7 +256,7 @@
                                             ColumnsNumber="3"
                                             Cls="x-check-group-alt">
                                             <Items>
-                                                <ext:Radio runat="server" BoxLabel="Textbox" InputValue="Textbox" >
+                                                <ext:Radio runat="server" BoxLabel="Textbox" InputValue="Textbox">
                                                 </ext:Radio>
                                                 <%--<ext:Radio runat="server" BoxLabel="Checkbox" InputValue="Checkbox" />
                                 <ext:Radio runat="server" BoxLabel="RadioButton" InputValue="RadioButton" />--%>
@@ -277,8 +276,7 @@
                                     ID="btnSaveTemplate"
                                     runat="server"
                                     Text="Save Template"
-                                    Disabled ="true"
-                                    >
+                                    Disabled="true">
                                     <DirectEvents>
                                         <Click OnEvent="SaveTemplate">
                                         </Click>
@@ -326,13 +324,13 @@
                                                     Editable="false"
                                                     QueryMode="Local"
                                                     TriggerAction="All"
-                                                    EmptyText="Is Allow Blank"
-                                                    FieldLabel="Is Allow Blank"
+                                                    EmptyText="Is Required"
+                                                    FieldLabel="Is Required"
                                                     MsgTarget="Side"
                                                     AllowBlank="false">
                                                     <Items>
-                                                        <ext:ListItem Text="True" Value="true" />
-                                                        <ext:ListItem Text="False" Value="false" />
+                                                        <ext:ListItem Text="True" Value="false" />
+                                                        <ext:ListItem Text="False" Value="true" />
                                                     </Items>
                                                 </ext:ComboBox>
                                                 <ext:NumberField runat="server" ID="txtMaxLength" FieldLabel="Max Length" AnchorHorizontal="92%" MsgTarget="Side" />
@@ -359,6 +357,7 @@
                                                     MsgTarget="Side"
                                                     AllowBlank="false">
                                                     <Items>
+                                                        <ext:ListItem Text="Alphanumeric Text" Value="string" />
                                                         <ext:ListItem Text="Currency" Value="currency" />
                                                         <ext:ListItem Text="Decimal Number" Value="int" />
                                                         <ext:ListItem Text="Number" Value="int" />

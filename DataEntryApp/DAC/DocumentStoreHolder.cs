@@ -39,7 +39,7 @@ namespace TechTicket.DataEntry.DAC
 
 
                 // Define a default database (optional)
-                Database = "TechTicketDB",
+                Database = "UATClaims"//"TechTicketDB",
 
 
 
