@@ -99,6 +99,8 @@ namespace TechTicket.DataEntry.UserControls
             {
                 Session["DivisionId"] = DivisionId;
                 Session["DivisionName"] = cboxDivision.SelectedItem.Text;
+                cboxRequest.Clear();
+                cboxRequest.EmptyText = "Select Request";
                 GetAndBindRequests(DivisionId);
             }
         }
@@ -240,12 +242,14 @@ namespace TechTicket.DataEntry.UserControls
 
             // this.cbxDataType.SelectedItems.Add(new Ext.Net.ListItem { Text = "String", Value = "String" });
             // this.cbxDataType.UpdateSelectedItems();
-            cbxDataType.SelectedItem.Value = "String";
 
-            var v = cbxDataType.Items;
 
             //reset form
             FormPanelFieldData.Reset();
+            cbxDataType.SelectedItem.Value = "string";
+
+            var v = cbxDataType.Items;
+
 
         }
 
