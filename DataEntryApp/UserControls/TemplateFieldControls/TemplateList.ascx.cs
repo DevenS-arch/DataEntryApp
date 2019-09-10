@@ -193,9 +193,14 @@ namespace TechTicket.DataEntry.UserControls
         protected void Select_RadioButton(object sender, DirectEventArgs e)
         {
 
+
             if (rdHidden.Checked)
                 return;
 
+            Session["FieldOptions"] = null;
+            cbxFieldOptions.Reset();
+            //cbxFieldOptions.remove;
+            strFieldOptions.RemoveAll();
             int optionListOffset = 0, saveTemplateOffset = 0;
             if (Session["FieldList"] != null)
             {
@@ -344,6 +349,7 @@ namespace TechTicket.DataEntry.UserControls
             if (FieldList.Count > 0)
             {
                 //X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
+                btnSaveTemplate.Hidden = false;
                 btnSaveTemplate.Enable();
             }
         }

@@ -166,7 +166,7 @@
                         <ext:GridPanel
                             ID="grdTemplateList"
                             runat="server"
-                            Title="Cell commands">
+                            Border="true">
                             <Store>
                                 <ext:Store ID="Store1" runat="server">
                                     <Model>
@@ -185,7 +185,7 @@
                                     </ext:Column>
                                     <ext:Column runat="server" Text="Template Name" DataIndex="TemplateName" Flex="1">
                                     </ext:Column>
-                                    <ext:CommandColumn runat="server" Width="33px">
+                                    <%--<ext:CommandColumn runat="server" Width="33px">
                                         <Commands>
                                             <ext:GridCommand Icon="NoteEdit" CommandName="Edit">
                                                 <ToolTip Text="Edit" />
@@ -197,7 +197,7 @@
                                             <Command Handler="
                                 App.direct.fieldTemplateData.DeleteTemplate(record.data);" />
                                         </Listeners>
-                                    </ext:CommandColumn>
+                                    </ext:CommandColumn>--%>
                                     <ext:CommandColumn runat="server" Width="33px">
                                         <Commands>
                                             <ext:GridCommand Icon="Delete" CommandName="Delete" Text="Delete">
@@ -245,7 +245,7 @@
                             <Items>
                                 <ext:FieldSet
                                     runat="server"
-                                    Title="Select Template Field"
+                                    Title="Select Field"
                                     Layout="AnchorLayout"
                                     Collapsible="false"
                                     DefaultAnchor="100%">
@@ -278,6 +278,7 @@
                                     runat="server"
                                     Text="Save Template"
                                     Disabled ="true"
+                                    Hidden="true"
                                     >
                                     <DirectEvents>
                                         <Click OnEvent="SaveTemplate">
@@ -433,9 +434,9 @@
 
                                         </ext:Panel>
                                     </Items>
-                                    <BottomBar>
+                                   <%-- <BottomBar>
                                         <ext:StatusBar runat="server" />
-                                    </BottomBar>
+                                    </BottomBar>--%>
                                     <Listeners>
                                         <ValidityChange Handler="this.dockedItems.get(1).setStatus({
                                                      text : valid ? 'Form is valid' : 'Form is invalid',
