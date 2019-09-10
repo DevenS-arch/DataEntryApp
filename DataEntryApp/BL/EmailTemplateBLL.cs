@@ -17,23 +17,7 @@ namespace TechTicket.DataEntry.BL
         }
 
         public void SaveEmailTemplate(EmailTemplateDTO emailTemplateDTO)
-        {
-
-            if (emailTemplateDTO.Fields != null && emailTemplateDTO.Fields.Count > 0)
-            {
-
-                emailTemplateDTO.Fields.ForEach(f =>
-                {
-
-                    if (f.FieldType.Equals("TextBox", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        f.FormatRegEx = @"/[\w\s]/";
-                    }
-
-                });
-
-            }
-
+        {   
             EmailTemplateDAL.SaveEmailTemplate(emailTemplateDTO);
         }
 

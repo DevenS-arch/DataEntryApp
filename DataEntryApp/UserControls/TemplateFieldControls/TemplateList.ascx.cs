@@ -59,6 +59,43 @@ namespace TechTicket.DataEntry.UserControls
         public List<FieldOptionDTO> FieldOptionList { get; set; } = new List<FieldOptionDTO>();
 
         public string FieldType { get; set; }
+
+        private Dictionary<string, string> _toEmailLkp = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            {"Rasier - Invoice", "invoices@jamesriverins.com" }
+            ,{"Rasier - W9", "invoices@jamesriverins.com" }
+            ,{"Rasier - Letters", "Letters@jamesriverins.com" }
+            ,{"Rasier - Sharefile", "Miscellaneous@jamesriverins.com" }
+            ,{"Rasier - Fax", "Miscellaneous@jamesriverins.com" }
+            ,{"Rasier - PIP Claim", "Claims@jamesriverins.com" }
+            ,{"Rasier - Collision Claim", "Claims@jamesriverins.com" }
+            ,{"Rasier - Reassignment", "Claims@jamesriverins.com" }
+            ,{"Rasier - Reset Claim", "Claims@jamesriverins.com" }
+            ,{"Core - Split file", "Core.Requests@jamesriverins.com" }
+            ,{"Core - Reset Requests", "Core.Requests@jamesriverins.com" }
+            ,{"Core - Transfer Request", "Core.Requests@jamesriverins.com" }
+            ,{"Core - Rotation Requests", "Core.Requests@jamesriverins.com" }
+            ,{"Core - Invoice", "Core.invoices@jamesriverins.com" }
+            ,{"Core - W9", "Core.invoices@jamesriverins.com" }
+            ,{"Core - Letters", "Core.Letters@jamesriverins.com" }
+            ,{"Core - Sharefile", "Core.Miscellaneous@jamesriverins.com" }
+            ,{"Core - Fax", "Core.Miscellaneous@jamesriverins.com" }
+            ,{"Core - CMS Calls", "Core.Miscellaneous@jamesriverins.com" }
+            ,{"Lit - Bulk Lawsuits", "Lit.Requests@jamesriverins.com" }
+            ,{"Lit - Rotations", "Lit.Requests@jamesriverins.com" }
+            ,{"Lit - Claim Transfer", "LitClaims@jamesriverins.com" }
+            ,{"Lit - Claim Reset", "LitClaims@jamesriverins.com" }
+            ,{"Lit - Claim Setup", "LitClaims@jamesriverins.com" }
+            ,{"Lit - PIP Claim", "LitClaims@jamesriverins.com" }
+            ,{"Lit - Invoice", "Lit.invoices@jamesriverins.com" }
+            ,{"Lit - W9", "Lit.invoices@jamesriverins.com" }
+            ,{"Lit - Letters", "Lit.letters@jamesriverins.com" }
+            ,{"Lit - Sharefile", "Lit.miscellaneous@jamesriverins.com" }
+            ,{"Lit - Fax", "Lit.miscellaneous@jamesriverins.com" }
+            ,{"Lit - CMS Calls", "Lit.miscellaneous@jamesriverins.com" }
+            ,{"Total Loss - Request", "TotalLoss@jamesriverins.com" }
+
+        };
         #endregion
 
         #region Event handlers
@@ -301,7 +338,7 @@ namespace TechTicket.DataEntry.UserControls
             }
 
             //create a field obj on save field
-            var DataType = X.GetCmp<ComboBox>(nameof(cbxDataType)).Value;
+            var DataType = cbxDataType.Value;
             var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
             var DisplayName = X.GetCmp<TextField>("txDisplayName").Text;
             var FieldName = X.GetCmp<TextField>("txFieldName").Text;
@@ -318,11 +355,14 @@ namespace TechTicket.DataEntry.UserControls
                 FieldOrder = FieldOrder,
                 FieldType = FieldType,
                 IsAllowBlank = IsAllowBlank,
-                FieldOptions = foList
+                FieldOptions = foList,
             };
 
             if (FieldType.Equals("DropDown", StringComparison.InvariantCultureIgnoreCase))
                 field.DataType = "string";
+
+            if (field.DataType == "Alphanumeric Text")
+                field.FormatRegEx = @"/[\w\s]/";
 
             if (short.TryParse(txtMaxLength.Text, out short maxLength))
                 field.MaxLength = maxLength;
@@ -374,6 +414,7 @@ namespace TechTicket.DataEntry.UserControls
             }
 
             string divisionId = null, divisionName = null, requestId = null, requestName = null;
+
             if (Session["DivisionId"] != null && Session["RequestId"] != null)
             {
                 divisionId = Session["DivisionId"].ToString();
@@ -387,8 +428,14 @@ namespace TechTicket.DataEntry.UserControls
                 RequestId = requestId,
                 Fields = fList,
                 TemplateName = divisionName + "-" + requestName,
-                To = new List<string>() { "invoices@jamesriverins.com" }
+                AttachmentRequired = true
             };
+
+            if (_toEmailLkp.TryGetValue($"{divisionName} - {requestName}", out string toEmail))
+                dtoTemplate.To = new List<string> { toEmail };
+            else
+                dtoTemplate.To = new List<string>() { "invoices@jamesriverins.com" };
+
             this.Window1.Hide();
             Session["FieldList"] = null;
             Session["FieldType"] = null;

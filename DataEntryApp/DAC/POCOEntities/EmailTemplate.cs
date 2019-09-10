@@ -18,6 +18,7 @@ namespace TechTicket.DataEntry.DAC.POCOEntities
         public string Description { get; set; }
         public string EmailTemplateBody { get; set; }
         public List<string> TemplateFieldIds { get; set; }
+        public bool AttachmentRequired { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
