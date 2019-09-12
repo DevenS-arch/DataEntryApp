@@ -175,6 +175,24 @@ namespace TechTicket.DataEntry.UserControls {
         protected global::Ext.Net.Radio rdHidden;
         
         /// <summary>
+        /// cbxFieldList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.ComboBox cbxFieldList;
+        
+        /// <summary>
+        /// strFieldList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Store strFieldList;
+        
+        /// <summary>
         /// btnSaveTemplate control.
         /// </summary>
         /// <remarks>
@@ -283,15 +301,6 @@ namespace TechTicket.DataEntry.UserControls {
         protected global::Ext.Net.TextField txtFieldOptionText;
         
         /// <summary>
-        /// txtFieldOptionValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Ext.Net.TextField txtFieldOptionValue;
-        
-        /// <summary>
         /// cbxFieldOptions control.
         /// </summary>
         /// <remarks>
@@ -308,6 +317,24 @@ namespace TechTicket.DataEntry.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Ext.Net.Store strFieldOptions;
+        
+        /// <summary>
+        /// btnDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Button btnDelete;
+        
+        /// <summary>
+        /// btnCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Ext.Net.Button btnCancel;
         
         /// <summary>
         /// btnSaveField control.

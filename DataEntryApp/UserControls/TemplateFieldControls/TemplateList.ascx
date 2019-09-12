@@ -268,6 +268,47 @@
                                                 <Change OnEvent="Select_RadioButton"></Change>
                                             </DirectEvents>
                                         </ext:RadioGroup>
+                                        <ext:Panel runat="server" Layout="ColumnLayout">
+                                            <Items>
+                                                <ext:ComboBox
+                                                    ID="cbxFieldList"
+                                                    runat="server"
+                                                    Editable="false"
+                                                    QueryMode="Local"
+                                                    TriggerAction="All"
+                                                    EmptyText="Field List"
+                                                    FieldLabel="Added Fields"
+                                                    MsgTarget="Side"
+                                                    Hidden="true"
+                                                    DefaultAnchor="92%"
+                                                    ColumnWidth=".5"
+                                                    ValueField="FieldNameTest"
+                                                    DisplayField="FieldNameTest">
+                                                    <Items>
+                                                    </Items>
+                                                    <Store>
+                                                        <ext:Store ID="strFieldList" runat="server">
+                                                            <Model>
+                                                                <ext:Model runat="server" IDProperty="Value">
+                                                                    <Fields>
+                                                                        <ext:ModelField Name="FieldNameTest" />
+                                                                        <ext:ModelField Name="FieldNameTest" />
+                                                                    </Fields>
+                                                                </ext:Model>
+                                                            </Model>
+                                                        </ext:Store>
+                                                    </Store>
+                                                    <DirectEvents>
+                                                        <Select OnEvent="SelectField">
+                                                        </Select>
+
+                                                    </DirectEvents>
+
+                                                </ext:ComboBox>
+
+                                            </Items>
+                                        </ext:Panel>
+
                                     </Items>
                                 </ext:FieldSet>
                             </Items>
@@ -276,9 +317,8 @@
                                     ID="btnSaveTemplate"
                                     runat="server"
                                     Text="Save Template"
-                                    Disabled ="true"
-                                    Hidden="true"
-                                    >
+                                    Disabled="true"
+                                    Hidden="true">
                                     <DirectEvents>
                                         <Click OnEvent="SaveTemplate">
                                         </Click>
@@ -312,14 +352,15 @@
                                             LabelAlign="Top">
 
                                             <Items>
-                                                <ext:TextField runat="server" ID="txFieldName" Regex="/[\w]/" MaskRe="/[\w]/" FieldLabel="Field Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side">
+                                                <ext:TextField runat="server" ID="txFieldName" Regex="/[\w]/" MaskRe="/[\w]/" FieldLabel="Field Name" TabIndex="1"
+                                                    Name="FieldName" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side">
                                                     <Listeners>
                                                         <Change Handler="this.setIndicatorIconCls('validation-indicator');this.setIndicatorTip('Validating...');"></Change>
                                                     </Listeners>
                                                 </ext:TextField>
 
 
-                                                <ext:TextField runat="server" ID="txDisplayName" FieldLabel="Display Name" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                                <ext:TextField runat="server" ID="txDisplayName" Name="DisplayName" FieldLabel="Display Name" TabIndex="3" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
                                                 <ext:ComboBox
                                                     ID="cbxAllowBlank"
                                                     runat="server"
@@ -329,13 +370,15 @@
                                                     EmptyText="Is Required"
                                                     FieldLabel="Is Required"
                                                     MsgTarget="Side"
-                                                    AllowBlank="false">
+                                                    AllowBlank="false"
+                                                    TabIndex="5"
+                                                    Name="IsAllowBlank">
                                                     <Items>
                                                         <ext:ListItem Text="True" Value="false" />
                                                         <ext:ListItem Text="False" Value="true" />
                                                     </Items>
                                                 </ext:ComboBox>
-                                                <ext:NumberField runat="server" ID="txtMaxLength" FieldLabel="Max Length" AnchorHorizontal="92%" MsgTarget="Side" />
+                                                <ext:NumberField runat="server" ID="txtMaxLength" Name="MaxLength" FieldLabel="Max Length" TabIndex="7" AnchorHorizontal="92%" MsgTarget="Side" />
 
                                                 <%--<ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".5" LabelAlign="Top">
                                     <Items>
@@ -357,7 +400,9 @@
                                                     EmptyText="Select data type"
                                                     FieldLabel="Data Type"
                                                     MsgTarget="Side"
-                                                    AllowBlank="false">
+                                                    AllowBlank="false"
+                                                    TabIndex="2"
+                                                    Name="DataType">
                                                     <Items>
                                                         <ext:ListItem Text="Alphanumeric Text" Value="string" />
                                                         <ext:ListItem Text="Currency" Value="currency" />
@@ -367,8 +412,8 @@
                                                         <ext:ListItem Text="Yes/No" Value="Bool" />
                                                     </Items>
                                                 </ext:ComboBox>
-                                                <ext:NumberField runat="server" ID="txFieldOrder" FieldLabel="Field Order" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
-                                                <ext:TextField runat="server" ID="txDefaultValue" FieldLabel="Default Value" AnchorHorizontal="92%" MsgTarget="Side" />
+                                                <ext:NumberField runat="server" ID="txFieldOrder" Name="FieldOrder" FieldLabel="Field Order" TabIndex="4" AnchorHorizontal="92%" AllowBlank="false" MsgTarget="Side" />
+                                                <ext:TextField runat="server" ID="txDefaultValue" Name="DefaultValue" FieldLabel="Default Value" TabIndex="6" AnchorHorizontal="92%" MsgTarget="Side" />
 
 
                                             </Items>
@@ -378,14 +423,14 @@
 
                                                 <ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".4" LabelAlign="Top">
                                                     <Items>
-                                                        <ext:TextField runat="server" ID="txtFieldOptionText" FieldLabel="Option Text" AnchorHorizontal="90%" MsgTarget="Side"></ext:TextField>
+                                                        <ext:TextField runat="server" ID="txtFieldOptionText" Name="FieldOptionText" FieldLabel="Option Text" TabIndex="8" AnchorHorizontal="90%" MsgTarget="Side"></ext:TextField>
                                                     </Items>
                                                 </ext:Panel>
-                                                <ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".4" LabelAlign="Top">
+                                                <%--<ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".4" LabelAlign="Top">
                                                     <Items>
                                                         <ext:TextField runat="server" ID="txtFieldOptionValue" FieldLabel="Option Value" AnchorHorizontal="90%" MsgTarget="Side"></ext:TextField>
                                                     </Items>
-                                                </ext:Panel>
+                                                </ext:Panel>--%>
 
                                                 <ext:Panel runat="server" Border="false" Layout="FormLayout" ColumnWidth=".2" LabelAlign="Top">
                                                     <Items>
@@ -393,6 +438,16 @@
                                                             <DirectEvents>
                                                                 <Click OnEvent="AddFieldOption"></Click>
                                                             </DirectEvents>
+                                                            <%--<Listeners>
+                                                                <Click Handler=" //console.log(#{strFieldOptions}.data.items);
+                                                                    var length = #{strFieldOptions}.data.items.length;
+                                                                    var value = #{txtFieldOptionText}.value;
+                                                                    if(value!='')
+                                                                    {
+                                                                   // alert(length);
+                                                               }
+                                                                    #{txtFieldOptionText}.clear();"></Click>
+                                                            </Listeners>--%>
                                                         </ext:HyperlinkButton>
                                                     </Items>
                                                 </ext:Panel>
@@ -406,7 +461,8 @@
                                                             QueryMode="Local"
                                                             EmptyText="Field Options"
                                                             FieldLabel="Field Options"
-                                                            Editable="false" ColumnWidth=".5">
+                                                            Editable="false" ColumnWidth=".5"
+                                                            Name="FieldOptions">
                                                             <Store>
                                                                 <ext:Store ID="strFieldOptions" runat="server">
                                                                     <Model>
@@ -434,17 +490,34 @@
 
                                         </ext:Panel>
                                     </Items>
-                                   <%-- <BottomBar>
+                                    <%-- <BottomBar>
                                         <ext:StatusBar runat="server" />
                                     </BottomBar>--%>
                                     <Listeners>
-                                        <ValidityChange Handler="this.dockedItems.get(1).setStatus({
-                                                     text : valid ? 'Form is valid' : 'Form is invalid',
-                                                     iconCls: valid ? 'icon-accept' : 'icon-exclamation'
-                                                 });
-                                                 #{btnSaveField}.setDisabled(!valid);" />
+                                        <ValidityChange Handler="
+                                            #{btnSaveField}.setDisabled(!valid);
+                                            " />
                                     </Listeners>
                                     <Buttons>
+                                        <ext:Button
+                                            ID="btnDelete"
+                                            runat="server"
+                                            Text="Delete"
+                                            Hidden="true">
+                                            <DirectEvents>
+                                                <Click OnEvent="DeleteField">
+                                                </Click>
+                                            </DirectEvents>
+                                        </ext:Button>
+                                        <ext:Button
+                                            ID="btnCancel"
+                                            runat="server"
+                                            Text="Cancel">
+                                            <DirectEvents>
+                                                <Click OnEvent="CancelField">
+                                                </Click>
+                                            </DirectEvents>
+                                        </ext:Button>
                                         <ext:Button
                                             ID="btnSaveField"
                                             runat="server"
@@ -456,6 +529,7 @@
                                                 </Click>
                                             </DirectEvents>
                                         </ext:Button>
+
                                     </Buttons>
                                 </ext:FormPanel>
                             </Items>

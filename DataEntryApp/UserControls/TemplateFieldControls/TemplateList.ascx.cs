@@ -235,22 +235,86 @@ namespace TechTicket.DataEntry.UserControls
         }
 
         #region Window methods
+
+
+        protected void EnableFieldDataForm(bool isNewField)
+        {
+            // reset field option data
+            Session["FieldOptions"] = null;
+            cbxFieldOptions.Reset();
+            strFieldOptions.RemoveAll();
+
+            //show the field data panel
+            var panel = X.GetCmp<Ext.Net.Panel>("panelFieldData");
+            panel.Hidden = false;
+
+            //set field type
+            if (isNewField)
+            {
+                FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
+                this.FormPanelFieldData.Title = "New " + FieldType + " Field";
+               
+            }
+
+            //Update field type
+            Session["FieldType"] = FieldType;
+
+            //reset existing field cbox on select new element/vice-versa
+            if (isNewField)
+            {
+                ResetFieldList();
+            }
+            else
+            {
+                rdHidden.Checked = true;
+            }
+
+            //set panel size
+            int optionListOffset = 0, saveTemplateOffset = 0;
+            pnlFieldOptions.Hidden = true;
+            if (FieldType == "Dropdown")
+            {
+                optionListOffset = 65;
+                pnlFieldOptions.Hidden = false;
+            }
+            panelFieldData.Height = 280 + optionListOffset;
+
+            //set the window size if/else count>0
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
+            if (FieldList.Count > 0)
+            {
+                saveTemplateOffset = 30;
+            }
+            this.Window1.Height = 510 + optionListOffset + saveTemplateOffset;
+
+            //reset form
+            FormPanelFieldData.Reset();
+            this.Window1.X = 200;
+
+            
+
+        }
         protected void Select_RadioButton(object sender, DirectEventArgs e)
         {
-
 
             if (rdHidden.Checked)
                 return;
 
+            EnableFieldDataForm(true);
+
+            //Hide delete button for new field
+            btnDelete.Hidden = true;
+
+            /*
             Session["FieldOptions"] = null;
             cbxFieldOptions.Reset();
             //cbxFieldOptions.remove;
             strFieldOptions.RemoveAll();
             int optionListOffset = 0, saveTemplateOffset = 0;
-            if (Session["FieldList"] != null)
-            {
-                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
-            }
+            
 
             //set field type
             FieldType = X.GetCmp<RadioGroup>("rdRadioGroup").CheckedItems[0].InputValue;
@@ -262,17 +326,21 @@ namespace TechTicket.DataEntry.UserControls
             //set panel size
             if (FieldType == "Dropdown")
             {
-                optionListOffset = 110;
+                optionListOffset = 65;
                 pnlFieldOptions.Hidden = false;
             }
             panelFieldData.Height = 280 + optionListOffset;
 
             //set the window size if/else count>0
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
             if (FieldList.Count > 0)
             {
                 saveTemplateOffset = 30;
             }
-            this.Window1.Height = 470 + optionListOffset + saveTemplateOffset;
+            this.Window1.Height = 510 + optionListOffset + saveTemplateOffset;
 
             this.Window1.X = 200;
 
@@ -291,20 +359,30 @@ namespace TechTicket.DataEntry.UserControls
             FormPanelFieldData.Reset();
             cbxDataType.SelectedItem.Value = "string";
 
-            var v = cbxDataType.Items;
+            var v = cbxDataType.Items;*/
 
 
         }
 
         protected void SaveField(object sender, DirectEventArgs e)
         {
-            var isValid = CheckValidity();
+            var isValid = true;//CheckValidity();
             if (isValid)
             {
                 SaveFieldAfterValidation();
             }
         }
 
+        protected void CancelField(object sender, DirectEventArgs e)
+        {
+            ResetFieldListData();
+        }
+
+        protected void DeleteField(object sender, DirectEventArgs e)
+        {
+            RemoveFieldFromList();
+            ResetFieldListData();
+        }
 
         protected bool CheckValidity()
         {
@@ -324,20 +402,85 @@ namespace TechTicket.DataEntry.UserControls
                 //        break;
                 //}
                 isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
-                txFieldName.IconCls = "icon - exclamation";
             }
             return !isDuplicate;
         }
 
+        public void ResetFieldListData()
+        {
+            int fieldListOffset = 0, saveTemplateOffset = 0;
+            //form reset
+            FormPanelFieldData.Reset();
+
+            //hide the form panel
+            X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
+
+
+
+            //reset radio group to select again/fieldList
+            //rdRadioGroup.Reset();
+            rdHidden.Checked = true;
+            ResetFieldList();
+
+            //reset fieldOption session value
+            Session["FieldOptions"] = null;
+
+            //get fieldList from session if exists
+            var v=Session["FieldList"];
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+                if(FieldList.Count>0)
+                {
+                    btnSaveTemplate.Hidden = false;
+                    btnSaveTemplate.Enable();
+                    cbxFieldList.Hidden = false;
+                    fieldListOffset = 15;
+                    saveTemplateOffset = 40;
+                }
+                else
+                {
+                    btnSaveTemplate.Hidden = true;
+                    btnSaveTemplate.Disable();
+                    cbxFieldList.Hidden = true;
+                    fieldListOffset = 0;
+                    saveTemplateOffset = 0;
+                }
+            }
+            this.Window1.Height = 200 + fieldListOffset + saveTemplateOffset;
+
+        }
+
         protected void SaveFieldAfterValidation()
         {
+            //Remove field from list if field is updated
+            RemoveFieldFromList();
+
+            //get fieldList from session if exists
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
+
+            ////If field is updating then remove the field from UI and data structure
+            //if (Session["SelectedFieldIndex"]!=null)
+            //{
+            //    if (Session["SelectedFieldValue"] !=null && FieldList != null)
+            //    {
+            //        var selectedValue = Session["SelectedFieldValue"].ToString();
+            //        FieldList.RemoveAll(f => f.FieldName == selectedValue);
+            //    }
+            //    cbxFieldList.RemoveByIndex(Convert.ToInt32(Session["SelectedFieldIndex"]));
+            //}
+
             //get fieldOptionList
             List<FieldOptionDTO> foList = new List<FieldOptionDTO>();
             if (Session["FieldOptions"] != null)
             {
                 foList = (List<FieldOptionDTO>)Session["FieldOptions"];
             }
-
+            
+            //var fieldListOffset = 0;
             //create a field obj on save field
             var DataType = cbxDataType.Value;
             var DefaultValue = X.GetCmp<TextField>("txDefaultValue").Text;
@@ -368,40 +511,74 @@ namespace TechTicket.DataEntry.UserControls
             if (short.TryParse(txtMaxLength.Text, out short maxLength))
                 field.MaxLength = maxLength;
 
+           
+            FieldList.Add(field);
+
+            //update session
+            Session["FieldList"] = FieldList;
+
+            ////form reset
+            //FormPanelFieldData.Reset();
+
+            ////hide the form panel
+            //X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
+
+
+
+            ////reset radio group to select again/fieldList
+            ////rdRadioGroup.Reset();
+            //rdHidden.Checked = true;
+            //cbxFieldList.Reset();
+
+            ////reset fieldOption session value
+            //Session["FieldOptions"] = null;
+
+            ResetFieldListData();
+
+            //show template save button if >0 field are added
+            if (FieldList.Count > 0)
+            {
+                //btnSaveTemplate.Hidden = false;
+                //btnSaveTemplate.Enable();
+                //cbxFieldList.Hidden = false;
+                var FieldNameTest = field.FieldName;
+                cbxFieldList.InsertItem(0, FieldNameTest, FieldNameTest);
+                //fieldListOffset = 15;
+
+            }
+
+            //set window height as form panel is hidden
+            //this.Window1.Height = 240 + fieldListOffset;
+        }
+
+        protected void ResetFieldList()
+        {
+            Session["SelectedFieldValue"] = null;
+            Session["SelectedFieldIndex"] = null;
+            cbxFieldList.Reset();
+        }
+
+        protected void RemoveFieldFromList()
+        {
             //get fieldList from session if exists
             if (Session["FieldList"] != null)
             {
                 FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
             }
 
-            FieldList.Add(field);
-
-            //update session
-            Session["FieldList"] = FieldList;
-
-            //form reset
-            FormPanelFieldData.Reset();
-
-            //hide the form panel
-            X.GetCmp<Ext.Net.Panel>("panelFieldData").Hidden = true;
-
-            //set window height as form panel is hidden
-            this.Window1.Height = 240;
-
-            //reset radio group to select again
-            //rdRadioGroup.Reset();
-            rdHidden.Checked = true;
-
-            //reset fieldOption session value
-            Session["FieldOptions"] = null;
-
-            //show template save button if >0 field are added
-            if (FieldList.Count > 0)
+            //If field is updating/deleting then remove the old field from UI and data structure
+            var v=Session["SelectedFieldIndex"];
+            if (Session["SelectedFieldIndex"] != null)
             {
-                //X.GetCmp<Ext.Net.Button>("btnSaveTemplate").Show();
-                btnSaveTemplate.Hidden = false;
-                btnSaveTemplate.Enable();
+                if (Session["SelectedFieldValue"] != null && FieldList != null)
+                {
+                    var selectedValue = Session["SelectedFieldValue"].ToString();
+                    FieldList.RemoveAll(f => f.FieldName == selectedValue);
+                }
+                cbxFieldList.RemoveByIndex(Convert.ToInt32(Session["SelectedFieldIndex"]));
             }
+
+            Session["FieldList"] = FieldList;
         }
 
         protected void SaveTemplate(object sender, DirectEventArgs e)
@@ -450,8 +627,14 @@ namespace TechTicket.DataEntry.UserControls
             {
                 GenerateEmailTemplate(requestId);
             }
-        }
+            //hide the field list
+            cbxFieldList.Hidden = true;
+            ResetFieldList();
+            strFieldList.RemoveAll();
 
+            //X.Msg.Alert("Template","Email Template saved successfully!","Handler")   .Show();
+        }
+   
         protected void OnCloseWindow(object sender, DirectEventArgs e)
         {
             this.FieldList = new List<EmailTemplateFieldDTO>();
@@ -469,6 +652,12 @@ namespace TechTicket.DataEntry.UserControls
             //reset radio group to select again
             //rdRadioGroup.Reset();
             rdHidden.Checked = true;
+            cbxFieldList.Hidden = true;
+            ResetFieldList();
+            strFieldList.RemoveAll();
+            //hide save template button
+            btnSaveTemplate.Hidden = true;
+            btnSaveTemplate.Disable();
         }
 
         protected void AddFieldOption(object sender, DirectEventArgs e)
@@ -481,19 +670,20 @@ namespace TechTicket.DataEntry.UserControls
             }
 
             var fieldOptionText = X.GetCmp<TextField>("txtFieldOptionText").Text;
-            var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
+            //var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
 
-            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionValue };
+            var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionText };
             FieldOptionList.Add(newOption);
             Session["FieldOptions"] = FieldOptionList;
 
             // Insert item in list UI
-            if (fieldOptionText != "" && fieldOptionValue != "")
+            if (fieldOptionText != "")
             {
-                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionValue);
+                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionText);
                 X.GetCmp<TextField>("txtFieldOptionText").Text = "";
-                X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
+                //X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
             }
+            var ss =(List<FieldOptionDTO>)Session["FieldOptions"];
 
         }
 
@@ -516,7 +706,69 @@ namespace TechTicket.DataEntry.UserControls
             cbxFieldOptions.Clear();
 
         }
+
+        protected void SelectField(object sender, DirectEventArgs e)
+        {
+
+            //store the selected field properties
+            var selectedValue = cbxFieldList.Value.ToString();
+            Session["SelectedFieldIndex"]=cbxFieldList.SelectedItem.Index;
+            Session["SelectedFieldValue"] = selectedValue;
+
+            // cbxFieldList.RemoveByIndex(v);
+            //var selectedValue = cbxFieldList.Value.ToString();
+
+            //Enable cancel button
+            //btnCancel.Hidden = false;
+
+            if (Session["FieldList"] != null)
+            {
+                FieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+            }
+
+            //  FieldList.RemoveAll(f => f.FieldName == selectedValue);
+
+            //get the selected field to edit
+            var selectedField = FieldList.Where(f => f.FieldName == selectedValue).Select(f=>f).ToList().FirstOrDefault();
+
+            //store the field type of selected field
+            FieldType = selectedField.FieldType;
+            Session["FieldType"] = FieldType;
+            FormPanelFieldData.Title = FieldType + " Field";
+
+            
+
+            //reset form
+            EnableFieldDataForm(false);
+
+            //enable delete button if field is selected
+            btnDelete.Hidden = false;
+
+            //get field options
+            var fieldOptions = selectedField.FieldOptions;
+
+            //set fieldoptions on field selection to edit
+            Session["FieldOptions"] = fieldOptions;
+
+            //set the field values for selected field in UI
+            FormPanelFieldData.SetValues(new
+            {
+                FieldName = selectedField.FieldName,
+                DisplayName = selectedField.DisplayName,
+                IsAllowBlank = selectedField.IsAllowBlank,
+                MaxLength = selectedField.MaxLength,
+                DataType = selectedField.DataType,
+                FieldOrder = selectedField.FieldOrder,
+                DefaultValue = selectedField.DefaultValue
+               // FieldOptions = selectedField.FieldOptions
+            });
+            cbxFieldOptions.Store[0].DataSource = fieldOptions;
+            cbxFieldOptions.Store[0].DataBind();
+
+        }
+
         #endregion
+
     }
 
 }
