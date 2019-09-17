@@ -12,9 +12,14 @@
             #{ Window1 }.setTitle("Add "+ #{ Window1 }.getTitle());
         }
         function editTemplate() {
-             #{ Window1 }.show();
-            #{ Window1 }.setTitle("Edit "+ #{ Window1 }.getTitle());
+            #{ Window1 }.show();
+            #{ Window1 }.setTitle("Edit Email Template");
             App.direct.fieldTemplateData.EditTemplate();
+        }
+        function previewTemplate() {
+            var v = #{ Store1 }.data.items;
+            console.log(v);
+            App.direct.fieldTemplateData.PreviewTemplate();
         }
 
     </script>
@@ -191,6 +196,18 @@
                                     </ext:Column>
                                     <ext:Column runat="server" Text="Template Name" DataIndex="TemplateName" Flex="1">
                                     </ext:Column>
+                                    <ext:CommandColumn runat="server" Width="33px">
+                                        <Commands>
+                                            <ext:GridCommand Icon="NoteEdit" CommandName="Preview">
+                                                <ToolTip Text="Preview" />
+
+                                            </ext:GridCommand>
+
+                                        </Commands>
+                                        <Listeners>
+                                            <Command Fn="previewTemplate" />
+                                        </Listeners>
+                                    </ext:CommandColumn>
                                     <ext:CommandColumn runat="server" Width="33px">
                                         <Commands>
                                             <ext:GridCommand Icon="NoteEdit" CommandName="Edit">

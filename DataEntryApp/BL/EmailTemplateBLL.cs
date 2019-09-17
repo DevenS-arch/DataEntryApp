@@ -30,5 +30,10 @@ namespace TechTicket.DataEntry.BL
         {
             EmailTemplateDAL.UpdateEmailTemplate(emailTemplateDTO);
         }
+
+        public List<FieldInfo> GetFieldsInfo(string temaplateId)
+        {
+           return EmailTemplateDAL.GetFieldsInfo(temaplateId);
+        }
     }
 }

@@ -242,6 +242,7 @@
     <Compile Include="Entities\EmailTemplateDTO.cs" />
     <Compile Include="Entities\EmailTemplateFieldDTO.cs" />
     <Compile Include="Entities\EmailTransctionLogDTO.cs" />
+    <Compile Include="Entities\FieldInfo.cs" />
     <Compile Include="Entities\FieldOptionDTO.cs" />
     <Compile Include="Entities\IAuditable.cs" />
     <Compile Include="Entities\RequestDTO.cs" />

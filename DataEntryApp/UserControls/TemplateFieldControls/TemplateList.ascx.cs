@@ -134,7 +134,7 @@ namespace TechTicket.DataEntry.UserControls
         {
             if (DivisionId != null)
             {
-                if(Session["DivisionId"] != null && !DivisionId.Equals(Session["DivisionId"].ToString()))
+                if (Session["DivisionId"] != null && !DivisionId.Equals(Session["DivisionId"].ToString()))
                 {
                     cboxRequest.Clear();
                     cboxRequest.EmptyText = "Select Request";
@@ -259,6 +259,19 @@ namespace TechTicket.DataEntry.UserControls
         }
         #region Window methods
 
+        [DirectMethod]
+        public void PreviewTemplate()
+        {
+            var templateId = Session["TemplateId"] != null ? Session["TemplateId"].ToString() : null;
+            List<FieldInfo> fieldInfo = new EmailTemplateBLL().GetFieldsInfo(templateId);
+            var msg = $"<b>Fields:</b><br>";
+            fieldInfo.ForEach(f =>
+            {
+                msg += $"{f.FieldName} - {f.FieldType} <br>";
+            });
+           
+            X.Msg.Alert("Template Preview", msg).Show();
+        }
 
         protected void EnableFieldDataForm(bool isNewField)
         {
@@ -483,7 +496,7 @@ namespace TechTicket.DataEntry.UserControls
                 isTemplateUpdate = true;
             }
 
-            
+
 
             //Remove field from list if field is updated and get the field (if template is updated)
             var field = RemoveFieldFromList(isTemplateUpdate);
@@ -539,7 +552,7 @@ namespace TechTicket.DataEntry.UserControls
             field.FieldOptions = foList;
 
             //if template isupdaing and new field is added, update templateid of the field
-            if(isTemplateUpdate && field.EmailTemplateId==null)
+            if (isTemplateUpdate && field.EmailTemplateId == null)
             {
                 field.EmailTemplateId = Session["TemplateId"].ToString();
             }
@@ -740,7 +753,7 @@ namespace TechTicket.DataEntry.UserControls
 
         protected void AddFieldOption(object sender, DirectEventArgs e)
         {
-            
+
 
             var fieldOptionText = X.GetCmp<TextField>("txtFieldOptionText").Text;
             //var fieldOptionValue = X.GetCmp<TextField>("txtFieldOptionValue").Text;
