@@ -336,6 +336,15 @@
                             </Items>
                             <Buttons>
                                 <ext:Button
+                                    ID="btnCancelTemplate"
+                                    runat="server"
+                                    Text="Cancel">
+                                    <DirectEvents>
+                                        <Click OnEvent="CancelTemplate">
+                                        </Click>
+                                    </DirectEvents>
+                                </ext:Button>
+                                <ext:Button
                                     ID="btnSaveTemplate"
                                     runat="server"
                                     Text="Save Template"

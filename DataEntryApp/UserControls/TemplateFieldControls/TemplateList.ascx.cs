@@ -692,6 +692,7 @@ namespace TechTicket.DataEntry.UserControls
 
         protected void SaveTemplate(object sender, DirectEventArgs e)
         {
+            //is template update
             var isTemplateUpdate = false;
             if (Session["TemplateId"] != null)
             {
@@ -715,6 +716,7 @@ namespace TechTicket.DataEntry.UserControls
                 requestName = Session["RequestName"].ToString();
             }
 
+            //create template
             EmailTemplateDTO dtoTemplate = new EmailTemplateDTO()
             {
                 RequestId = requestId,
@@ -722,6 +724,8 @@ namespace TechTicket.DataEntry.UserControls
                 TemplateName = divisionName + "-" + requestName,
                 AttachmentRequired = true
             };
+
+            //update template id if existing template
             if (isTemplateUpdate)
             {
                 dtoTemplate.Id = Session["TemplateId"].ToString();
@@ -733,11 +737,34 @@ namespace TechTicket.DataEntry.UserControls
             else
                 dtoTemplate.To = new List<string>() { "invoices@jamesriverins.com" };
 
+
+            CloseWindow();
+
+            //hide window
             this.Window1.Hide();
-            Session["FieldList"] = null;
-            Session["FieldType"] = null;
-            this.btnAddTemplate.Enable();
-            this.FieldList = new List<EmailTemplateFieldDTO>();
+
+            ////clear session
+            //Session["FieldList"] = null;
+            //Session["FieldType"] = null;
+
+            ////enable Add temlate button
+            //this.btnAddTemplate.Enable();
+
+            ////hide the field list
+            //ResetFieldList();
+            //cbxFieldList.Hidden = true;
+            //strFieldList.RemoveAll();
+
+            ////hide save template button
+            //btnSaveTemplate.Hidden = true;
+            //btnSaveTemplate.Disable();
+
+            ////reset window title
+            //Window1.Title = "Email Template";
+
+            //this.FieldList = new List<EmailTemplateFieldDTO>();
+
+            // save/update the template
             if (dtoTemplate != null)
             {
                 if (isTemplateUpdate)
@@ -749,26 +776,32 @@ namespace TechTicket.DataEntry.UserControls
                     new EmailTemplateBLL().SaveEmailTemplate(dtoTemplate);
                 }
             }
+
+            //get the template
             if (requestId != null)
             {
                 GenerateEmailTemplate(requestId);
             }
-            //hide the field list
-            ResetFieldList();
-            cbxFieldList.Hidden = true;
-            strFieldList.RemoveAll();
-
-            //hide save template button
-            btnSaveTemplate.Hidden = true;
-            btnSaveTemplate.Disable();
-
-            //reset window title
-            Window1.Title = "Email Template";
-
-            //X.Msg.Alert("Template","Email Template saved successfully!","Handler")   .Show();
+            
+            //show temaplte saved message
+            X.Msg.Alert("Template","Email Template saved successfully!").Show();
         }
 
+
         protected void OnCloseWindow(object sender, DirectEventArgs e)
+        {
+            CloseWindow();
+        }
+
+        protected void CancelTemplate(object sender, DirectEventArgs e)
+        {
+            CloseWindow();
+
+            //hide window
+            this.Window1.Hide();
+        }
+
+        protected void CloseWindow()
         {
             this.FieldList = new List<EmailTemplateFieldDTO>();
             Session["FieldList"] = null;
