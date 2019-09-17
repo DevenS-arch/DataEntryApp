@@ -25,5 +25,10 @@ namespace TechTicket.DataEntry.BL
         {
             EmailTemplateDAL.DeleteEmailTemplate(templateId);
         }
+
+        public void UpdateEmailTemplate(EmailTemplateDTO emailTemplateDTO)
+        {
+            EmailTemplateDAL.UpdateEmailTemplate(emailTemplateDTO);
+        }
     }
 }

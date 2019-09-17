@@ -66,6 +66,143 @@ namespace TechTicket.DataEntry.DAC
             }
         }
 
+        public static void UpdateEmailTemplate(EmailTemplateDTO emailTemplateDTO)
+        {
+            using (var dbSession = DocumentStoreHolder.Store.OpenSession())
+            {
+                //fetch the template for the given request id
+                var emailTemplate = dbSession
+                       .Query<EmailTemplate>()
+                       .FirstOrDefault(et => et.RequestId == emailTemplateDTO.RequestId);
+
+                //if email template doesnot exists, return
+                if (emailTemplate == null)
+                {
+                    return;
+                }
+
+                //if emailtemplateDTO has field then procees
+                if (emailTemplateDTO.Fields != null && emailTemplateDTO.Fields.Count > 0)
+                {
+                    var fieldList = Map<List<EmailTemplateField>>(emailTemplateDTO.Fields);
+
+                    //add ids of existing options to the field
+                    for (int k = 0; k < fieldList.Count; k++)
+                    {
+                        if (emailTemplateDTO.Fields[k].FieldOptions != null)
+                        {
+                            fieldList[k].FieldOptionsIds = emailTemplateDTO.Fields[k].FieldOptions.Select(fo => fo.Id).Where(x => x != null).ToList();
+                        }
+                    }
+
+                    //get existing fields
+                    var fieldListSaved = dbSession
+                                        .Query<EmailTemplateField>()
+                                         .Where(f => f.EmailTemplateId == emailTemplate.Id).ToList();
+
+                    fieldListSaved.RemoveAll(a => !fieldList.Exists(b => a.Id == b.Id));
+
+                    for (int j = 0; j < fieldList.Count; j++)
+
+                    {
+                        //if field is not existing/new
+                        if (fieldList[j].Id == null)
+                        {
+                            //store the new field
+                            dbSession.Store(fieldList[j]);
+                            emailTemplateDTO.Fields[j].Id = fieldList[j].Id;
+
+                            //store the options(new) of new field, add id of new option to field and assign field id to options
+                            FieldOption option;
+                            emailTemplateDTO.Fields.Where(x => x.Id == fieldList[j].Id).FirstOrDefault().FieldOptions.ForEach(
+                                o =>
+                                {
+                                    option = Map<FieldOption>(o);
+                                    if (o.Id == null)
+                                    {
+                                        option.TemplateFieldId = fieldList[j].Id;
+                                        dbSession.Store(option);
+                                        fieldList[j].FieldOptionsIds.Add(option.Id);
+                                    }
+                                });
+                        }
+                        else
+                        {
+                            //if field is existing
+                            for (int i = 0; i < fieldListSaved.Count; i++)
+                            {
+                                //select the retaining fields in fieldListSaved to update its properties
+                                if (fieldList[j].Id == fieldListSaved[i].Id)
+                                {
+                                    //get the field options for existing field and delete non-retained options of it
+                                    var fieldOptions = dbSession
+                                                .Load<FieldOption>(fieldListSaved[j].FieldOptionsIds.ToArray<string>())
+                                                .Select(s => s.Value)
+                                                .ToList();
+
+                                    fieldOptions.RemoveAll(a => fieldList[i].FieldOptionsIds.Exists(b => a.Id == b));
+                                    fieldOptions.ForEach(o =>
+                                    {
+                                        dbSession.Delete(o);
+                                    });
+
+                                    //update properties of field in fieldListSaved
+                                    Mapper.Map<EmailTemplateField, EmailTemplateField>(fieldList[j], fieldListSaved[i]);
+
+                                    // save new options, add id of new option to field and assign field id to options 
+                                    FieldOption option;
+                                    emailTemplateDTO.Fields.Where(x => x.Id == fieldListSaved[i].Id).FirstOrDefault().FieldOptions.ForEach(
+                                        o =>
+                                        {
+                                            option = Map<FieldOption>(o);
+                                            if (o.Id == null)
+                                            {
+                                                option.TemplateFieldId = fieldListSaved[i].Id;
+                                                dbSession.Store(option);
+                                                fieldListSaved[i].FieldOptionsIds.Add(option.Id);
+                                            }
+
+                                        });
+                                }
+                                else
+                                {
+
+                                }
+                            }
+
+                        }
+
+                    }
+
+                    //delete non-retained fields
+                    var templateFields = dbSession.Include<EmailTemplateField>(et => et.FieldOptionsIds)
+                                                 .Load<EmailTemplateField>(emailTemplate.TemplateFieldIds.ToArray<string>())
+                                                 .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
+                                                 .ToList();
+                    templateFields.RemoveAll(a => fieldList.Exists(b => a.Id == b.Id));
+                    if (templateFields.Count > 0)
+                    {
+                        templateFields.ForEach((tf) =>
+                        {
+                            if (tf.FieldOptionsIds != null && tf.FieldOptionsIds.Count > 0)
+                            {
+                                var fieldOptions = dbSession.Load<FieldOption>(tf.FieldOptionsIds).Select(s => s.Value)
+                                                                  .ToList();
+                                fieldOptions.ForEach(fo => dbSession.Delete(fo));
+                            }
+                            dbSession.Delete(tf);
+                        });
+
+                    }
+
+                    //add field ids to template
+                    emailTemplate.TemplateFieldIds = fieldList.Select(f => f.Id).ToList();
+
+                    dbSession.SaveChanges();
+
+                }
+            }
+        }
         public static void SaveEmailTemplate(EmailTemplateDTO emailTemplateDTO)
         {
             using (var dbSession = DocumentStoreHolder.Store.OpenSession())
@@ -146,5 +283,6 @@ namespace TechTicket.DataEntry.DAC
                 dbSession.SaveChanges();
             }
         }
+
     }
 }

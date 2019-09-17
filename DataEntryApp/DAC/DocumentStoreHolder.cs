@@ -23,7 +23,7 @@ namespace TechTicket.DataEntry.DAC
             {
 
                 // Define the cluster node URLs (required)
-                Urls = new[] { "http://jrricsrvas600:8080", 
+                Urls = new[] { "http://localhost:8080", 
                            /*some additional nodes of this cluster*/ },
 
 
@@ -39,7 +39,7 @@ namespace TechTicket.DataEntry.DAC
 
 
                 // Define a default database (optional)
-                Database = "UATClaims"//"TechTicketDB",
+                Database = "TechTicketDB"//"TechTicketDB",
 
 
 

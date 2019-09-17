@@ -18,6 +18,7 @@ namespace TechTicket.DataEntry.DAC.Automapping
             CreateMap<EmailTemplateDTO, EmailTemplate>();
             CreateMap<EmailTemplateField, EmailTemplateFieldDTO>();
             CreateMap<EmailTemplateFieldDTO, EmailTemplateField>();
+            CreateMap<EmailTemplateField, EmailTemplateField>();
         }
     }
 }

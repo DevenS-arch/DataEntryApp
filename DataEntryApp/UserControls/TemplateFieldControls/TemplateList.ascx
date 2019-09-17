@@ -9,6 +9,12 @@
 
         function showWindow() {
             #{ Window1 }.show();
+            #{ Window1 }.setTitle("Add "+ #{ Window1 }.getTitle());
+        }
+        function editTemplate() {
+             #{ Window1 }.show();
+            #{ Window1 }.setTitle("Edit "+ #{ Window1 }.getTitle());
+            App.direct.fieldTemplateData.EditTemplate();
         }
 
     </script>
@@ -185,7 +191,7 @@
                                     </ext:Column>
                                     <ext:Column runat="server" Text="Template Name" DataIndex="TemplateName" Flex="1">
                                     </ext:Column>
-                                    <%--<ext:CommandColumn runat="server" Width="33px">
+                                    <ext:CommandColumn runat="server" Width="33px">
                                         <Commands>
                                             <ext:GridCommand Icon="NoteEdit" CommandName="Edit">
                                                 <ToolTip Text="Edit" />
@@ -194,10 +200,9 @@
 
                                         </Commands>
                                         <Listeners>
-                                            <Command Handler="
-                                App.direct.fieldTemplateData.DeleteTemplate(record.data);" />
+                                            <Command Fn="editTemplate" />
                                         </Listeners>
-                                    </ext:CommandColumn>--%>
+                                    </ext:CommandColumn>
                                     <ext:CommandColumn runat="server" Width="33px">
                                         <Commands>
                                             <ext:GridCommand Icon="Delete" CommandName="Delete" Text="Delete">
@@ -226,11 +231,11 @@
                 <ext:Window
                     ID="Window1"
                     runat="server"
-                    Title="Add Email Template"
+                    Title="Email Template"
                     Width="800"
                     Height="200"
                     BodyPadding="10"
-                    Y="-55"
+                    Y="-85"
                     X="150"
                     Hidden="true">
                     <Tools>
@@ -282,8 +287,8 @@
                                                     Hidden="true"
                                                     DefaultAnchor="92%"
                                                     ColumnWidth=".5"
-                                                    ValueField="FieldNameTest"
-                                                    DisplayField="FieldNameTest">
+                                                    ValueField="FieldName"
+                                                    DisplayField="FieldName">
                                                     <Items>
                                                     </Items>
                                                     <Store>
@@ -291,8 +296,8 @@
                                                             <Model>
                                                                 <ext:Model runat="server" IDProperty="Value">
                                                                     <Fields>
-                                                                        <ext:ModelField Name="FieldNameTest" />
-                                                                        <ext:ModelField Name="FieldNameTest" />
+                                                                        <ext:ModelField Name="FieldName" />
+                                                                        <ext:ModelField Name="FieldName" />
                                                                     </Fields>
                                                                 </ext:Model>
                                                             </Model>
@@ -497,6 +502,10 @@
                                         <ValidityChange Handler="
                                             #{btnSaveField}.setDisabled(!valid);
                                             " />
+                                        <FieldChange Handler="">
+
+                                        </FieldChange>
+                                        
                                     </Listeners>
                                     <Buttons>
                                         <ext:Button
