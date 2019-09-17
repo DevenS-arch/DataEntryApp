@@ -295,18 +295,19 @@ namespace TechTicket.DataEntry.DAC
                     var templateFieldIds = dbSession
                         .Load<EmailTemplate>(temaplateId).TemplateFieldIds;
 
-
-                    var templateFields = dbSession
-                                                 .Load<EmailTemplateField>(templateFieldIds.ToArray<string>())
-                    .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
-                    .ToList();
-
-                    templateFields.ForEach(f =>
+                    if (templateFieldIds != null)
                     {
-                        var fInfo = new FieldInfo() { FieldName= f.FieldName, FieldType=f.FieldType};
-                        fieldInfo.Add(fInfo);
+                        var templateFields = dbSession.Load<EmailTemplateField>(templateFieldIds.ToArray<string>())
+                        .OrderBy(tf => tf.Value.FieldOrder).Select(s => s.Value)
+                        .ToList();
 
-                    });
+                        templateFields.ForEach(f =>
+                        {
+                            var fInfo = new FieldInfo() { FieldName = f.FieldName, FieldType = f.FieldType };
+                            fieldInfo.Add(fInfo);
+
+                        });
+                    }
 
                      return fieldInfo;
                 }

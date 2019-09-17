@@ -269,7 +269,7 @@ namespace TechTicket.DataEntry.UserControls
             {
                 msg += $"{f.FieldName} - {f.FieldType} <br>";
             });
-           
+
             X.Msg.Alert("Template Preview", msg).Show();
         }
 
@@ -331,7 +331,7 @@ namespace TechTicket.DataEntry.UserControls
             FormPanelFieldData.Reset();
             this.Window1.X = 200;
 
-
+            var vv = Session["SelectedFieldValue"];
 
         }
         protected void Select_RadioButton(object sender, DirectEventArgs e)
@@ -403,7 +403,7 @@ namespace TechTicket.DataEntry.UserControls
 
         protected void SaveField(object sender, DirectEventArgs e)
         {
-            var isValid = true;//CheckValidity();
+            var isValid = CheckValidity();
             if (isValid)
             {
                 SaveFieldAfterValidation();
@@ -424,24 +424,68 @@ namespace TechTicket.DataEntry.UserControls
 
         protected bool CheckValidity()
         {
-            string fieldValue = txFieldName.Text;
-            var fieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
-            var isDuplicate = false;
+            string fieldValue;
 
-            if (fieldList != null && fieldList.Count > 0)
+            List<EmailTemplateFieldDTO> fieldList=null;
+            EmailTemplateFieldDTO currentField = null;
+
+            var isDuplicate = false;
+            int count = 1;
+            var fieldSelected = Convert.ToString(Session["SelectedFieldValue"]);
+            if (Session["FieldList"] != null && fieldSelected!=null)
             {
-                //switch (fieldValue)
-                //{
-                //    case "txFieldName":
-                //        isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
-                //        break;
-                //    case "txDisplayName":
-                //        isDuplicate = fieldList.Select(f => f.DisplayName).Contains(fieldValue);
-                //        break;
-                //}
-                isDuplicate = fieldList.Select(f => f.FieldName).Contains(fieldValue);
+                fieldList = (List<EmailTemplateFieldDTO>)Session["FieldList"];
+                currentField = fieldList.Where(f => f.FieldName == fieldSelected).FirstOrDefault();
             }
-            return !isDuplicate;
+
+
+            string value, validationMsg = "";
+
+            //validate if field name is duplicate
+            value = txFieldName.Value.ToString();
+            isDuplicate = fieldList != null ? fieldList.Exists(f => f.FieldName == value && (fieldSelected==""|| f.FieldName!= fieldSelected)) : false;
+            if (isDuplicate)
+            {
+                validationMsg += $"{count++}. Field Name already exists!<br>";
+                isDuplicate = false;
+            }
+
+            //validate if field order is duplicate
+            value = txFieldOrder.Value.ToString();
+            isDuplicate = fieldList != null ? fieldList.Exists(f => f.FieldOrder.ToString() == value && (fieldSelected == "" || f.FieldOrder!=currentField.FieldOrder)) : false;
+            if (isDuplicate)
+            {
+                validationMsg += $"{count++}. Field Order already exists!<br>";
+                isDuplicate = false;
+            }
+
+            //validate if field display name is duplicate
+            value = txDisplayName.Value.ToString();
+            isDuplicate = fieldList != null ? fieldList.Exists(f => f.DisplayName == value && (fieldSelected == null || f.DisplayName != currentField.DisplayName)) : false;
+            if (isDuplicate)
+            {
+                validationMsg += $"{count++}. Field Display Name already exists!<br>";
+                isDuplicate = false;
+            }
+
+            //validate if field options exists for dropdown field
+            if (Session["FieldType"] != null && Session["FieldType"].ToString().ToLower() == "dropdown")
+            {
+
+                var foList = (List<FieldOptionDTO>)Session["FieldOptions"];
+                if (foList == null || foList.Count < 1)
+                {
+                    validationMsg += $"{count++}. Atleast one field option required!<br>";
+                }
+
+            }
+
+            if (validationMsg != "")
+            {
+                X.Msg.Alert("Validation", validationMsg).Show();
+                return false;
+            }
+            return true;
         }
 
         public void DisableFieldDataForm()
@@ -770,17 +814,19 @@ namespace TechTicket.DataEntry.UserControls
                     FieldOptionList = (List<FieldOptionDTO>)Session["FieldOptions"];
                 }
 
-                //update data structure
-                var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionText };
-                FieldOptionList.Add(newOption);
-                Session["FieldOptions"] = FieldOptionList;
+                if(!FieldOptionList.Exists(fo=>fo.DisplayName == fieldOptionText))
+                {
+                    //update data structure
+                    var newOption = new FieldOptionDTO() { DisplayName = fieldOptionText, Value = fieldOptionText };
+                    FieldOptionList.Add(newOption);
+                    Session["FieldOptions"] = FieldOptionList;
 
-                //update UI
-                cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionText);
+                    //update UI
+                    cbxFieldOptions.InsertItem(0, fieldOptionText, fieldOptionText);                  
+                }
                 X.GetCmp<TextField>("txtFieldOptionText").Text = "";
-                //X.GetCmp<TextField>("txtFieldOptionValue").Text = "";
+                cbxFieldOptions.Clear();
             }
-            var ss = (List<FieldOptionDTO>)Session["FieldOptions"];
 
         }
 
