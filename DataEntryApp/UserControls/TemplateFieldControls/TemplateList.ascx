@@ -437,7 +437,7 @@
                                                     <Items>
                                                         <ext:ListItem Text="Alphanumeric Text" Value="string" />
                                                         <ext:ListItem Text="Currency" Value="currency" />
-                                                        <ext:ListItem Text="Decimal Number" Value="int" />
+                                                        <ext:ListItem Text="Decimal Number" Value="double" />
                                                         <ext:ListItem Text="Number" Value="int" />
                                                         <ext:ListItem Text="Text" Value="string" />
                                                         <ext:ListItem Text="Yes/No" Value="Bool" />

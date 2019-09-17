@@ -604,7 +604,7 @@ namespace TechTicket.DataEntry.UserControls
             if (FieldType.Equals("DropDown", StringComparison.InvariantCultureIgnoreCase))
                 field.DataType = "string";
 
-            if (field.DataType == "Alphanumeric Text")
+            if (cbxDataType.SelectedItem.Text == "Alphanumeric Text")
                 field.FormatRegEx = @"/[\w\s]/";
 
             if (short.TryParse(txtMaxLength.Text, out short maxLength))
