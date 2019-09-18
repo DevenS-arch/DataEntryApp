@@ -9,7 +9,7 @@
 
         function showWindow() {
             #{ Window1 }.show();
-            #{ Window1 }.setTitle("Add "+ #{ Window1 }.getTitle());
+            #{ Window1 }.setTitle("Add " + #{ Window1 }.getTitle());
         }
         function editTemplate() {
             #{ Window1 }.show();
@@ -196,36 +196,41 @@
                                     </ext:Column>
                                     <ext:Column runat="server" Text="Template Name" DataIndex="TemplateName" Flex="1">
                                     </ext:Column>
-                                    <ext:CommandColumn runat="server" Width="33px">
+                                    <ext:ImageCommandColumn runat="server" Width="70px">
+
                                         <Commands>
-                                            <ext:GridCommand Icon="NoteEdit" CommandName="Preview">
+                                            <ext:ImageCommand Icon="FolderPicture" CommandName="Preview" Text="Preview">
                                                 <ToolTip Text="Preview" />
 
-                                            </ext:GridCommand>
-
+                                            </ext:ImageCommand>
                                         </Commands>
+
                                         <Listeners>
                                             <Command Fn="previewTemplate" />
                                         </Listeners>
-                                    </ext:CommandColumn>
-                                    <ext:CommandColumn runat="server" Width="33px">
+                                    </ext:ImageCommandColumn>
+                                    <ext:ImageCommandColumn runat="server" Width="70px">
+
                                         <Commands>
-                                            <ext:GridCommand Icon="NoteEdit" CommandName="Edit">
+                                            <ext:ImageCommand Icon="NoteEdit" CommandName="Edit" Text="Edit">
                                                 <ToolTip Text="Edit" />
 
-                                            </ext:GridCommand>
-
+                                            </ext:ImageCommand>
                                         </Commands>
+
                                         <Listeners>
                                             <Command Fn="editTemplate" />
                                         </Listeners>
-                                    </ext:CommandColumn>
-                                    <ext:CommandColumn runat="server" Width="33px">
+                                    </ext:ImageCommandColumn>
+                                    <ext:ImageCommandColumn runat="server" Width="70px">
+
                                         <Commands>
-                                            <ext:GridCommand Icon="Delete" CommandName="Delete" Text="Delete">
+                                            <ext:ImageCommand Icon="Delete" CommandName="Delete" Text="Delete">
                                                 <ToolTip Text="Delete" />
-                                            </ext:GridCommand>
+
+                                            </ext:ImageCommand>
                                         </Commands>
+
                                         <Listeners>
                                             <Command Handler="
                                 Ext.MessageBox.confirm('Delete', 'Are you sure ?', function(btn){
@@ -236,7 +241,7 @@
    }
  });" />
                                         </Listeners>
-                                    </ext:CommandColumn>
+                                    </ext:ImageCommandColumn>
 
                                 </Columns>
                             </ColumnModel>
@@ -529,9 +534,8 @@
                                             #{btnSaveField}.setDisabled(!valid);
                                             " />
                                         <FieldChange Handler="">
-
                                         </FieldChange>
-                                        
+
                                     </Listeners>
                                     <Buttons>
                                         <ext:Button
